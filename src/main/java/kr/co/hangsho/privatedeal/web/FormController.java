@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,12 +46,19 @@ public class FormController {
 		Privatedeal privatedeal = new Privatedeal();
 		BeanUtils.copyProperties(privatedealForm, privatedeal);
 		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		if(loginInfo == null) {
+			return "redirect:/customers/login.do?error=deny"; 
+		}
+		
+		Customer customer = new Customer();
+		if("CUSTOMER".equals(loginInfo.get("USER_TYPE")))
+			customer = (Customer) loginInfo.get("LOGIN_USER");
+		privatedeal.setCustomer(customer);		
+		
 		SmallCategory smallCategory = new SmallCategory();
 		smallCategory.setId(privatedealForm.getSmallcategory());
-		privatedeal.setSmallcategory(smallCategory);
-		
-		Customer customer = (Customer) httpSession.getAttribute("LOGIN_USER");
-		privatedeal.setCustomer(customer);
+		privatedeal.setSmallcategory(smallCategory);	
 		
 		Code division = new Code();
 		division.setId(privatedealForm.getDivision());

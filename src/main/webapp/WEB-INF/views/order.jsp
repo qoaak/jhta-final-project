@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/inc/top.jsp" %>
 <script type="text/javascript" src="/resources/js/order.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <link rel="stylesheet" href="/resources/css/order.css">
 </head>
 <body>
@@ -10,7 +11,7 @@
         
         <h1 class="pd">주문/결제</h1>
         <div class="row spd">
-            <div class="col-sm-2"><img src="../images/44444.jpg" width="90%" /></div>
+            <div class="col-sm-2"><img src="${getImage.path }" width="90%" /></div>
             <div class="col-sm-10 ck"><h5><strong class="d">${productByNo.name }</strong> 상품을 주문합니다.</h5>
             <div><small class="gray">선택하신 상품의 가격과 옵션정보는 하단 주문상품 정보에서 확인하실 수 있습니다.</small></div>
             </div>
@@ -216,35 +217,35 @@
                        <div class="radio">
                           <label>
                             <input type="radio" name="optionsRadios" id="thefirst" value="option1" checked>
-                            <img src="../images/thefirst.jpg" />
+                            <img src="/resources/images/coupone/thefirst.jpg" />
                           </label>
                           <span>&nbsp;&nbsp;&nbsp;<strong id="fir">0</strong>개</span>
                         </div>
                         <div class="radio">
                           <label>
                             <input type="radio" name="optionsRadios" id="vvip" value="option2">
-                            <img src="../images/vvip.jpg" />
+                            <img src="/resources/images/coupone/vvip.jpg" />
                           </label>
                           <span>&nbsp;&nbsp;&nbsp;<strong id="vv">0</strong>개</span>
                         </div>
                         <div class="radio">
                           <label>
                             <input type="radio" name="optionsRadios" id="vip" value="option3">
-                            <img src="../images/vip.jpg" />
+                            <img src="/resources/images/coupone/vip.jpg" />
                           </label>
                           <span>&nbsp;&nbsp;&nbsp;<strong id="v">0</strong>개</span>
                         </div>
                         <div class="radio">
                           <label>
                             <input type="radio" name="optionsRadios" id="gold" value="option4">
-                            <img src="../images/gold.jpg" />
+                            <img src="/resources/images/coupone/gold.jpg" />
                           </label>
                           <span>&nbsp;&nbsp;&nbsp;<strong id="gol">0</strong>개</span>
                         </div>
                         <div class="radio">
                           <label>
                             <input type="radio" name="optionsRadios" id="silver" value="option5">
-                            <img src="../images/silver.jpg" />
+                            <img src="/resources/images/coupone/silver.jpg" />
                           </label>
                           <span>&nbsp;&nbsp;&nbsp;<strong id="sil">0</strong>개</span>
                         </div>
@@ -278,7 +279,7 @@
         <div class="row">
             <div class="col-sm-5 ck">
             <div class="col-sm-6">
-                <img src="../images/44444.jpg" width="80%" />
+                <img src="${getImage.path }" width="80%" />
             </div>
             <h5><strong>${productByNo.name }</strong></h5>
             <div><small class="sm">${itemDetail.options } &nbsp; 1개</small></div>
@@ -417,7 +418,7 @@
                     <h4 class="d">총 결제금액</h4>
                 </div>
                 <div class="row text-right">
-                   <c:set var="sum" value="${itemDetail.originalPrice } - ${productByNo.deliveryFee }"></c:set>
+                   <c:set var="sum" value="${itemDetail.originalPrice + productByNo.deliveryFee }"></c:set>
                     <strong><h3 class="d"><c:out value="${sum }"/> 원</h3></strong>
                 </div>
             </div>

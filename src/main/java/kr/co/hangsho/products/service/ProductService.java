@@ -12,4 +12,5 @@ public interface ProductService {
 	Product getProductByProductNo(int productNo);
 	Product getProductDetail(int productNo);
 	
+	List<Product> getProductsByComId(int comNo);
 }

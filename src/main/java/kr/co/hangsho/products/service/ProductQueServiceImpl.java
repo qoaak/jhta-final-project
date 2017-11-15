@@ -17,6 +17,9 @@ public class ProductQueServiceImpl implements ProductQueService {
 	
 	@Override
 	public void addProductQue(ProductQue productQue) {
+		int seq = productQueMapper.getSeq();
+		productQue.setId(seq);
+		
 		productQueMapper.addProductQue(productQue);
 	}
 	

@@ -25,11 +25,15 @@
 			<li><a href="#">회사로고</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<%-- <c:when test="${not empty LOGIN_USER}">
-				<li><strong>${LOGIN_USER.name }</strong><span>님 환영합니다.</span></li>
-			</c:when> --%>
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a></li>
-			
+		<c:choose>
+			<c:when test="${not empty LOGIN_INFO}">
+				<li><strong>${LOGIN_INFO.LOGIN_USER.name }</strong><span>님 환영합니다.</span></li>
+				<li><a href="/customers/logout.do"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a></li>
+			</c:when>
+			<c:otherwise>
+				<li><a href="/customers/login.do"><span class="glyphicon glyphicon-log-in"></span> 로그인</a></li>
+			</c:otherwise>
+		</c:choose>
 		</ul>
 	</nav>
 		

@@ -64,14 +64,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach var="products" items="${productsList }" varStatus="status">
+                            	<c:forEach var="product" items="${products }" varStatus="status">
                             		<tr>
 	                                    <td>${status.count }</td>
+	                                    <td>${product.smallCategory.name }</td>
+	                                    <td><a href="deatil.do?no=${product.id }" >${product.name }</a></td>
+	                                    <td>${product.discountRatio }</td>
 	                                    <td></td>
-	                                    <td><a href="" ></a></td>
-	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
+	                                    <td>${product.show }</td>
 	                                </tr>
                             	</c:forEach>
                             </tbody>

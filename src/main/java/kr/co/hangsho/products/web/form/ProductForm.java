@@ -5,9 +5,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductForm {
 
 	private String name;
-	private String bigCategory;
-	private String middleCategory;
-	private String smallCategory;
+	private int bigCategory;
+	private int middleCategory;
+	private int smallCategory;
 	private int deliveryFee;
 	private String description;
 	private int discountRatio;
@@ -19,22 +19,22 @@ public class ProductForm {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBigCategory() {
+	public int getBigCategory() {
 		return bigCategory;
 	}
-	public void setBigCategory(String bigCategory) {
+	public void setBigCategory(int bigCategory) {
 		this.bigCategory = bigCategory;
 	}
-	public String getMiddleCategory() {
+	public int getMiddleCategory() {
 		return middleCategory;
 	}
-	public void setMiddleCategory(String middleCategory) {
+	public void setMiddleCategory(int middleCategory) {
 		this.middleCategory = middleCategory;
 	}
-	public String getSmallCategory() {
+	public int getSmallCategory() {
 		return smallCategory;
 	}
-	public void setSmallCategory(String smallCategory) {
+	public void setSmallCategory(int smallCategory) {
 		this.smallCategory = smallCategory;
 	}
 	public int getDeliveryFee() {

@@ -16,7 +16,7 @@
 		insert into products
 		(product_id, small_category_id, product_description, company_id, image_id, discount_ratio, product_name)
 		values
-		(#{id}, #{smallCategory.id}, #{description}, #{company.id}, #{Image.id}, #{discountRatio}, #{name})
+		(#{id}, #{smallCategory.id}, #{description}, #{company.id}, #{image.id}, #{discountRatio}, #{name})
 	</insert>
 	
 	<!-- 상품페이지 상품리스트 -->
@@ -30,7 +30,7 @@
 			P.product_clicked			as clicked,
 			C.company_id				as "company.id",
 			C.company_name				as "company.name",
-			P.image_id					as "Image.id",
+			P.image_id					as "image.id",
 			P.discount_ratio			as discountRatio,
 			P.product_name				as name,
 			P.product_show				as show
@@ -44,17 +44,18 @@
 	<!-- 관리자용 상품리스트 -->
 	<select id="getProductsForAdmin" parameterType="Criteria" resultType="Product">
 		select
-			P.product_id						as id,
-			P.small_category_id				as "smallCategory.id",
-			P.delivery_fee						as deliveryFee,
-			P.product_description			as description,
-			P.product_clicked				as clicked,
-			C.company_id						as "company.id",
+			P.product_id				as id,
+			P.small_category_id			as "smallCategory.id",
+			P.delivery_fee				as deliveryFee,
+			P.product_description		as description,
+			P.product_clicked			as clicked,
+			C.company_id				as "company.id",
 			C.company_name				as "company.name",
-			P.image_id							as "Image.id",
-			P.discount_ratio					as discountRatio,
-			P.product_name					as name,
-			P.product_show					as show
+			P.image_id					as "image.id",
+			P.discount_ratio			as discountRatio,
+			P.product_name				as name,
+			P.product_show				as show,
+			P.product_createdate		as createDate
 		from
 			products P, companies C
 		where
@@ -79,16 +80,17 @@
 	
 	<select id="getProductByProductNo" parameterType="int" resultType="Product">
 		select
-			product_id					as id,
+			product_id				as id,
 			small_category_id		as "smallCategory.id",
-			delivery_fee					as deliveryFee,
-			product_description	as description,
+			delivery_fee			as deliveryFee,
+			product_description		as description,
 			product_clicked			as clicked,
-			company_id					as "company.id",
-			image_id						as "Image.id",
-			discount_ratio				as discountRatio,
-			product_name				as name,
-			product_show				as show
+			company_id				as "company.id",
+			image_id				as "image.id",
+			discount_ratio			as discountRatio,
+			product_name			as name,
+			product_show			as show,
+			P.product_createdate	as createDate
 		from
 			products
 		where 
@@ -96,20 +98,21 @@
 	</select>
 	
 	<!-- 기업고객용 리스트 -->
-	<select id="getProductsForCompany" resultType="Product">
+	<select id="getProductsByComId" parameterType="int" resultType="Product">
 		select
-			P.product_id				as id,
-			P.small_category_id			as "smallCategory.id",
-			P.delivery_fee				as deliveryFee,
-			P.product_description		as description,
-			P.product_clicked			as clicked,
-			C.company_id				as "company.id",
-			C.company_name				as "company.name",
-			P.image_id					as "Image.id",
-			P.discount_ratio			as discountRatio,
-			P.product_name				as name,
-			P.product_show				as show,
-			S.small_category_name		as "smallCategory.name"
+			P.product_id			as id,
+			P.small_category_id		as "smallCategory.id",
+			P.delivery_fee			as deliveryFee,
+			P.product_description	as description,
+			P.product_clicked		as clicked,
+			C.company_id			as "company.id",
+			C.company_name			as "company.name",
+			P.image_id				as "image.id",
+			P.discount_ratio		as discountRatio,
+			P.product_name			as name,
+			P.product_show			as show,
+			S.small_category_name	as "smallCategory.name",
+			P.product_createdate	as createDate
 		from 
 			products P, small_categories S, companies C
 		where
@@ -119,4 +122,5 @@
 		AND
 			P.company_id = #{value}
 	</select>
+	
 </mapper>

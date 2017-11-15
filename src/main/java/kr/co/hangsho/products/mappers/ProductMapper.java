@@ -16,5 +16,5 @@ public interface ProductMapper {
 	
 	List<Product> getProductsForAdmin(Criteria criteria);
 	
-	List<Product> getProductsForCompany();
+	List<Product> getProductsByComId(int comNo);
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.hangsho.customers.services.CustomerService;
 import kr.co.hangsho.customers.vo.Customer;
+import kr.co.hangsho.images.service.ImageService;
+import kr.co.hangsho.images.vo.Image;
 import kr.co.hangsho.item.service.ItemService;
 import kr.co.hangsho.item.vo.Item;
 import kr.co.hangsho.orders.service.OrderService;
@@ -27,6 +29,8 @@ public class OrderController {
 	private ProductService productService;
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private ImageService imageService;
 
 	@RequestMapping("/orderPage.do")
 	public String orderPage(Model model) {
@@ -44,6 +48,10 @@ public class OrderController {
 		Item item = new Item();
 		item.setId(1);
 		model.addAttribute("itemDetail", itemService.getItemByProductNo(item.getId()));
+		
+		Image image = new Image();
+		image.setId(11);
+		model.addAttribute("getImage", imageService.getImageByNo(image.getId()));
 		//List<> aa =  xxxService.getDeliveryByUserId();
 		//model.addAttribute("aa", aa);
 

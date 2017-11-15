@@ -9,15 +9,15 @@
         <div class="container">
             <div class="row category_wrap">
                 <ul class="categorylist">
-                    <li><a href="#">홈</a><span>＞</span></li>
-                    <li><a href="">아시아</a><div class="triangle_down"></div><span>＞</span>
+                    <li><a href="/index.do">홈</a><span>＞</span></li>
+                    <li><a href="">전체</a><div class="triangle_down"></div><span>＞</span>
                         <ul>
-                            <li><a href="">유럽</a></li>
-                            <li><a href="">아시아</a></li>
-                            <li><a href="">북아메리카</a></li>
-                            <li><a href="">남아메리카</a></li>
-                            <li><a href="">오세아니아</a></li>
-                            <li><a href="">아프리카</a></li>
+                            <li><a href="index.do?bc=400">유럽</a></li>
+                            <li><a href="index.do?bc=500">아시아</a></li>
+                            <li><a href="index.do?bc=600">북아메리카</a></li>
+                            <li><a href="index.do?bc=700">남아메리카</a></li>
+                            <li><a href="index.do?bc=800">오세아니아</a></li>
+                            <li><a href="index.do?bc=900">아프리카</a></li>
                         </ul>
                     </li>
                     <li><a href="">동아시아</a><div class="triangle_down"></div><span>＞</span>
@@ -101,50 +101,43 @@
                         <tr>
                             <th>번호</th>
                             <th>제목</th>
-                            <th>가격</th>
+                            <th>희망가격</th>
                             <th>상태</th>
-                            <th>아이디</th>
+                            <th>닉네임</th>
                             <th>등록일</th>
                             <th>조회수</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="detail.do"><strong class="text-danger">[판매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-warning">거래중</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href=""><strong class="text-primary">[구매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-danger">거래완료</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href=""><strong class="text-primary">[구매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-info">일부 거래중</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href=""><strong class="text-danger">[판매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-success">거래가능</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr> 
+                    	<c:if test="${empty meronalist }">
+                    		<tr>
+                    			<td colspan="7" class="text-center">검색된 결과가 없습니다.</td>
+                    		</tr>
+                    	</c:if>
+                    	<c:forEach var="merona" items="${meronalist}">
+                    		<tr>
+	                            <td>${merona.id }</td>
+	                            <td><a href="detail.do"><strong class="${merona.division.id eq 'S  ' ? 'text-danger' : 'text-primary' }">[${merona.division.name }]</strong> <c:out value="${merona.title}" /></a></td>
+	                            <td><fmt:formatNumber value="${merona.desiredprice }" pattern="#,###" />원</td>
+	                            <c:choose>
+	                            	<c:when test="${merona.status.id eq 'DP '}">
+	                            		<td class="text-success">${merona.status.name }</td>
+	                            	</c:when>
+	                            	<c:when test="${merona.status.id eq 'DPI'}">
+	                            		<td class="text-primary">${merona.status.name }</td>
+	                            	</c:when>
+	                            	<c:when test="${merona.status.id eq 'DI '}">
+	                            		<td class="text-warining">${merona.status.name }</td>
+	                            	</c:when>
+	                            	<c:when test="${merona.status.id eq 'DC '}">
+	                            		<td class="text-danger">${merona.status.name }</td>
+	                            	</c:when>
+	                            </c:choose>	                            
+	                            <td><c:out value="${merona.customer.nickname }" /></td>
+	                            <td><fmt:formatDate value="${merona.createdate }" pattern="yyyy-MM-dd"/></td>
+	                            <td>${merona.clicked }</td>
+	                        </tr>
+                    	</c:forEach> 
                     </tbody>
                 </table>                              
                 <div class="text-center">
@@ -163,4 +156,18 @@
     </div>
 	<%@ include file="/WEB-INF/views/inc/footer.jsp" %>
 </body>
+<script type="text/javascript">
+	$(function() {
+		console.log(${merona.status.id});
+		if (${merona.status.id} == "DP ") {
+			$(".status").addClass("text-success");		
+		} else if (${merona.status.id} == "DPI") {
+			$(".status").addClass("text-primary");
+		} else if (${merona.status.id} == "DI ") {
+			$(".status").addClass("text-warining");
+		} else if (${merona.status.id} == "DC ") {
+			$(".status").addClass("text-danger");
+		}
+	});
+</script>
 </html>

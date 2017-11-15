@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.hangsho.company.mappers.CompanyMapper;
+import kr.co.hangsho.images.mappers.ImageMapper;
+import kr.co.hangsho.images.vo.Image;
 import kr.co.hangsho.products.mappers.ProductMapper;
 import kr.co.hangsho.products.vo.Product;
 import kr.co.hangsho.web.criteria.Criteria;
@@ -16,8 +18,16 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductMapper productMapper;
 	
+	@Autowired
+	private ImageMapper imageMapper;
+	
 	@Override
 	public void addNewProduct(Product product) {
+		int imageNo = imageMapper.getSeq();
+		Image image = product.getImage();
+		image.setId(imageNo);
+		imageMapper.addImage(image);
+		
 		int seq = productMapper.getSeq();
 		product.setId(seq);
 		
@@ -39,7 +49,9 @@ public class ProductServiceImpl implements ProductService{
 		return null;
 	}
 
-	
-	
-	
+	@Override
+	public List<Product> getProductsByComId(int comNo) {
+		return productMapper.getProductsByComId(comNo);
+	}
+
 }

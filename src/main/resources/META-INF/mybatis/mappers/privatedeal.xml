@@ -9,28 +9,29 @@
 		insert into privatedeal_board
 		(board_id, board_title, board_desired_price, board_contents, board_type, board_division, board_writer, small_category_id)
 		values
-		(pd_board_seq.nextval, #{title}, #{desiredprice}, #{editor}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
+		(pd_board_seq.nextval, #{title}, #{desiredprice}, #{editor,jdbcType=CLOB}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
 	</insert>
 	
+	<select id="getMeronaList" resultType="Privatedeal">
+		select
+			A.board_id				as id,
+			A.board_title			as title,
+			A.board_desired_price	as desiredprice,
+			A.board_contents		as editor,
+			A.board_createdate		as createdate,
+			A.board_status			as "status.id",
+			B1.code_name			as "status.name",
+			A.board_clicked			as clicked,
+			A.board_division		as "division.id",
+			B2.code_name			as "division.name",
+			C.customer_username		as "customer.username",
+			C.customer_nickname		as "customer.nickname"
+		from
+			privatedeal_board A, codes B1, codes B2, customers C
+		where
+			A.board_status = B1.code_id
+		and A.board_division = B2.code_id		
+		and A.board_writer = C.customer_id		 		
+	</select>
+	
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

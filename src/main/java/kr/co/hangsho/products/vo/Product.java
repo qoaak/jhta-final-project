@@ -1,5 +1,6 @@
 package kr.co.hangsho.products.vo;
 
+import java.util.Date;
 import java.util.List;
 
 import kr.co.hangsho.categories.vo.SmallCategory;
@@ -14,11 +15,11 @@ public class Product {
 	private String description;
 	private int clicked;
 	private Company company;
-	private Image Image;
+	private Image image;
 	private int discountRatio;
 	private String name;
 	private String show;
-	private List<Image> itemImageList;
+	private Date createDate;
 	
 	public int getId() {
 		return id;
@@ -51,7 +52,6 @@ public class Product {
 	public void setClicked(int clicked) {
 		this.clicked = clicked;
 	}
-	
 	public Company getCompany() {
 		return company;
 	}
@@ -59,10 +59,10 @@ public class Product {
 		this.company = company;
 	}
 	public Image getImage() {
-		return Image;
+		return image;
 	}
 	public void setImage(Image image) {
-		Image = image;
+		this.image = image;
 	}
 	public int getDiscountRatio() {
 		return discountRatio;
@@ -82,19 +82,17 @@ public class Product {
 	public void setShow(String show) {
 		this.show = show;
 	}
-	public List<Image> getItemImageList() {
-		return itemImageList;
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setItemImageList(List<Image> itemImageList) {
-		this.itemImageList = itemImageList;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", smallCategory=" + smallCategory + ", deliveryFee=" + deliveryFee
-				+ ", description=" + description + ", clicked=" + clicked + ", company=" + company + ", Image=" + Image
-				+ ", discountRatio=" + discountRatio + ", name=" + name + ", show=" + show + ", itemImageList="
-				+ itemImageList + "]";
+				+ ", description=" + description + ", clicked=" + clicked + ", company=" + company + ", image=" + image
+				+ ", discountRatio=" + discountRatio + ", name=" + name + ", show=" + show + ", createDate="
+				+ createDate + "]";
 	}
-	
-	
 }

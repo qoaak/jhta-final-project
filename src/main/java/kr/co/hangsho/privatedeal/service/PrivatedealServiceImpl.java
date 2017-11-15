@@ -1,5 +1,7 @@
 package kr.co.hangsho.privatedeal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,12 @@ public class PrivatedealServiceImpl implements PrivatedealService {
 	@Override
 	public void addPDBoard(Privatedeal privatedeal) {
 		privatedealMapper.addPrivatedeal(privatedeal);
+	}
+
+	@Override
+	public List<Privatedeal> getMeronaList() {
+		
+		return privatedealMapper.getMeronaList();		
 	}	
 	
 }

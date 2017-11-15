@@ -11,12 +11,12 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="row">
-                    <img src="../images/44444.jpg" width="100%" height="300px" id="img1"/>   
-                    <img src="../images/1241.jpg" width="100%" height="300px" id="img2"/>   
+                    <img src="/resources/images/prodetails/44444.jpg" height="300px" id="img1">   
+                    <img src="/resources/images/prodetails/1241.jpg" height="300px" id="img2">    
                 </div>
                 <div class="row text-center">
-                    <img src="../images/44444.jpg" width="15%" height="50px" id="img11"/>
-                    <img src="../images/1241.jpg" width="15%" height="50px" id="img21"/>
+                    <img src="/resources/images/prodetails/44444.jpg" width="15%" height="50px" id="img11"/>
+                    <img src="/resources/images/prodetails/1241.jpg" width="15%" height="50px" id="img21"/>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -52,7 +52,6 @@
                 <div class="col-sm-3"><a href="/order/orderPage.do" class="btn btn-warning btn-lg" id="btn-buy">바로구매</a></div>
                 <div class="col-sm-3"><button class="btn btn-warning btn-lg" id="btn-cart">카트담기</button></div>
                 <div class="col-sm-2"><button class="btn btn-default btn-lg back" id="btn-zzim">찜하기</button></div>
-                
             </div>
         </div>
         
@@ -98,7 +97,7 @@
                                 <img src="../images/dlrdlf.JPG" width="100%" />
                             </div>
                             <div class="col-sm-10">
-                                
+                                //내용쓸라고 냅둠
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="dddd">
@@ -106,7 +105,7 @@
                                 <img src="../images/free.jpg" width="100%" />
                             </div>
                             <div class="col-sm-10">
-                                
+                                //내용쓸라고 냅둠
                             </div>
                         </div>
                     </div>
@@ -115,7 +114,7 @@
             <div role="tabpanel" class="tab-pane" id="profile">
                 <h4><strong>상품에 대해 궁금한 점을 물어보세요.</strong></h4>
                 <ul>
-                    <li><sapn class="d">교환/환불 및 배송관련 문의는 고객센터 내 1:1문의하기</sapn>를 이용해주세요.</li>
+                    <li><span class="d">교환/환불 및 배송관련 문의는 고객센터 내 1:1문의하기</span>를 이용해주세요.</li>
                     <li>상품문의를 통한 취소나 환불, 반품 등은 처리되지 않습니다.</li>
                     <li>상품과 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고없이 삭제됩니다.</li>
                 </ul>
@@ -123,8 +122,9 @@
                   <div class="itemques">
                        <h4 class="quespro"><strong>상품 문의하기</strong><strong id="quesnum">147</strong></h4> 
                   </div>
-                        <form id="search-form" class="form-inline pull-left" action="home.do">
-                           <div class="col-sm-7">
+                  <div class="col-sm-6">
+                        <form id="search-form" class="form-inline pull-left">
+                           
                                 <input type="hidden" name="pageNo" value="1">
                                 <input type="hidden" name="rows" value="5">
                                 <div class="form-group">
@@ -139,9 +139,15 @@
                                     <input type="text" class="form-control" id="keywordwidth" name="keyword" value="검색어를 입력하세요" />
                                 </div>
                                 <button type="submit" class="btn btn-basic" id="btn-search">검색</button>
-                            </div>
-                            <div>
+                            
+                         </form> 
+                     </div>
+                     
+                            <div class="col-sm-6">
+                            <form action="add.do" method="post">
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#questions">문의하기</button>
+                                
+                                
                                 <div class="modal fade" id="questions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -154,19 +160,6 @@
                                                 <h5 class="text-center">상품,배송,취소/반품,A/S등의 문의를 남겨주시면 판매자가 직접 답변을 드립니다</h5>
                                             </div>
                                             <div class="col-sm-12 modal-body well">
-                                                <form method="post">
-                                                    <div class="col-sm-10 form-group quemodal">
-                                                        <div class="col-sm-2 text-center">
-                                                            <label>상품명</label>
-                                                        </div>
-                                                            <input type="text" name="itemtitle" class="form-control" id="itemname" />
-                                                    </div>
-                                                    <div class="col-sm-10 form-group quemodal">
-                                                        <div class="col-sm-2 text-center">
-                                                            <label>이름</label>
-                                                        </div>
-                                                            <input type="text" name="writer" class="form-control" id="itemname"/>
-                                                    </div>
                                                     <div class="col-sm-10 form-group quemodal">
                                                         <div class="col-sm-2 text-center">
                                                             <label>제목</label>
@@ -190,7 +183,7 @@
                                                         </ul>
                                                     </div>
                                                     <hr />
-                                                </form>
+                                                
                                                 <div class="modal-footer col-sm-10">
                                                     <button type="submit" class="btn btn-warning" data-dismiss="modal" id="registerok">등록</button>
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -199,10 +192,13 @@
                                         </div>
                                     </div>
                                 </div> 
+                                
+                                
                                 <button type="button" class="btn btn-default">내 문의하기</button>    
-                                <button type="button" class="btn btn-default">전체 문의하기</button>    
+                                <button type="button" class="btn btn-default">전체 문의하기</button>  
+                                </form>  
                             </div>
-                        </form>
+                        
                 </div>              
                 <hr />
                     <table class="table table-condensed qnaitems">
@@ -269,48 +265,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">이런글이런글</a></td>
-                                <td>작성자</td>
-                                <td>2017-11-08</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">이런글이런글</a></td>
-                                <td>작성자</td>
-                                <td>2017-11-08</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">이런글이런글</a></td>
-                                <td>작성자</td>
-                                <td>2017-11-08</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">이런글이런글</a></td>
-                                <td>작성자</td>
-                                <td>2017-11-08</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">이런글이런글</a></td>
-                                <td>작성자</td>
-                                <td>2017-11-08</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="">이런글이런글</a></td>
-                                <td>작성자</td>
-                                <td>2017-11-08</td>
-                                <td>7</td>
-                            </tr>
                             <tr>
                                 <td>1</td>
                                 <td><a href="">이런글이런글</a></td>
@@ -385,60 +339,56 @@
                 </div>
             </div>
         </div>  
-    
     </div>
-    
-    
     </div>
     
 </body>
 <script>
-    $(function() {
-        $("#day").mouseenter(function() {
-            $("#day").click();
-        })
-        $("#free").mouseenter(function() {
-            $("#free").click();
-        })
-        
-       $("#img2").hide(); 
-        $("#img11").mouseenter(function() {
-           $("#img1").show(); 
-            $("#img11").css("border", "orange solid 2px");
-            $("#img2").hide();
-            $("#img21").css("border", "");
-        });
-        $("#img21").mouseenter(function() {
-           $("#img2").show(); 
-            $("#img21").css("border", "orange solid 2px");
-            $("#img1").hide();
-            $("#img11").css("border", "");
-        });
-    });
-    
-    $(function() {
-        $("#btn-buy").click(function() {
-            alert("상세옵션을 선택해 주세요.")
-        });
-        $("#btn-cart").click(function() {
-            alert("상세옵션을 선택해 주세요.")
-        });
-    });
-    $(window).scroll(function() {
-        var sclTop = $(this).scrollTop();
-        if(sclTop > 649) {
-                $('#sc').css('position', 'fixed').css('top', '1px'); 
-                $('#scr').css('position', 'fixed');
-                $("#top").show();
-                $("#bottom").show();
-           } else {
-              $('#sc').css('position', '').css('top', '');
-              $('#scr').css('position', '');
-              $("#top").hide();
-               $("#bottom").hide();
-           }
-        
+$(function() {
+    $("#day").mouseenter(function() {
+        $("#day").click();
     })
+    $("#free").mouseenter(function() {
+        $("#free").click();
+    })
+    
+   $("#img2").hide(); 
+    $("#img11").mouseenter(function() {
+       $("#img1").show(); 
+        $("#img11").css("border", "orange solid 2px");
+        $("#img2").hide();
+        $("#img21").css("border", "");
+    });
+    $("#img21").mouseenter(function() {
+       $("#img2").show(); 
+        $("#img21").css("border", "orange solid 2px");
+        $("#img1").hide();
+        $("#img11").css("border", "");
+    });
+    $("#btn-buy").click(function() {
+        alert("상세옵션을 선택해 주세요.")
+    });
+    $("#btn-cart").click(function() {
+        alert("상세옵션을 선택해 주세요.")
+    });
+ 	$(window).scroll(function() {
+     var sclTop = $(this).scrollTop();
+     if(sclTop > 649) {
+             $('#sc').css('position', 'fixed').css('top', '1px'); 
+             $('#scr').css('position', 'fixed');
+             $("#top").show();
+             $("#bottom").show();
+        } else {
+           $('#sc').css('position', '').css('top', '');
+           $('#scr').css('position', '');
+           $("#top").hide();
+            $("#bottom").hide();
+        }
+     
+ 	})
+});
+    
+    
 
 </script>
 </html>

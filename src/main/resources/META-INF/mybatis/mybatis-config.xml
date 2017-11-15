@@ -18,6 +18,9 @@
 		<typeAlias type="kr.co.hangsho.orders.vo.OrderDetail"/>
 		<typeAlias type="kr.co.hangsho.products.vo.ProductDetail"/>
 		<typeAlias alias="Privatedeal" type="kr.co.hangsho.privatedeal.vo.Privatedeal"/>
+		<typeAlias alias="Image" type="kr.co.hangsho.images.vo.Image"/>
+		<typeAlias alias="DailyChart" type="kr.co.hangsho.charts.vo.DailyChart"/>
+		<typeAlias alias="CriteriaForChart" type="kr.co.hangsho.web.criteria.CriteriaForChart"/>		
 	</typeAliases>
 
 	<mappers>
@@ -33,6 +36,8 @@
 		<mapper resource="META-INF/mybatis/mappers/orderdetail.xml" />
 		<mapper resource="META-INF/mybatis/mappers/smallcategory.xml" />
 		<mapper resource="META-INF/mybatis/mappers/privatedeal.xml" />
+		<mapper resource="META-INF/mybatis/mappers/image.xml" />
+		<mapper resource="META-INF/mybatis/mappers/chart.xml" />
 	</mappers>
 
 </configuration>
