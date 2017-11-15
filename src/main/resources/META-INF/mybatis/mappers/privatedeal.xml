@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="kr.co.hangsho.privatedeal.mappers.PrivatedealMapper">
+
+	<insert id="addPrivatedeal" parameterType="Privatedeal">
+		insert into privatedeal_board
+		(board_id, board_title, board_desired_price, board_contents, board_type, board_division, board_writer, small_category_id)
+		values
+		(pd_board_seq.nextval, #{title}, #{desiredprice}, #{editor}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

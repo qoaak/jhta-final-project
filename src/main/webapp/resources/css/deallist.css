@@ -1,0 +1,15 @@
+.deallist{position: relative;}
+.deallist div{display: none;}
+.deallist div.first{display: block;}
+.deallist h4{width: 100px;}
+.deallist h4 a{padding: 12px 0;display: block; font-size: 13px;color: #aaa;text-align: center;border-bottom: 2px solid #aaa;}
+.deallist h4 a.on{border: 2px solid #aaa;border-bottom: none;font-weight: bold;}
+.deallist h4.salecall{position: absolute;left: 100px;top:-10px;}
+.deallist h4.sdlist{position: absolute;left: 200px;top:-10px;}
+.deallist h4.buylist{position: absolute;left: 300px;top:-10px;}
+.deallist h4.buycall{position: absolute;left: 400px;top:-10px;}
+.deallist h4.bdlist{position: absolute;left: 500px;top:-10px;}
+
+td:first-child+td+td a:hover{text-decoration:underline !important;}
+
+.calllist li{border: 1px solid #eee; padding:5px;}

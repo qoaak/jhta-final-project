@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="kr.co.hangsho.products.mappers.ProductMapper">
+
+	<select id="getSeq" resultType="int">
+		select
+			product_seq.nextval 
+		from
+			dual
+	</select>
+
+	<insert id="addProduct" parameterType="Product">
+		insert into products
+		(product_id, small_category_id, product_description, company_id, image_id, discount_ratio, product_name)
+		values
+		(#{id}, #{smallCategory.id}, #{description}, #{company.id}, #{Image.id}, #{discountRatio}, #{name})
+	</insert>
+	
+	<!-- 상품페이지 상품리스트 -->
+
+	<select id="getProductList" parameterType="Criteria" resultType="Product">
+		select
+			P.product_id				as id,
+			P.small_category_id			as "smallCategory.id",
+			P.delivery_fee				as deliveryFee,
+			P.product_description		as description,
+			P.product_clicked			as clicked,
+			C.company_id				as "company.id",
+			C.company_name				as "company.name",
+			P.image_id					as "Image.id",
+			P.discount_ratio			as discountRatio,
+			P.product_name				as name,
+			P.product_show				as show
+		from
+			products P, companies C
+		where
+			P.company_id = C.company_id
+			and P.product_show = 'Y'
+	</select>
+	
+	<!-- 관리자용 상품리스트 -->
+	<select id="getProductsForAdmin" parameterType="Criteria" resultType="Product">
+		select
+			P.product_id						as id,
+			P.small_category_id				as "smallCategory.id",
+			P.delivery_fee						as deliveryFee,
+			P.product_description			as description,
+			P.product_clicked				as clicked,
+			C.company_id						as "company.id",
+			C.company_name				as "company.name",
+			P.image_id							as "Image.id",
+			P.discount_ratio					as discountRatio,
+			P.product_name					as name,
+			P.product_show					as show
+		from
+			products P, companies C
+		where
+			P.company_id = C.company_id
+			<if test="keyword != ''">
+				<choose>
+					<when test="opt == 'title'">
+						and P.product_name like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt == 'seller'">
+						and C.company_name like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
+			<if test="beginday != null">
+				and P.product_createdate &gt; #{beginday}
+			</if>
+			<if test="endday != null">
+				and P.product_createdate &lt; #{endday} + 1
+			</if>
+	</select>
+	
+	<select id="getProductByProductNo" parameterType="int" resultType="Product">
+		select
+			product_id					as id,
+			small_category_id		as "smallCategory.id",
+			delivery_fee					as deliveryFee,
+			product_description	as description,
+			product_clicked			as clicked,
+			company_id					as "company.id",
+			image_id						as "Image.id",
+			discount_ratio				as discountRatio,
+			product_name				as name,
+			product_show				as show
+		from
+			products
+		where 
+			product_id = #{value}
+	</select>
+	
+	<!-- 기업고객용 리스트 -->
+	<select id="getProductsForCompany" resultType="Product">
+		select
+			P.product_id				as id,
+			P.small_category_id			as "smallCategory.id",
+			P.delivery_fee				as deliveryFee,
+			P.product_description		as description,
+			P.product_clicked			as clicked,
+			C.company_id				as "company.id",
+			C.company_name				as "company.name",
+			P.image_id					as "Image.id",
+			P.discount_ratio			as discountRatio,
+			P.product_name				as name,
+			P.product_show				as show,
+			S.small_category_name		as "smallCategory.name"
+		from 
+			products P, small_categories S, companies C
+		where
+			P.company_id = C.company_id
+		AND
+			P.small_category_id =S.small_category_id
+		AND
+			P.company_id = #{value}
+	</select>
+</mapper>

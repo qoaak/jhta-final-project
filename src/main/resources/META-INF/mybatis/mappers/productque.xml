@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="kr.co.hangsho.products.mappers.ProductQueMapper">
+
+	<select id="getSeq" resultType="int">
+		select
+			product_q_seq.nextval
+		from dual
+	</select>
+	
+	<insert id="addProductQue" parameterType="ProductQue">
+		insert into product_q
+		(product_q_id, product_q_question, product_id, customer_id, product_q_createdate, product_q_deleted, product_q_title)
+		values
+		(#{id}, #{question}, #{"product.id"}, #{"customer.id"}, sysdate, #{title})
+	</insert>
+	
+	<select id="getProductQues" resultType="ProductQue">
+		select
+			P.product_q_id				as id,
+			P.product_q_question		as question,
+			P.product_id				as "product.id",
+			P.customer_id				as "customer.id",
+			P.product_q_createdate		as createDate,
+			P.product_q_deleted			as deleted,
+			P.product_q_title			as title,
+			C.customer_username			as "customer.username"
+			
+		from
+			product_q P, customers C
+		where 
+			P.customer_id = C.customer_id
+		and
+			P.product_q_deleted = 'N'
+	</select>
+	
+	<select id="getProductQueById" parameterType="int" resultType="ProductQue">
+		select
+			product_q_id			as id,
+			product_q_question		as question,
+			product_id				as "product.id",
+			customer_id				as "customer.id",
+			product_q_createdate	as createDate,
+			product_q_deleted		as deleted,
+			product_q_title			as title
+		from
+			product_q
+		where
+			product_q_id = #{value}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
