@@ -18,63 +18,50 @@
 	
 	<select id="getOrders" resultType="Order">
 		select 
-		order_id id,
-		order_condition condition,
-		order_message message, 
-		customer_id "customer.id",
-		delivery_id "delivery.id",
-		order_date orderDate,
-		order_price price
+			order_id id,
+			order_condition condition,
+			order_message message, 
+			customer_id "customer.id",
+			delivery_id "delivery.id",
+			order_date orderDate,
+			order_price price
 		from orders
-		order by order_id desc
+			order by order_id desc
 		<!-- 주문은 최근 순으로(번호가 높은순으로) -->
 	</select>
+	
 	<select id="getOrder" resultType="Order" parameterType="int">
 		select 
-		order_id id,
-		order_condition condition,
-		order_message message, 
-		customer_id "customer.id",
-		delivery_id "delivery.id",
-		order_date orderDate,
-		order_price price
-		from orders
-	where 
-		order_id = #{value}
+			order_id id,
+			order_condition condition,
+			order_message message, 
+			customer_id "customer.id",
+			delivery_id "delivery.id",
+			order_date orderDate,
+			order_price price
+		from 
+			orders
+		where 
+			order_id = #{value}
 	</select>
 	<select id="getOrdersByCustomer" resultType="Order" parameterType="Customer">
 		select 
 		order_id id,
 		order_condition condition,
 		order_message message, 
-		customer_id "customer.id",
-		delivery_id "delivery.id",
+		order_receiver receiver,
+		O.customer_id "customer.id",
+		O.delivery_id "delivery.id",
 		order_date orderDate,
-		order_price price
-		from orders
+		order_price price,
+		delivery_mainaddress "delivery.mainAddress",
+		delivery_title "delivery.title",
+		delivery_postalcode "delivery.postalCode",
+		delivery_detailaddress "delivery.detailAddress"
+		from orders O, deliveries D
 	where 
-		customer_id = #{id}
+		O.customer_id = #{id}
+		and O.delivery_id = D.delivery_id
+	order by order_id desc
 	</select>
-
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

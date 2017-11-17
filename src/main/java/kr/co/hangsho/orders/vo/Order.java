@@ -1,12 +1,15 @@
 package kr.co.hangsho.orders.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import kr.co.hangsho.customers.vo.Customer;
 import kr.co.hangsho.deliveries.vo.Delivery;
 
 public class Order {
 
+	private List<OrderDetail> orderDetails = new ArrayList();
 	private int id;
 	private String condition;
 	private String message;
@@ -14,7 +17,23 @@ public class Order {
 	private Delivery delivery;
 	private Date orderDate;
 	private int price;
+	private String receiver;
 	
+	public String getReceiver() {
+		return receiver;
+	}
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+	public void addOrderDetail(OrderDetail orderDetail) {
+		orderDetails.add(orderDetail);
+	}
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
 	public int getId() {
 		return id;
 	}
@@ -59,8 +78,9 @@ public class Order {
 	}
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", condition=" + condition + ", message=" + message + ", customer=" + customer
-				+ ", delivery=" + delivery + ", orderDate=" + orderDate + ", price=" + price + "]";
+		return "Order [orderDetails=" + orderDetails + ", id=" + id + ", condition=" + condition + ", message="
+				+ message + ", customer=" + customer + ", delivery=" + delivery + ", orderDate=" + orderDate
+				+ ", price=" + price + ", receiver=" + receiver + "]";
 	}
 	
 	

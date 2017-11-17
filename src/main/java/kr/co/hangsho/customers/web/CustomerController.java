@@ -1,9 +1,11 @@
 package kr.co.hangsho.customers.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -21,6 +23,8 @@ import kr.co.hangsho.customers.vo.InfoForm;
 import kr.co.hangsho.customers.vo.RegisterForm;
 import kr.co.hangsho.orders.service.OrderDetailService;
 import kr.co.hangsho.orders.service.OrderService;
+import kr.co.hangsho.orders.vo.Order;
+import kr.co.hangsho.orders.vo.OrderDetail;
 import kr.co.hangsho.products.service.ProductDetailService;
 import kr.co.hangsho.products.service.ProductService;
 
@@ -29,7 +33,7 @@ import kr.co.hangsho.products.service.ProductService;
 public class CustomerController {
 
 	@Autowired
-	CustomerService customerService; 
+	CustomerService customerService;
 	@Autowired
 	OrderService orderService;
 	@Autowired
@@ -40,13 +44,27 @@ public class CustomerController {
 	OrderDetailService orderDetailService;
 	@Autowired
 	CompanyService companyService;
-	
+
 	@RequestMapping("/index.do")
-	public String mypage(Model model) {
+	public String mypage(Model model, HttpSession session) {
+		Map<String, Object> loginInfo = (Map) session.getAttribute("LOGIN_INFO");
 		Customer customer = new Customer();
-		customer.setId(4);
-		model.addAttribute("orderDetails", orderDetailService.getOrderDetailsByCustomer(customer));
-		model.addAttribute("orders", orderService.getOrdersByCustomer(customer));
+		if("CUSTOMER".equals(loginInfo.get("USER_TYPE")))
+			customer = (Customer) loginInfo.get("LOGIN_USER");
+		else 
+			return "redirect:/company/index.do";
+		long bm = System.currentTimeMillis();
+		List<Order> orders = orderService.getOrdersByCustomer(customer);
+		for (Order order : orders) {
+			for (OrderDetail orderDetail : orderDetailService.getOrderDetailsByCustomer(customer)) {
+				if(order.getId() == orderDetail.getOrderId())
+					order.addOrderDetail(orderDetail);
+			}
+		}
+		System.out.println(orders);
+		model.addAttribute("orders", orders);
+		long am = System.currentTimeMillis();
+		System.out.println((am-bm) + "ms");
 		return "customers/index";
 	}
 
@@ -74,18 +92,18 @@ public class CustomerController {
 		return "customers/info";
 	}
 
-	
 	@RequestMapping("/deal.do")
 	public String deal() {
-		
+
 		return "customers/deal";
-	}	
+	}
 
 	@RequestMapping("/login.do")
 	public String login() {
 
 		return "customers/login";
 	}
+
 	@RequestMapping("/logout.do")
 	public String logout(HttpSession session) {
 		session.invalidate();
@@ -93,12 +111,15 @@ public class CustomerController {
 	}
 
 	@RequestMapping("/logincheck.do")
-	public String loginCheck(String username, String password, HttpSession session) {
+	public String loginCheck(String username, String password, HttpSession session, HttpServletRequest request) {
+		String denyUrl = "redirect:/customers/login.do?error=deny";
+		String returnUrl = request.getParameter("returnUrl");
+		returnUrl = (returnUrl == null || "".equals(returnUrl )) ? "/index.do" : returnUrl;
+		denyUrl += returnUrl;
 		boolean isEmail = Pattern.matches(
 				"^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$", username);
-
 		Map<String, Object> loginInfo = new HashMap<String, Object>();
-		
+
 		if (isEmail) {
 			Customer customer = new Customer();
 			try {
@@ -107,9 +128,8 @@ public class CustomerController {
 					loginInfo.put("LOGIN_USER", customer);
 					loginInfo.put("USER_TYPE", "CUSTOMER");
 					session.setAttribute("LOGIN_INFO", loginInfo);
-					
 				} else {
-					return "redirect:/customers/login.do?error=deny";
+					return denyUrl;
 				}
 			} catch (Exception e) {
 
@@ -122,13 +142,13 @@ public class CustomerController {
 					loginInfo.put("USER_TYPE", "COMPANY");
 					session.setAttribute("LOGIN_INFO", loginInfo);
 				} else {
-					return "redirect:/customers/login.do?error=deny";
+					return returnUrl;
 				}
 			} catch (Exception e) {
 			}
 		}
-
-		return "redirect:/index.do";
+		System.out.println(returnUrl);
+		return "redirect:" + returnUrl;
 	}
 
 	@RequestMapping("/register.do")

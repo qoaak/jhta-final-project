@@ -11,6 +11,10 @@ public class Criteria {
 	private String keyword;
 	private Date beginday;
 	private Date endday;
+	private Integer sc;
+	private Integer mc;
+	private Integer bc;
+	private String division;
 	
 	private int totalRows;
 	
@@ -108,14 +112,48 @@ public class Criteria {
 	public void setEndday(Date endday) {
 		this.endday = endday;
 	}
+	
+	
+
+
+	public Integer getSc() {
+		return sc;
+	}
+
+	public void setSc(Integer sc) {
+		this.sc = sc;
+	}
+
+	public Integer getMc() {
+		return mc;
+	}
+
+	public void setMc(Integer mc) {
+		this.mc = mc;
+	}
+
+	public Integer getBc() {
+		return bc;
+	}
+
+	public void setBc(Integer bc) {
+		this.bc = bc;
+	}
+	
+	
+	
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
 
 	@Override
 	public String toString() {
 		return "Criteria [rows=" + rows + ", pages=" + pages + ", pageNo=" + pageNo + ", opt=" + opt + ", keyword="
-				+ keyword + ", beginday=" + beginday + ", endday=" + endday + ", totalRows=" + totalRows + "]";
-	}
-
-
-	
-
+				+ keyword + ", beginday=" + beginday + ", endday=" + endday + ", sc=" + sc + ", mc=" + mc + ", bc=" + bc
+				+ ", division=" + division + ", totalRows=" + totalRows + "]";
+	}	
 }

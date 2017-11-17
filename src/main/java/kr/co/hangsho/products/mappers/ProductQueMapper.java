@@ -13,5 +13,5 @@ public interface ProductQueMapper {
 	int getSeq();
 	void addProductQue(ProductQue productQue);
 	List<ProductQue> getProductQues();
-	ProductQue getProductQueById(int id);
+	ProductQue getProductQueById(int id);	// 상품문의 하나에 해당하는 내용 하나 가져오기
 }

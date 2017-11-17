@@ -13,7 +13,7 @@ public class Item {
 	private int saledQuantity;
 	private Product product;
 	private int salePrice;
-	private Integer originalPrice;
+	private int originalPrice;
 	private Image image;
 	private Date createdate;
 	

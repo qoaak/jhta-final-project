@@ -11,5 +11,3 @@ tbody tr:first-child>td:first-child+td{text-align: right;width:100px;padding-rig
 .commentslist>div{border-bottom: 1px solid #ccc;padding: 10px 0;}
 .commentslist>div:last-child{border: 0;}
 .commentslist p span{padding-left: 15px;color: #888;}
-.reply textarea{width:1045px !important;}
-.comment textarea{width:1060px !important;}

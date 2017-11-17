@@ -83,8 +83,8 @@
 		                              <tr>
 		                                    <td>1</td>
 		                                    <td>중고나라</td>
-		                                    <td><a href="">삼성 센스 노트북 팝니다.</a></td>
-		                                    <td>거래중</td>
+		                                    <td><a href="/deal/detail.do">삼성 센스 노트북 팝니다.</a></td>
+		                                    <td>결제완료</td>
 		                              </tr>
 		                        </tbody>
 		                  </table>
@@ -111,7 +111,7 @@
 		                                    <td>1</td>
 		                                    <td>메로나</td>
 		                                    <td><a href="">캐나다 구스 삽니다.</a></td>
-		                                    <td><button class="btn btn-danger btn-xs">3건</button></td>
+		                                    <td><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#salecall">1건</button></td>
 		                              </tr>
 		                        </tbody>
 		                  </table>
@@ -165,17 +165,28 @@
 		                                    <td>1</td>
 		                                    <td>중고나라</td>
 		                                    <td><a href="">삼성 센스 노트북 팝니다.</a></td>
-		                                    <td>거래중</td>
+		                                    <td>구매확정</td>
 		                              </tr>
 		                        </tbody>
-		                  </table>
-		            </div>                  
+		                  </table>		                  
+		            </div>		                            
 		      </div>
+		      <div class="text-center">
+                   <ul class="pagination">                            
+                       <li><a href="${navi.pageNo - 1 }">&lt;</a></li>       
+                       <li class=""><a href="${num }">1</a></li>
+                       <li class=""><a href="${num }">2</a></li>
+                       <li class=""><a href="${num }">3</a></li>
+                       <li class=""><a href="${num }">4</a></li>
+                       <li class=""><a href="${num }">5</a></li>
+                       <li><a href="${navi.pageNo + 1 }">&gt;</a></li>  
+                   </ul>
+	          </div> 
         </div>
     </div>
 </div>
 
- <div class="modal fade" id="buycall" role="dialog">
+ 	<div class="modal fade" id="buycall" role="dialog">
       <div class="modal-dialog">
       
         <!-- Modal content-->
@@ -183,9 +194,9 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title">구매자 신청 목록</h4>
-          </div>          
-            <div class="modal-body">
-            	<form action="" method="post">
+          </div>
+          	<form action="" method="post">          
+	            <div class="modal-body">            	
             		<ul class="calllist">
             			<li>
             				<input type="checkbox">
@@ -199,16 +210,89 @@
             				<p>삼성 센스 노트북 삽니다.</p>
             				<p>12000000원 <button class="btn btn-danger btn-xs pull-right">거절</button></p>            				            				
             			</li>
+            			<li>
+            				<input type="checkbox">
+            				<p>slkjds210 <span class="pull-right">2017-11-08</span> </p> 
+            				<p>삼성 센스 노트북 삽니다.</p>
+            				<p>12000000원 <button class="btn btn-danger btn-xs pull-right">거절</button></p>            				            				
+            			</li>
+            			<li>
+            				<input type="checkbox">
+            				<p>slkjds210 <span class="pull-right">2017-11-08</span> </p> 
+            				<p>삼성 센스 노트북 삽니다.</p>
+            				<p>12000000원 <button class="btn btn-danger btn-xs pull-right">거절</button></p>            				            				
+            			</li>
+            			<li>
+            				<input type="checkbox">
+            				<p>slkjds210 <span class="pull-right">2017-11-08</span> </p> 
+            				<p>삼성 센스 노트북 삽니다.</p>
+            				<p>12000000원 <button class="btn btn-danger btn-xs pull-right">거절</button></p>            				            				
+            			</li>
             		</ul>
-            	</form>                           
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-success pull-left">승인</button>              
-            </div>          
-        </div>
-        
+	            	<input type="checkbox"> 전체선택 	            	            	                          
+	            </div>	            
+	            <div class="modal-footer">
+	            	<div class="text-center">	            		
+	               		<button type="submit" class="btn btn-success">승인</button>
+	            	</div>	                            
+	            </div>
+				<div class="text-center">
+                    <ul class="pagination">                            
+                        <li><a href="${navi.pageNo - 1 }">&lt;</a></li>       
+                        <li class=""><a href="${num }">1</a></li>
+                        <li class=""><a href="${num }">2</a></li>
+                        <li class=""><a href="${num }">3</a></li>
+                        <li class=""><a href="${num }">4</a></li>
+                        <li class=""><a href="${num }">5</a></li>
+                        <li><a href="${navi.pageNo + 1 }">&gt;</a></li>  
+                    </ul>
+			    </div>
+            </form>           
+        </div>        
       </div>
-    </div>    
+    </div> 
+    
+    <div class="modal fade" id="salecall" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">판매자 신청 목록</h4>
+          </div>          
+           <form action="" method="post">          
+	            <div class="modal-body">            	
+            		<ul class="calllist">
+            			<li>
+            				<input type="checkbox">
+            				<p>slkjds210 <span class="pull-right">2017-11-08</span> </p> 
+            				<p>캐구 팝니다.</p>
+            				<p>12000000원 <button class="btn btn-danger btn-xs pull-right">거절</button></p>            				            				
+            			</li>            			
+            		</ul>
+	            	<input type="checkbox"> 전체선택            	                          
+	            </div>	            
+	            <div class="modal-footer">
+	            	<div class="text-center">	            		
+	               		<button type="submit" class="btn btn-success">승인</button>
+	            	</div>	                            
+	            </div>
+	            <div class="text-center">
+                    <ul class="pagination">                            
+                        <li><a href="${navi.pageNo - 1 }">&lt;</a></li>       
+                        <li class=""><a href="${num }">1</a></li>
+                        <li class=""><a href="${num }">2</a></li>
+                        <li class=""><a href="${num }">3</a></li>
+                        <li class=""><a href="${num }">4</a></li>
+                        <li class=""><a href="${num }">5</a></li>
+                        <li><a href="${navi.pageNo + 1 }">&gt;</a></li>  
+                    </ul>
+				 </div> 
+            </form>        
+        </div>        
+      </div>
+    </div>   
     
 <%@ include file="/WEB-INF/views/inc/footer.jsp" %>
 </body>

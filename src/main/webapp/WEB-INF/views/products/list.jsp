@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>등록된 상품 리스트</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>등록된 상품 리스트</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
 </style>
@@ -29,19 +29,22 @@
                     <!-- 검색창 -->
                     <div class="row text-right">
                         <form action="" class="form-inline">
+                        	<input type="hidden" name="pageNo" value="${param.pageNo }" />
+	                        <input type="date" class="form-control" name="beginday" value="${param.beginday }" >
+	                        <input type="date" class="form-control" name="endday" value="${param.endday }" >
                             <select class="form-control" name="opt">
                                 <option>선택</option>
-                                <option value="productName">상품명</option>
-                                <option value="category">카테고리</option>
-                                <option value="open">공개여부</option>
+                                <option value="productName" ${param.opt eq 'productName' ? 'selected' : '' }>상품명</option>
+                                <option value="category" ${param.opt eq 'category' ? 'selected' : '' }>카테고리</option>
+                                <option value="show" ${param.opt eq 'show' ? 'selected' : '' }>판매여부</option>
                             </select>
-                            <input type="text" class="form-control" name="keyword"/>
+                            <input type="text" class="form-control" name="keyword" value="${param.keyword }"/>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-info">검색</button>
+                                <button type="submit" class="btn btn-info" id="search-btn">검색</button>
                             </div>
                         </form>
                     </div>
-                    
+                    <hr />
                     <!-- 상품 리스트 테이블-->
                     <div class="row" id="sale-product-table">
                         <table class="table table-hover" id="sale-product">
@@ -66,38 +69,33 @@
                             <tbody>
                             	<c:forEach var="product" items="${products }" varStatus="status">
                             		<tr>
-	                                    <td>${status.count }</td>
-	                                    <td>${product.smallCategory.name }</td>
+	                                    <td> ${status.count }</td>
+	                                    <td><c:out value="${product.smallCategory.name }"></c:out></td>
 	                                    <td><a href="deatil.do?no=${product.id }" >${product.name }</a></td>
-	                                    <td>${product.discountRatio }</td>
-	                                    <td></td>
-	                                    <td>${product.show }</td>
+	                                    <td><c:out value="${product.discountRatio }"></c:out></td>
+	                                    <td><fmt:formatDate value="${product.createDate }"/></td>
+	                                    <td><c:out value="${product.show }"></c:out></td>
 	                                </tr>
                             	</c:forEach>
                             </tbody>
                         </table>
                         <div class="text-right" id="add-btn">
-                            <a href="form.do" class="btn btn-info btn-sm">새 상품 추가</a>
+                            <a href="form.do" class="btn btn-info">새 상품 추가</a>
                         </div>
                     </div>
                                        
                     <!-- 페이지네이션-->
-                    <div class="text-center">
-                        <ul class="pagination">
-                            <li><a href="#">&lt;</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&gt;</a></li>
-                        </ul>
-                    </div>
-                    
+                    <%@ include file="/WEB-INF/views/abcompany/pagination.jsp" %>
                 </div>
                 
             </div>  
         </div>
     </div>  
 </body>
+<script type="text/javascript">
+	$('#search-btn').click(function() {
+		
+		$('input[name=pageNo]').val(1);
+	})
+</script>
 </html>

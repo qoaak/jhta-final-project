@@ -1,6 +1,7 @@
 package kr.co.hangsho.products.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,8 +51,18 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> getProductsByComId(int comNo) {
-		return productMapper.getProductsByComId(comNo);
+	public List<Product> getProductsByComId(Map<String, Object> map) {
+		return productMapper.getProductsByComId(map);
+	}
+
+	@Override
+	public int getTotalRowsByCriteria(Map<String, Object> map) {
+		return productMapper.getTotalRows(map);
+	}
+
+	@Override
+	public List<Product> getProductsNameBySmaCateNo(int smaCateNo) {
+		return productMapper.getProductsNameByNo(smaCateNo);
 	}
 
 }

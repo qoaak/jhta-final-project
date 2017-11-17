@@ -1,6 +1,7 @@
 package kr.co.hangsho.products.mappers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import kr.co.hangsho.products.vo.Product;
@@ -16,5 +17,8 @@ public interface ProductMapper {
 	
 	List<Product> getProductsForAdmin(Criteria criteria);
 	
-	List<Product> getProductsByComId(int comNo);
+	List<Product> getProductsByComId(Map<String, Object> map);
+	int getTotalRows(Map<String, Object> map);
+	
+	List<Product> getProductsNameByNo(int smaCateNo);
 }

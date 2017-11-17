@@ -9,10 +9,10 @@
 		insert into privatedeal_board
 		(board_id, board_title, board_desired_price, board_contents, board_type, board_division, board_writer, small_category_id)
 		values
-		(pd_board_seq.nextval, #{title}, #{desiredprice}, #{editor,jdbcType=CLOB}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
+		(pd_board_seq.nextval, #{title}, #{desiredprice,jdbcType=NUMERIC}, #{editor,jdbcType=CLOB}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
 	</insert>
 	
-	<select id="getMeronaList" resultType="Privatedeal">
+	<!-- <select id="getMeronaList" resultType="Privatedeal">
 		select
 			A.board_id				as id,
 			A.board_title			as title,
@@ -32,6 +32,128 @@
 			A.board_status = B1.code_id
 		and A.board_division = B2.code_id		
 		and A.board_writer = C.customer_id		 		
+	</select> -->
+	
+	<select id="getTotalRows" parameterType="Criteria" resultType="int">
+		select
+			count(*)
+		from
+			privatedeal_board P, customers C, small_categories S, middle_categories M, big_categories B
+		where
+			P.board_deleted = 'N'
+		and P.board_writer = C.customer_id
+		and P.small_category_id = S.small_category_id
+		and S.middle_category_id = M.middle_category_id
+		and M.big_category_id = B.big_category_id
+		<if test="bc != null">
+			and B.big_category_id = #{bc}
+		</if>
+		<if test="mc != null">
+			and M.middle_category_id = #{mc}
+		</if>
+		<if test="sc != null">
+			and S.small_category_id = #{sc}
+		</if>
+		<if test="division != null and division !=''">
+			and P.board_division = #{division}
+		</if>		
+		<if test="keyword != ''">
+			<choose>
+				<when test="opt == 'title'">
+					and P.board_title like '%' || #{keyword} || '%'
+				</when>
+				<when test="opt == 'writer'">
+					and C.customer_nickname like '%' || #{keyword} || '%'
+				</when>
+				<when test="opt == 'contents'">
+					and P.board_contents like '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>	
+	
+	<select id="getPrivateDeals" parameterType="Criteria" resultType="Privatedeal">
+		select
+			board_id				as id,
+			board_title				as title,
+			board_desired_price		as desiredprice,
+			board_createdate		as createdate,
+			board_status			as "status.id",
+			status_name				as "status.name",
+			board_clicked			as clicked,
+			board_division			as "division.id",
+			division_name			as "division.name",
+			customer_nickname		as "customer.nickname"			
+		from (		
+			select
+				row_number() over (order by board_id desc) rn,
+				P.board_id,
+				P.board_title,
+				P.board_desired_price,
+				P.board_createdate,
+				P.board_status,
+				S.code_name		as status_name,
+				P.board_clicked,
+				P.board_division,
+				D.code_name		as division_name,			
+				C.customer_nickname
+			from
+				privatedeal_board P, codes S, codes D, customers C, small_categories S, middle_categories M, big_categories B
+			where
+				P.board_status = S.code_id
+			and P.board_division = D.code_id
+			and P.board_writer = C.customer_id
+			and P.small_category_id = S.small_category_id
+			and S.middle_category_id = M.middle_category_id
+			and M.big_category_id = B.big_category_id
+			and P.board_deleted = 'N'
+			<if test="bc != null">
+				and B.big_category_id = #{bc}
+			</if>
+			<if test="mc != null">
+				and M.middle_category_id = #{mc}
+			</if>
+			<if test="sc != null">
+				and S.small_category_id = #{sc}
+			</if>
+			<if test="division != null and division !=''">				
+				and P.board_division = #{division}
+			</if>
+			<if test="keyword != ''">
+				<choose>
+					<when test="opt == 'title'">
+						and P.board_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt == 'writer'">
+						and C.customer_nickname like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt == 'contents'">
+						and P.board_contents like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
+		)
+		where rn >= #{beginIndex} and rn &lt;= #{endIndex}
+	</select>
+	
+	<select id="getBoardByNo" parameterType="int" resultType="Privatedeal">
+		select
+			C.customer_username		as "customer.usernameSubstring",
+			C.customer_nickname		as "customer.nickname",			
+			D.code_name				as "division.name",
+			S.code_name				as "status.name",
+			P.board_desired_price	as desiredprice,
+			P.board_clicked			as clicked,
+			P.board_title			as title,
+			P.board_createdate		as createdate,
+			P.board_contents		as contents
+		from
+			privatedeal_board P, customers C, codes D, codes S
+		where
+			P.board_writer = C.customer_id
+		and P.board_division = D.code_id
+		and P.board_status = S.code_id
+		and P.board_id = #{value}
 	</select>
 	
 </mapper>

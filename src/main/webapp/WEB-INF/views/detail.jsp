@@ -32,20 +32,19 @@
                     <li class="col-sm-6" id="lin">남은시간 <strong id="back">7</strong>일</li>
                 </ul>
                 <small><span>상세옵션을 선택해 주세요. (1인당 최대 15개,<span id="d">20,000원이상 무료배송</span>)</span></small>
-                
                 <select class="form-control">
-                  <option>상품명</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+					<option>상품명</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
                 </select>
                 <select class="form-control">
-                  <option>색상사이즈</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+					<option>색상사이즈</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
                 </select>
                 <hr>
                 <div class="col-sm-1"></div>
@@ -54,32 +53,27 @@
                 <div class="col-sm-2"><button class="btn btn-default btn-lg back" id="btn-zzim">찜하기</button></div>
             </div>
         </div>
-        
         <hr>
-        
         <div class="row mainbody">
-        <nav class="navbar navbar-inverse mar" id="sc" style="min-width: 1153px;">
-             <div class="container-fluid">
-              <ul class="nav navbar-nav" id="sc" role="tablist">
-                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">상품설명</a></li>
-                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">상품()</a></li>
-                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">구매후기()</a></li>
-                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">환불교환/상품고시</a></li>
-              </ul>
-                
-              </div>
+        <nav class="navbar navbar-light" id="sc" style="min-width: 1153px; background-color: #e3f2fd;">
+	        <div class="container-fluid">
+				<ul class="nav navbar-nav" id="sc" role="tablist">
+					<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">상품설명</a></li>
+					<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">상품()</a></li>
+					<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">구매후기()</a></li>
+					<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">환불교환/상품고시</a></li>
+				</ul>
+	         </div>
 		</nav>
-            
-            
         <div class="col-sm-9">
-          
             <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="home">
                 <h4><strong>구매전 꼭 읽어주세요!</strong></h4>
                 <img src="/resources/images/prodetails/shoes1.jpg">
                 <img src="/resources/images/prodetails/shoes2.PNG">
+                <img src="/resources/images/prodetails/trashcan.jpg">
                 <div class="row bor">
-                    <div class="col-sm-2"><img src="../images/ddddd.jpg" width="100%" /></div>
+                    <div class="col-sm-2"><img src="/resources/images/prodetails/ddddd.JPG" width="100%" /></div>
                     <div class="col-sm-10">
                         <h4><strong class="d">9,800원 이상 구매시 무료배송</strong><strong>상품입니다.</strong></h4>
                         <span>*9,800원 미만 구매시, <strong>배송비 2,500원</strong></span>
@@ -90,11 +84,10 @@
                         <li role="presentation" class="active"><a href="#ssss" aria-controls="ssss" role="tab" data-toggle="tab" id="day">익일배송</a></li>
                         <li role="presentation"><a href="#dddd" aria-controls="dddd" role="tab" data-toggle="tab" id="free">무료배송</a></li>
                     </ul>
-                    
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="ssss">
                             <div class="col-sm-2">
-                                <img src="../images/dlrdlf.JPG" width="100%" />
+                                <img src="/resources/images/prodetails/dlrdlf.JPG" width="100%" />
                             </div>
                             <div class="col-sm-10">
                                 //내용쓸라고 냅둠
@@ -102,7 +95,7 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="dddd">
                             <div class="col-sm-2">
-                                <img src="../images/free.jpg" width="100%" />
+                                <img src="/resources/images/prodetails/free.jpg" width="100%" />
                             </div>
                             <div class="col-sm-10">
                                 //내용쓸라고 냅둠
@@ -113,6 +106,7 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="profile">
                 <h4><strong>상품에 대해 궁금한 점을 물어보세요.</strong></h4>
+                <img src="/resources/images/prodetails/beforebuyitems.PNG">
                 <ul>
                     <li><span class="d">교환/환불 및 배송관련 문의는 고객센터 내 1:1문의하기</span>를 이용해주세요.</li>
                     <li>상품문의를 통한 취소나 환불, 반품 등은 처리되지 않습니다.</li>
@@ -124,81 +118,73 @@
                   </div>
                   <div class="col-sm-6">
                         <form id="search-form" class="form-inline pull-left">
-                           
-                                <input type="hidden" name="pageNo" value="1">
-                                <input type="hidden" name="rows" value="5">
-                                <div class="form-group">
-                                    <label class="sr-only">검색조건</label>
-                                    <select class="form-control" name="opt" id="keyresult">
-                                        <option value="title">제목</option>
-                                        <option value="title-contents">제목+내용</option>
-                                    </select>
-                                </div>
+							<input type="hidden" name="id" value="1">
+							<input type="hidden" name="rows" value="5">
+								<div class="form-group">
+								    <label class="sr-only">검색조건</label>
+								    <select class="form-control" name="opt" id="keyresult">
+								        <option value="title">제목</option>
+								        <option value="title-contents">제목+내용</option>
+								    </select>
+								</div>
                                 <div class="form-group">
                                     <label class="sr-only">키워드</label>
                                     <input type="text" class="form-control" id="keywordwidth" name="keyword" value="검색어를 입력하세요" />
                                 </div>
                                 <button type="submit" class="btn btn-basic" id="btn-search">검색</button>
-                            
                          </form> 
                      </div>
-                     
-                            <div class="col-sm-6">
-                            <form action="add.do" method="post">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#questions">문의하기</button>
-                                
-                                
-                                <div class="modal fade" id="questions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="exampleModalLongTitle"><strong>판매자에게 문의하기</strong></h4>
-                                                <hr />
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h5 class="text-center">상품,배송,취소/반품,A/S등의 문의를 남겨주시면 판매자가 직접 답변을 드립니다</h5>
-                                            </div>
-                                            <div class="col-sm-12 modal-body well">
-                                                    <div class="col-sm-10 form-group quemodal">
-                                                        <div class="col-sm-2 text-center">
-                                                            <label>제목</label>
-                                                        </div>
-                                                            <input type="text" name="title" class="form-control" id="itemname" />
-                                                    </div> 
-                                                    <div class="col-sm-10 form-group quemodal">
-                                                        <div class="col-sm-2 text-center">
-                                                            <label>내용</label>
-                                                        </div>
-                                                            <textarea rows="7" name="contents" class="form-control" id="itemname" ></textarea>
-                                                    </div> 
-                                                    <div class="quescaution col-sm-12 col-sm-offset-1">
-                                                        <span><strong>문의 시 유의해주세요!</strong></span>
-                                                    </div>
-                                                    <div>
-                                                        <ul class="col-sm-10 col-sm-offset-1">
-                                                            <li>회원간 직거래로 발생하는 피해에 대해 행쇼는 책임지지 않습니다</li>
-                                                            <li>주민등록번호, 연락처 등의 정보는 타인에게 노출될 경우 개인정보 도용의 위험이 있으니 주의해 주시기 바랍니다</li>
-                                                            <li>비방, 광고, 불건전한 내용의 글은 관리자에 의해 사전 동의없이 삭제될 수 있습니다</li>
-                                                        </ul>
-                                                    </div>
-                                                    <hr />
-                                                
-                                                <div class="modal-footer col-sm-10">
-                                                    <button type="submit" class="btn btn-warning" data-dismiss="modal" id="registerok">등록</button>
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> 
-                                
-                                
-                                <button type="button" class="btn btn-default">내 문의하기</button>    
-                                <button type="button" class="btn btn-default">전체 문의하기</button>  
-                                </form>  
-                            </div>
-                        
+                     <div class="col-sm-6">
+	                     <form action="add.do" method="post">
+		                     <input type="hidden" name="productId" value="${param.productId }">
+		                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#questions">문의하기</button>
+	                         <div class="modal fade" id="questions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	                             <div class="modal-dialog" role="document">
+	                                 <div class="modal-content">
+	                                     <div class="modal-header">
+	                                         <h4 class="modal-title" id="exampleModalLongTitle"><strong>판매자에게 문의하기</strong></h4>
+	                                         <hr />
+	                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                                             <span aria-hidden="true">&times;</span>
+	                                         </button>
+	                                         <h5 class="text-center">상품,배송,취소/반품,A/S등의 문의를 남겨주시면 판매자가 직접 답변을 드립니다</h5>
+	                                     </div>
+	                                     <div class="col-sm-12 modal-body well">
+	                                         <div class="col-sm-10 form-group quemodal">
+	                                             <div class="col-sm-2 text-center">
+	                                                 <label>제목</label>
+	                                             </div>
+	                                                 <input type="text" name="title" class="form-control" id="itemname" />
+	                                         </div> 
+                                             <div class="col-sm-10 form-group quemodal">
+                                                 <div class="col-sm-2 text-center">
+                                                     <label>내용</label>
+                                                 </div>
+                                                     <textarea rows="7" name="question" class="form-control" id="itemname" ></textarea>
+                                             </div> 
+                                             <div class="quescaution col-sm-12 col-sm-offset-1">
+                                                 <span><strong>문의 시 유의해주세요!</strong></span>
+                                             </div>
+                                             <div>
+                                                 <ul class="col-sm-10 col-sm-offset-1">
+                                                     <li>회원간 직거래로 발생하는 피해에 대해 행쇼는 책임지지 않습니다</li>
+                                                     <li>주민등록번호, 연락처 등의 정보는 타인에게 노출될 경우 개인정보 도용의 위험이 있으니 주의해 주시기 바랍니다</li>
+                                                     <li>비방, 광고, 불건전한 내용의 글은 관리자에 의해 사전 동의없이 삭제될 수 있습니다</li>
+                                                 </ul>
+                                             </div>
+	                                             <hr />
+	                                         <div class="modal-footer col-sm-10">
+	                                             <button type="submit" class="btn btn-warning" id="registerok">등록</button>
+	                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+	                                         </div>
+	                                     </div>
+	                                 </div>
+	                             </div>
+	                         </div> 
+	                         <button type="button" class="btn btn-default">내 문의하기</button>    
+	                         <button type="button" class="btn btn-default">전체 문의하기</button>  
+	                     </form>  
+                     </div>  
                 </div>              
                 <hr />
                     <table class="table table-condensed qnaitems">
@@ -225,7 +211,7 @@
                         <c:forEach var="proque" items="${productque }">
                             <tr>
                                 <td scope="row">${proque.id }</td>
-                                <td><a href="#"><c:out value="${proque.title }"></c:out></a></td>
+                                <td class="on" id="questiontitle_${proque.id }"><a href="javascript:void(0);"><c:out value="${proque.title }"></c:out></a></td>
                                 <td>${proque.customer.username }</td>
                                 <td><fmt:formatDate value="${proque.createDate }" pattern="yyyy-MM-dd" /></td>
                             </tr>
@@ -234,19 +220,23 @@
                     </table>
                     <div class="text-center">
                     <ul class="pagination">
-                    	<li><a href="#">&lt;</a></li>
-                    	<li><a href="#">1</a></li>
-                    	<li><a href="#">2</a></li>
-                    	<li><a href="#">3</a></li>
-                    	<li><a href="#">4</a></li>
-                    	<li><a href="#">5</a></li>
-                    	<li><a href="#">&gt;</a></li>
+                    	<li><a href="javascript:void(0);">&lt;</a></li>
+                    	<li><a href="javascript:void(0);">1</a></li>
+                    	<li><a href="javascript:void(0);">2</a></li>
+                    	<li><a href="javascript:void(0);">3</a></li>
+                    	<li><a href="javascript:void(0);">4</a></li>
+                    	<li><a href="javascript:void(0);">5</a></li>
+                    	<li><a href="javascript:void(0);">&gt;</a></li>
                     </ul>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="messages">
+	            <div>
+	            	<img src="/resources/images/prodetails/afterbuyitems.PNG" width="100%" />
+	            	<img src="/resources/images/prodetails/afterbuyitems2.PNG" width="100%" />
+	            </div>
                 <div class="row">
-                    <table class="table table-condensed">
+                    <table class="table table-condensed" id="quesinitem">
                     <colgroup>
                         <col width="5%">
                         <col width="*">
@@ -277,34 +267,32 @@
                 </div>
                 <div class="text-center">
                     <ul class="pagination">
-                    	<li><a href="#">&lt;</a></li>
-                    	<li><a href="#">1</a></li>
-                    	<li><a href="#">2</a></li>
-                    	<li><a href="#">3</a></li>
-                    	<li><a href="#">4</a></li>
-                    	<li><a href="#">5</a></li>
-                    	<li><a href="#">&gt;</a></li>
+                    	<li><a href="javascript:void(0);">&lt;</a></li>
+                    	<li><a href="javascript:void(0);">1</a></li>
+                    	<li><a href="javascript:void(0);">2</a></li>
+                    	<li><a href="javascript:void(0);">3</a></li>
+                    	<li><a href="javascript:void(0);">4</a></li>
+                    	<li><a href="javascript:void(0);">5</a></li>
+                    	<li><a href="javascript:void(0);">&gt;</a></li>
                     </ul>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane text-center" id="settings">
                 <div class="btn-group btn-group-justified">
-                  <a href="#" class="btn btn-default"><strong>환불·교환</strong><span class="caret"></span></a>
-                  <a href="#" class="btn btn-default"><strong>상품고시</strong><span class="caret"></span></a>
+                  <a href="javascript:void(0);" class="btn btn-default"><strong>환불·교환</strong><span class="caret"></span></a>
+                  <a href="javascript:void(0);" class="btn btn-default"><strong>상품고시</strong><span class="caret"></span></a>
                 </div>
                 <h3><strong>지금 바로 마이페이지에서</strong></h3>
                 <h3><strong>클릭 한 번으로 간편하게 환불/교환하기</strong></h3>
-                <a href="#" class="btn btn-default"><strong>환불/교환 신청</strong><span class="glyphicon glyphicon-triangle-right"></span></a>
+                <a href="javascript:void(0);" class="btn btn-default"><strong>환불/교환 신청</strong><span class="glyphicon glyphicon-triangle-right"></span></a>
             </div>
-          </div>
-            
-    </div>
+			</div>
+		</div>
         <div class="line" id="scr">
             <div class="row">
                 <h4><strong>옵션선택</strong></h4>
             </div>
             <div class="row hei">
-
                 <select class="form-control nb">
                       <option>상품명</option>
                       <option>2</option>
@@ -332,7 +320,7 @@
             </div>
             <div class="row rig">
                 <div class="row nbs" id="top">
-                    <a href="#" class="btn btn-info" data-toggle="tooltip" title="맨위로"><span class="glyphicon glyphicon-triangle-top"></span></a>
+                    <a href="javascript:void(0);" class="btn btn-info" data-toggle="tooltip" title="맨위로"><span class="glyphicon glyphicon-triangle-top"></span></a>
                 </div>
                 <div class="row" id="bottom">
                     <a href="#scrollbottom" class="btn btn-info" data-toggle="tooltip" title="맨아래로"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
@@ -386,6 +374,40 @@ $(function() {
         }
      
  	})
+ 	$("tr").on('click', '.off',function(event){
+ 		console.log($(this));
+ 		var $tr = $(this).closest('tr');
+ 		$tr.next().remove();
+ 		$(this).removeClass('off');
+ 		$(this).addClass('on');
+ 	});
+ 	$("tr").on('click', '.on', function(event) {
+ 		event.preventDefault();
+ 		var $tr = $(this).closest('tr');
+ 		var $td = $(this);
+ 		id = $td.attr('id').replace("questiontitle_", "");
+ 		console.log(id);
+ 		if($td.attr('class') == 'on')
+ 			$.ajax({
+ 				type:"GET",
+ 				url:"getQueContent.do",
+ 				data:{id:id},
+ 				dataType:'json',
+ 				success:function(content) {
+ 					console.log(content);
+ 					var html = "<tr>";
+ 					html += "<td colspan='4'>"+content.question+"</td>";
+ 					html += "</tr>";
+ 					
+ 					$tr.after(html);
+ 				}
+ 			}).done(function(){
+ 				$td.removeClass('on');
+ 				$td.addClass('off');
+ 			});
+ 	});
+ 	
+ 	
 });
     
     

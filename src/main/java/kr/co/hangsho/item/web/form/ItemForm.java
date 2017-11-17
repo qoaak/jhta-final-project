@@ -4,54 +4,53 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ItemForm {
 
-	private String smallCategory;
-	private String productName;
-	private int originprice;
-	private int saleprice;
-	private int initialquantity;
-	private MultipartFile attachedImg;
+	private int smallCategory;
+	private String product;
+	private int originalPrice;
+	private int salePrice;
+	private int initialQuantity;
+	private MultipartFile imagefile;
 	
-	public String getSmallCategory() {
+	public int getSmallCategory() {
 		return smallCategory;
 	}
-	public void setSmallCategory(String smallCategory) {
+	public void setSmallCategory(int smallCategory) {
 		this.smallCategory = smallCategory;
 	}
-	public String getProductName() {
-		return productName;
+	public String getProduct() {
+		return product;
 	}
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProduct(String product) {
+		this.product = product;
 	}
-	public int getOriginprice() {
-		return originprice;
+	public int getOriginalPrice() {
+		return originalPrice;
 	}
-	public void setOriginprice(int originprice) {
-		this.originprice = originprice;
+	public void setOriginalPrice(int originalPrice) {
+		this.originalPrice = originalPrice;
 	}
-	public int getSaleprice() {
-		return saleprice;
+	public int getSalePrice() {
+		return salePrice;
 	}
-	public void setSaleprice(int saleprice) {
-		this.saleprice = saleprice;
+	public void setSalePrice(int salePrice) {
+		this.salePrice = salePrice;
 	}
-	public int getInitialquantity() {
-		return initialquantity;
+	public int getInitialQuantity() {
+		return initialQuantity;
 	}
-	public void setInitialquantity(int initialquantity) {
-		this.initialquantity = initialquantity;
+	public void setInitialQuantity(int initialQuantity) {
+		this.initialQuantity = initialQuantity;
 	}
-	public MultipartFile getAttachedImg() {
-		return attachedImg;
+	public MultipartFile getImagefile() {
+		return imagefile;
 	}
-	public void setAttachedImg(MultipartFile attachedImg) {
-		this.attachedImg = attachedImg;
+	public void setImagefile(MultipartFile imagefile) {
+		this.imagefile = imagefile;
 	}
 	@Override
 	public String toString() {
-		return "ItemForm [smallCategory=" + smallCategory + ", productName=" + productName + ", originprice="
-				+ originprice + ", saleprice=" + saleprice + ", initialquantity=" + initialquantity + ", imagefile="
-				+ attachedImg + "]";
+		return "ItemForm [smallCategory=" + smallCategory + ", product=" + product + ", originalPrice=" + originalPrice
+				+ ", salePrice=" + salePrice + ", initialQuantity=" + initialQuantity + ", imagefile=" + imagefile
+				+ "]";
 	}
-	
 }

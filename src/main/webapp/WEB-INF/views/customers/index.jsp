@@ -34,7 +34,7 @@
 				</div>
 
 
-				<h2>잘 담기는지 테스트</h2>
+				<h2>구매내역</h2>
 				<table border="1" class="custom-table2">
 					<colgroup>
 						<col width="170">
@@ -58,9 +58,12 @@
 										<th scope="rowgroup" rowspan="2" class="deal_info">
 											<div class="date_num">
 												<p class="dt">
-													<strong><fmt:formatDate value="${order.orderDate }" pattern="yyyy.MM.dd"/> </strong>
+													<strong><fmt:formatDate
+															value="${order.orderDate }" pattern="yyyy.MM.dd" /> </strong>
 												</p>
-												<i>(<fmt:formatDate value="${order.orderDate }" pattern="HH:mm:ss"/>)</i>
+												<i>(<fmt:formatDate value="${order.orderDate }"
+														pattern="HH:mm:ss" />)
+												</i>
 												<p class="buy_num">
 													<em class="txt">주문번호</em> <strong>${order.id }</strong>
 												</p>
@@ -68,7 +71,7 @@
 											<div class="payment">
 												<p>총 주문 금액</p>
 												<p class="won">
-													<em><fmt:formatNumber pattern=",###" >${order.price }</fmt:formatNumber></em><i>원</i>
+													<em><fmt:formatNumber pattern=",###">${order.price }</fmt:formatNumber></em><i>원</i>
 												</p>
 												<p class="coupon">
 													<i>티몬캐쉬·적립금 사용</i><em>0</em><em>원</em>
@@ -80,47 +83,67 @@
 												<a href="#" class="" onclick="">영수증 출력</a>
 											</div>
 										</th>
+
 										<th class="well">
-											<div class="thmb_area">
-												<a href="/deal/680182918?isHistory=Y" tl:area="PDCO"
-													tl:ord="1" target="blank"><img
-													src="https://img.tmon.co.kr/deals/2017/09/18/680182918/680182918_around_9de93_1505719727production.jpg"
-													width="106" height="71" alt="구매상품 썸네일" class="thmb">
-												</a>
-												<h4>
-													<a href="/deal/680182918?isHistory=Y" tl:area="PDCO"
-														tl:ord="1" target="blank">[슈퍼특가]단하루 아임닭꼬치 1+1 무배송</a>
-												</h4>
-												<p class="pay_info">
-													<span class="won"><em><fmt:formatNumber pattern=",###" >${order.price }</fmt:formatNumber></em>원</span>(${order.condition })
-												</p>
-											</div>
-											<p class="add_date_info">&nbsp;</p>
-											<p class="add_date_info">
-												배송완료일 : <strong>2017.09.20</strong>
-											</p>
-											<ul class="list-unstyled">
-												<li>
-												<c:forEach var="productDetail" items="${productDetails }">
-													<div class="text-left">
-														<div class="tit">
-															<strong>${productDetail.option }</strong>
-															<p>
-																(구매수량<em>1</em>개)
-															</p>
+										<% int oldPId = 0; %>
+										<c:set target="<%=oldPId %>"  var="pId" value="0" />
+											<c:forEach var="orderDetail" items="${order.orderDetails }">
+												<c:if test="${pId != orderDetail.item.product.id }">
+													<c:set target="<%=oldPId %>"  var="pId" value="${orderDetail.item.product.id  }" />
+													
+													<div class="product-list">
+														<div class="thmb_area">
+															<a href="/deal/680182918?isHistory=Y" tl:area="PDCO"
+																tl:ord="1" target="blank"><img
+																src="${orderDetail.item.product.image.path }"
+																width="106" height="71" alt="구매상품 썸네일" class="thmb">
+															</a>
+															<h4>
+																<a href="/deal/680182918?isHistory=Y" tl:area="PDCO"
+																	tl:ord="1" target="blank">${orderDetail.item.product.name }</a>
+															</h4>
+
 														</div>
+														<p class="add_date_info">&nbsp;</p>
+														<p class="add_date_info">
+															배송완료일 : <strong>2017.09.20</strong>
+														</p>
+														<ul class="list-unstyled">
+														
+														<%int productPriceSum = 0; %>
+															<c:forEach var="orderDetail"
+																	items="${order.orderDetails }">
+																	<c:if test="${orderDetail.item.product.id == pId }">
+																	<c:set var="sum" target="<%= productPriceSum %>" value="${sum + orderDetail.realPrice * orderDetail.orderQuantity}"  scope="page"/>
+															<li>
+																	<div class="text-left">
+																		<div class="tit">
+																			<strong>${orderDetail.item.options }</strong>
+																			<p>
+																				(구매수량<em>${orderDetail.orderQuantity}</em>개)
+																			</p>
+																		</div>
+																	</div>
+																</li>
+																
+																	</c:if>
+																</c:forEach>
+															<p class="pay_info">
+																<span class="won"><em><fmt:formatNumber
+																			pattern=",###">${sum}</fmt:formatNumber></em>원</span>(${order.condition })
+															</p>
+															<c:remove var="sum" scope="page"/>
+														</ul>
 													</div>
-												</c:forEach>
-												</li>
-											</ul>
-										</th>
+												</c:if>
+											</c:forEach>
+											 <c:remove var="pId" scope="page" /></th>
+											
 										<td class="expiry">
 											<p class="delivery_condition">
 												<strong>배송완료</strong> <a class="parcel"
 													href="javascript:pop_delivery_trace_self('1553184610','680182918','892247254','341025784653','CJ대한통운');">CJ대한통운<br>341025784653
-												</a> <span> <a
-													href="'#"
-													class="btn_delivery_trace" id="">배송추적</a>
+												</a> <span> <a href="'#" class="btn_delivery_trace" id="">배송추적</a>
 												</span>
 											</p>
 										</td>
@@ -146,13 +169,18 @@
 										<td colspan="3" class=" delivery"><span title=""
 											class="adr">
 												<p class="addr">
-													<em>배송지 정보 : </em><span>롬새, (01316)서울시 종로구</span>
+													<em>배송지 정보 : </em><span>${order.receiver }, (${order.delivery.postalCode }) ${order.delivery.mainAddress } </span>
 												</p>
-												<p class="etc">[도로명주소] 서울시 종로구</p>
+												<p class="etc">${order.delivery.detailAddress }</p>
 										</span></td>
 									</tr>
+
+
+
+
+
 								</c:forEach>
-								</c:when>
+						</c:when>
 						<c:otherwise>
 							<tbody>
 								<tr>
@@ -171,8 +199,10 @@
 			</div>
 		</div>
 	</div>
-				<br/><br/><br/>
-	
+	<br />
+	<br />
+	<br />
+
 	<%@ include file="/WEB-INF/views/inc/footer.jsp"%>
 </body>
 <script>

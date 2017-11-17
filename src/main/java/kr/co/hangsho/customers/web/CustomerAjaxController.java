@@ -1,7 +1,10 @@
 package kr.co.hangsho.customers.web;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,19 +24,15 @@ public class CustomerAjaxController {
 	@RequestMapping("/pwdcheck.do")
 	public @ResponseBody String pwdCheck(String pwd, HttpSession session) {
 		String checked = "false";
-		if("asdf".equals(pwd))
-//			checked.setChecked(true);
-			checked = "true";
-		/*
-		 * Customer customer = (Customer) session.getAttribute("LOGIN_USER");
-		 * if(pwd.equals())		// pwd  --> sha256으로
-		 * {
-		 *  PwdCheckResult pcr = new  PwdCheckResult();
-		 *  pcr.checked = true;
-		 * }
-		*/
-			
-			return checked;
+		  Customer customer =  (Customer) ((Map)session.getAttribute("LOGIN_INFO")).get("LOGIN_USER");
+		  pwd = DigestUtils.sha256Hex(pwd);
+		  if(pwd.equals(customer.getPassword()))		// pwd  --> sha256으로
+		  {
+			  checked = "true";
+		 } else {
+			 checked="false";
+		 }
+		  return checked;
 	}
 	
 	@RequestMapping("/nicknamecheck.do")

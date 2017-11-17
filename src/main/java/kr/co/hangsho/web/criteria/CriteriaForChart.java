@@ -1,11 +1,10 @@
 package kr.co.hangsho.web.criteria;
 
-import java.util.Date;
 
 public class CriteriaForChart {
 	
 	private int itemId;
-	private Date selectDate;
+	private String selectDate;
 	
 	public int getItemId() {
 		return itemId;
@@ -13,10 +12,11 @@ public class CriteriaForChart {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public Date getSelectDate() {
+	
+	public String getSelectDate() {
 		return selectDate;
 	}
-	public void setSelectDate(Date selectDate) {
+	public void setSelectDate(String selectDate) {
 		this.selectDate = selectDate;
 	}
 	@Override

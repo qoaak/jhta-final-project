@@ -9,6 +9,7 @@ body{font: 13px/1.4 malgungothic,"맑은고딕",dotum,"돋움",gulim,"굴림",sa
 del{color:#aaa;margin-left: 2px;}
 a.btn{color:#fff !important;}
 a.btn-default{color:#000 !important;}
+.active a{color:#fff !important;}
 
 #header{border-bottom: 1px solid #5bc0de;}
 .box_util{background-color: #5bc0de;height:35px;}

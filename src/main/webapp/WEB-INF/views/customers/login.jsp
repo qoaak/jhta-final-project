@@ -9,7 +9,7 @@
 	<div class="container">
         <img src="/resources/images/daum.png" alt="" class="center-block">
         <div class="col-md-6 col-md-offset-3">
-            <form action="logincheck.do" method="post">
+            <form action="logincheck.do?returnUrl=${param.returnUrl }" method="post">
                 <div class="form-group">
                     <input type="text" name="username" class="form-control" placeholder="아이디(이메일)" id="username-input">
                 </div>

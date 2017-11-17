@@ -16,63 +16,36 @@
 		insert into product_details
 		(item_id, item_option, initial_quantity, saled_quantity, product_id, item_sale_price, item_original_price, image_id)
 		values
-		(${itemId}, ${"itemOption"}, ${initialQuantity}, ${saledQuantity}, ${"product.productName"}, ${salePrice}, ${originPrice}, ${"mainImage.imageId"})
+		(#{id}, #{options}, #{initialQuantity}, #{saledQuantity}, #{"product.id"}, #{salePrice}, #{originalPrice}, #{"image.id"})
 	</insert>
-
 	
-	
-	
-	<select id="getItemDetail" parameterType="int" resultType="Item">
-		SELECT 
-			B.BIG_CATEGORY_ID, 
-			B.BIG_CATEGORY_NAME,
-			M.MIDDLE_CATEGORY_ID,
-			M.MIDDLE_CATEGORY_NAME,
-			S.SMALL_CATEGORY_ID,
-			S.SMALL_CATEGORY_NAME,
-			P.PRODUCT_ID,
-			P.SMALL_CATEGORY_ID,
-			P.DELIVERY_FEE,
-			P.PRODUCT_DESCRIPTION,
-			P.PRODUCT_CLICKED,
-			P.COMPANY_ID,
-			P.IMAGE_ID,
-			P.DISCOUNT_RATIO,
-			P.PRODUCT_NAME,
-			P.PRODUCT_SHOW,
-			I.IMAGE_ID,
-			I.IMAGE_PATH,
-			C.COMPANY_ID,
-			C.COMPANY_NAME,
-			C.COMPANY_ADDRESS,
-			C.COMPANY_EMAIL,
-			C.COMPANY_USERNAME
-			D.ITEM_ID,
-			D.ITEM_OPTION,
-			D.ITEM_ORIGINAL_PRICE,
-			D.ITEM_SALE_PRICE,
-			D.PRODUCT_ID,
-			D.INITIAL_QUANTITY,
-			D.SALED_QUANTITY,
-			D.IMAGE_ID
-		FROM 
-			BIG_CATEGORIES B, MIDDLE_CATEGORIES M, SMALL_CATEGORIES S, PRODUCTS P, IMAGES I, COMPANIES C, ITEMS D
-		WHERE 
-			B.BIG_CATEGORY_ID = M.BIG_CATEGORY_ID
-		AND 
-			M.MIDDLE_CATEGORY_ID = S.MIDDLE_CATEGORY_ID
-		AND 
-			P.SMALL_CATEGORY_ID = S.SMALL_CATEGORY_ID
-		AND 
-			P.IMAGE_ID = I.IMAGE_ID
-		AND
-			P.COMPANY_ID = C.COMPANY_ID
-		AND
-			D.ITEM_ID = P.PRODUCT_ID
-		AND
-			
-		ORDER BY
-			P.PRODUCT_ID ASC
+	<select id="getItems" parameterType="Criteria" resultType="Item">
+		select
+			I.item_id				as id,
+			I.item_option			as options,
+			I.initial_quantity	as initialQuantity,
+			I.saled_quantity		as saledQuantity,
+			P.product_name			as "product.name",
+			I.item_original_price	as originalPrice,
+			I.item_sale_price		as salePrice,
+			I.image_id			as image,
+			I.item_createdate		as createdate,
+			C.company_name		as "product.company.name"
+		from
+			items I, products P, companies C
+		where
+			I.product_id = P.product_id
+			and P.company_id = C.company_id
+			<if test="keyword != ''">
+				<choose>
+					<when test="opt == 'title'">
+						and P.product_name like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt == 'seller'">
+						and C.company_name like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
 	</select>
 	
 	<select id="getItemByProductNo" parameterType="int" resultType="Item">
@@ -90,7 +63,7 @@
 			items
 		where
 			item_id = #{value}
-			
 	</select>
+	
 	
 </mapper>

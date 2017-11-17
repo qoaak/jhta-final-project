@@ -43,6 +43,11 @@ public class Customer {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public void setUsernameSubstring(String username) {
+		this.username = username.substring(0, username.indexOf("@"));
+	}
+	
 	public String getPassword() {
 		return password;
 	}

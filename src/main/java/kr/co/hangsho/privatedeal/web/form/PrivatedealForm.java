@@ -6,7 +6,7 @@ public class PrivatedealForm {
 	private int bigcategory;
 	private int middlecategory;
 	private int smallcategory;
-	private int desiredprice;
+	private Integer desiredprice;
 	private String title;
 	private String editor;
 	
@@ -34,10 +34,10 @@ public class PrivatedealForm {
 	public void setSmallcategory(int smallcategory) {
 		this.smallcategory = smallcategory;
 	}
-	public int getDesiredprice() {
+	public Integer getDesiredprice() {
 		return desiredprice;
 	}
-	public void setDesiredprice(int desiredprice) {
+	public void setDesiredprice(Integer desiredprice) {
 		this.desiredprice = desiredprice;
 	}
 	public String getTitle() {

@@ -41,8 +41,7 @@
 				where
 					A.order_id = B.order_id
 					and B.item_id = C.item_id
-					and A.order_date &lt;= #{selectDate}
-					and A.order_date &gt;= #{selectDate} + 1
+					and to_char(order_date, 'yyyy-MM-dd') = #{selectDate}
 					and B.item_id = #{itemId})
 
 </select>

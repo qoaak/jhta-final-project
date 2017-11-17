@@ -32,13 +32,13 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Order getOrderById(int id) {
-		// TODO Auto-generated method stub
+		
 		return orderMapper.getOrder(id);
 	}
 
 	@Override
 	public List<Order> getOrdersByCustomer(Customer customer) {
-		// TODO Auto-generated method stub
+		
 		return orderMapper.getOrdersByCustomer(customer);
 	}
 

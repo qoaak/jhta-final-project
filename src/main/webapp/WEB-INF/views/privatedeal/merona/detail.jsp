@@ -8,36 +8,54 @@
 	 <div class="container-fluid">           
         <div class="container-fluid">           
             <div class="container">
+            	<%@ include file="/WEB-INF/views/inc/detailcategory.jsp" %> 
                 <h3>올때 메로나</h3>
-          		<table class="table table-condensed">          			
+          		<table class="table table-condensed">
+          			<colgroup>
+          				<col width="8%">
+          				<col width="8%">
+          				<col width="8%">
+          				<col width="10%">
+          				<col width="8%">
+          				<col width="8%">
+          				<col width="8%">
+          				<col width="8%">
+          				<col width="8%">
+          				<col width="*">
+          				<col width="8%">
+          				<col width="8%">
+          			</colgroup>          			
           			<tbody>
           				<tr>
-          					<td colspan="11">12월 1일 ~ 12월 12일 유럽</td>
-          					<td>2017-11-09</td>
+          					<td colspan="10" style="padding-left:25px;"><c:out value="${merona.title }" /></td>
+          					<td colspan="2"><fmt:formatDate value="${merona.createdate }" pattern="yyyy-MM-dd HH:mm"/></td>
           				</tr>
           				<tr class="detailinfo">
           					<th>아이디</th>
-          					<td>ldfd325</td>
-          					<th>이름</th>
-          					<td>홍길동</td>
+          					<td><c:out value="${merona.customer.username }" /></td>
+          					<th>닉네임</th>
+          					<td><c:out value="${merona.customer.nickname }"></c:out></td>
           					<th>구분</th>
-          					<td>판매</td>
+          					<td>${merona.division.name }</td>
           					<th>상태</th>
-          					<td>거래중</td>
+          					<td>${merona.status.name }</td>
           					<th>희망가격</th>
-          					<td>17,900</td>
+          					<c:choose>
+          						<c:when test="${not empty merona.desiredprice }">
+          							<td><fmt:formatNumber value="${merona.desiredprice }" pattern="#,###" />원</td>	
+          						</c:when>
+          						<c:otherwise>
+          							<td>없음</td>
+          						</c:otherwise>
+          					</c:choose>
+          					
           					<th>조회수</th>
-          					<td>10</td>
+          					<td>${merona.clicked }</td>
           				</tr>
           			</tbody>
           		</table>
-          		<div class="row contents">
-          			세부내용
-          			세부내용
-          			세부내용
-          			세부내용
-          			세부내용
-          			세부내용
+          		<div class="row contents well">
+          			${merona.contents }
           		</div>
           		<div class="btnlist">
           			<div class="text-center">
@@ -55,7 +73,7 @@
 	          		</div>
           		</div>		
 
-          		<div class="row comments">
+          		<div class="row comments well">
           			<span>댓글 </span><em>0</em>
           			<div class="commentslist">
           				<div>
@@ -68,8 +86,10 @@
           				</div>
           				<div class="reply">
           					<form action="" method="post" class="form-inline">
-          						└ <textarea name="" class="form-control"></textarea>
-          						<button type="submit" class="btn btn-info">등록</button>
+          						<div class="form-group">
+	          						└ <textarea name="" class="form-control"></textarea>          						
+          						</div>
+	          					<button type="submit" class="btn btn-info btn-lg">등록</button>
           					</form>
           				</div>
           				<div>
@@ -82,8 +102,10 @@
           				</div>
           				<div class="comment">
 	      					<form action="" method="post" class="form-inline">
-	      						<textarea name="" class="form-control"></textarea>
-	      						<button type="submit" class="btn btn-info">등록</button>
+	      						<div class="form-group">
+	      							<textarea name="" class="form-control"></textarea>
+	      						</div>	      						
+      							<button type="submit" class="btn btn-info btn-lg">등록</button>
 	      					</form>
 	      				</div>         				
           			</div>          			

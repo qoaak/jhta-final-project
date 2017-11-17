@@ -29,7 +29,7 @@ public class ProductQueServiceImpl implements ProductQueService {
 	}
 	
 	@Override
-	public ProductQue getProductQueDetail(int id) {
+	public ProductQue getProductQueContent(int id) {
 		return productQueMapper.getProductQueById(id);
 	}
 	

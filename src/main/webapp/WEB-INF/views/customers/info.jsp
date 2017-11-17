@@ -33,11 +33,11 @@
 	           		<form action="info-update.do" method="post">
 	           			<div class="form-group">
 	           				<label>이름</label>
-	           				<input type="text" name="name" class="form-control"/>
+	           				<input type="text" name="name" class="form-control" value="${ LOGIN_INFO.LOGIN_USER.name}"/>
 	           			</div>
 	           			<div class="form-group">
 	           				<label>아이디(이메일)</label>
-	           				<input type="text" name="email" disabled="disabled" class="form-control"/>
+	           				<input type="text" name="email" disabled="disabled" class="form-control" value="${ LOGIN_INFO.LOGIN_USER.username}"/>
 	           			</div>
 	           			<div class="form-group">
 	           				<label>새 비밀번호</label>
@@ -49,7 +49,7 @@
 	           			</div>
 	           			<div class="form-group">
 	           				<label>연락처</label>
-	           				<input type="text" name="phoneNumber" class="form-control"/>
+	           				<input type="text" name="phoneNumber" class="form-control" value="${ LOGIN_INFO.LOGIN_USER.phonenumber}"/>
 	           			</div>
 	           			<div class="form-group">
 	           				<button type="submit" class="btn btn-md btn-primary">수정</button>
@@ -78,7 +78,6 @@ $(function(){
 				if(result == "true" ){
 				$('#pwd-check-form').hide();
 				$('#info-modify-form').show();
-					
 				} else {
 					alert("비밀번호를 확인하십시오.");
 				}

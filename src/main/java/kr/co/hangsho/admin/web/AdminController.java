@@ -30,10 +30,10 @@ public class AdminController {
 		return "admin/prolist";
 	}
 	
-	@RequestMapping("/allearning.do")
+	@RequestMapping("/proearning.do")
 	public String allearning(Criteria criteria, Model model) {
-			model.addAttribute("products", adminService.getProducts(criteria));
-		return "admin/allearning";
+			model.addAttribute("items", adminService.getItems(criteria));
+		return "admin/proearning";
 	}
 	
 	@RequestMapping("/memberlist.do")

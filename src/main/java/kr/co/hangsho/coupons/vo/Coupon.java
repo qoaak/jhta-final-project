@@ -10,7 +10,7 @@ public class Coupon {
 	private boolean used;
 	private int discountPrice;
 	private Date expireDate;
-	private Customer customerId;
+	private Customer customer;
 	
 	public int getId() {
 		return id;
@@ -36,17 +36,19 @@ public class Coupon {
 	public void setExpireDate(Date expireDate) {
 		this.expireDate = expireDate;
 	}
-	public Customer getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
-	public void setCustomerId(Customer customerId) {
-		this.customerId = customerId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
+	
 	@Override
 	public String toString() {
 		return "Coupon [id=" + id + ", used=" + used + ", discountPrice=" + discountPrice + ", expireDate=" + expireDate
-				+ ", customerId=" + customerId + "]";
+				+ ", customer=" + customer + "]";
 	}
+	
 	
 	
 }

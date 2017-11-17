@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.hangsho.privatedeal.mappers.PrivatedealMapper;
 import kr.co.hangsho.privatedeal.vo.Privatedeal;
+import kr.co.hangsho.web.criteria.Criteria;
 
 @Service
 public class PrivatedealServiceImpl implements PrivatedealService {
@@ -20,9 +21,19 @@ public class PrivatedealServiceImpl implements PrivatedealService {
 	}
 
 	@Override
-	public List<Privatedeal> getMeronaList() {
+	public List<Privatedeal> getMeronaList(Criteria criteria) {
 		
-		return privatedealMapper.getMeronaList();		
+		return privatedealMapper.getPrivateDeals(criteria);		
+	}
+
+	@Override
+	public int getTotalRows(Criteria criteria) {
+		return privatedealMapper.getTotalRows(criteria);
+	}
+
+	@Override
+	public Privatedeal getMeronaByNo(int no) {		
+		return privatedealMapper.getBoardByNo(no);
 	}	
 	
 }

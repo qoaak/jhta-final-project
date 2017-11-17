@@ -31,7 +31,13 @@ public class FormController {
 	PrivatedealService privatedealService;
 	
 	@RequestMapping("/meronaform.do")
-	public String meronaform() {
+	public String meronaform(HttpSession httpSession) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		if(loginInfo == null) {
+			return "redirect:/customers/login.do?error=deny"; 
+		}
+		
 		return "/privatedeal/merona/form";
 	}
 	

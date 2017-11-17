@@ -2,6 +2,7 @@ package kr.co.hangsho.products.web;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import kr.co.hangsho.images.vo.Image;
 import kr.co.hangsho.products.service.ProductService;
 import kr.co.hangsho.products.vo.Product;
 import kr.co.hangsho.products.web.form.ProductForm;
+import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
 @RequestMapping("/product")
@@ -36,9 +38,6 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
-	
-	@Autowired
-	private ImageService imageService;
 	
 	@RequestMapping("/form.do")
 	public String form() {
@@ -74,19 +73,28 @@ public class ProductController {
 		
 		productService.addNewProduct(products);
 		
-		
 		return "redirect:list.do";
 	}
 
 	@RequestMapping("/list.do")
-	public String productList(HttpSession httpSession, Model model) {
+	public String productList(HttpSession httpSession, Model model, Criteria criteria) {
 		
 		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
-		
+		if (loginInfo == null) {
+			return "redirect:../customers/login.do"; 	
+		}
 		Company company = (Company) loginInfo.get("LOGIN_USER");
-		int companyNo = company.getId();
-		List<Product> products = productService.getProductsByComId(companyNo);
 		
+		int companyNo = company.getId();
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("criteria", criteria);
+		searchMap.put("companyId", companyNo);
+		
+		int totalRows= productService.getTotalRowsByCriteria(searchMap);
+		criteria.setTotalRows(totalRows);
+		model.addAttribute("criteria", criteria);
+		List<Product> products = productService.getProductsByComId(searchMap);
 		model.addAttribute("products", products);
 		
 		return "/products/list";

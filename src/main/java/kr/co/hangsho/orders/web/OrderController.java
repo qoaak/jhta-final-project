@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.co.hangsho.coupons.service.CouponService;
 import kr.co.hangsho.customers.services.CustomerService;
 import kr.co.hangsho.customers.vo.Customer;
 import kr.co.hangsho.images.service.ImageService;
@@ -31,6 +32,8 @@ public class OrderController {
 	private ItemService itemService;
 	@Autowired
 	private ImageService imageService;
+	@Autowired
+	private CouponService couponService;
 
 	@RequestMapping("/orderPage.do")
 	public String orderPage(Model model) {
@@ -38,8 +41,6 @@ public class OrderController {
 		Customer customer = new Customer();
 		customer.setId(8);
 		model.addAttribute("getCustomerByNo", customerService.getCustomerByNo(customer.getId()));
-		
-		
 		
 		Product product = new Product();
 		product.setId(1);
@@ -52,10 +53,8 @@ public class OrderController {
 		Image image = new Image();
 		image.setId(11);
 		model.addAttribute("getImage", imageService.getImageByNo(image.getId()));
-		//List<> aa =  xxxService.getDeliveryByUserId();
-		//model.addAttribute("aa", aa);
-
-//		model.addAttribute("orders", orderService.getAllOrders());
+		
+		model.addAttribute("getCoupon", couponService.getCouponByCustomerId(customer.getId()));
 		
 		
 		

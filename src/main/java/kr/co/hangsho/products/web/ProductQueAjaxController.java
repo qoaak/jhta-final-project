@@ -7,23 +7,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.hangsho.products.service.ProductQueService;
 import kr.co.hangsho.products.vo.ProductQue;
-import kr.co.hangsho.products.web.form.ProductQueForm;
 
 @Controller
 public class ProductQueAjaxController {
 
 	@Autowired
-	ProductQueService productQueService;
+	private ProductQueService productQueService;
 	
-	@RequestMapping("/productque/addd.do")
+	// 상품문의 제목 하나 당 나오는 내용
+	@RequestMapping("/productque/getQueContent.do")
 	@ResponseBody
-	public ProductQue addQue(ProductQueForm productQueForm) {
-		ProductQue productQue = new ProductQue();
-		productQue.setTitle(productQueForm.getTitle());
-		productQue.setQuestion(productQueForm.getQuestion());
-		
-		productQueService.addProductQue(productQue);
-		
+	public ProductQue getProductQueContent(int id) {
+		ProductQue productQue = productQueService.getProductQueContent(id);
 		return productQue;
 	}
 }

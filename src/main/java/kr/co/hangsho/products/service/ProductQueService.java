@@ -9,5 +9,5 @@ public interface ProductQueService {
 
 	void addProductQue(ProductQue productQue);
 	List<ProductQue> getAllProductQues();
-	ProductQue getProductQueDetail(int id);
+	ProductQue getProductQueContent(int id);
 }

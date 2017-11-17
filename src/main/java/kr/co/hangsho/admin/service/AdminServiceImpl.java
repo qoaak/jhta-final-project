@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import kr.co.hangsho.categories.mappers.CategoryMapper;
 import kr.co.hangsho.categories.vo.SmallCategory;
+import kr.co.hangsho.item.mappers.ItemMapper;
+import kr.co.hangsho.item.vo.Item;
 import kr.co.hangsho.products.mappers.ProductMapper;
 import kr.co.hangsho.products.vo.Product;
 import kr.co.hangsho.web.criteria.Criteria;
@@ -20,6 +22,9 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	CategoryMapper categoryMapper;
 	
+	@Autowired
+	ItemMapper itemMapper;
+	
 	@Override
 	public List<Product> getProducts(Criteria criteria) {
 		List<Product> products = productMapper.getProductsForAdmin(criteria);
@@ -31,6 +36,13 @@ public class AdminServiceImpl implements AdminService {
 		
 		return products;
 	}
+
+	@Override
+	public List<Item> getItems(Criteria criteria) {
+		return itemMapper.getItems(criteria);
+	}
+	
+
 	
 
 }

@@ -10,7 +10,6 @@ public class Delivery {
 	private Customer customer;
 	private String postalCode;
 	private String detailAddress;
-	private String receiver;
 	
 	public int getId() {
 		return id;
@@ -49,16 +48,10 @@ public class Delivery {
 	public void setDetailAddress(String detailAddress) {
 		this.detailAddress = detailAddress;
 	}
-	public String getReceiver() {
-		return receiver;
-	}
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
-	}
 	@Override
 	public String toString() {
 		return "Delivery [id=" + id + ", mainAddress=" + mainAddress + ", title=" + title + ", customer=" + customer
-				+ ", postalCode=" + postalCode + ", detailAddress=" + detailAddress + ", receiver=" + receiver + "]";
+				+ ", postalCode=" + postalCode + ", detailAddress=" + detailAddress + "]";
 	}
 
 	

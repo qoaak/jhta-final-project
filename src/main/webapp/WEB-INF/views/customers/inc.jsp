@@ -5,7 +5,7 @@
 			<div class="thumnail">
 				<img src="/resources/images/tmon.png" width="30%" />
 			</div>
-			 <h2><strong>Thor</strong> 님의 마이페이지</h2>
+			 <h2><strong>${LOGIN_INFO.LOGIN_USER.nickname }</strong> 님의 마이페이지</h2>
 		</div>
 		<table class="table table-bordered">
 			<tbody>
@@ -17,8 +17,26 @@
 							</h3>
 						</div>
 						<div style="margin-top: 22px">
-							<strong>Thor</strong>님의 티몬멤버십 등급은 <strong
-								style="color: darkorange">The First</strong>입니다
+							<strong>${LOGIN_INFO.LOGIN_USER.nickname }</strong>님의 티몬멤버십 등급은 <strong
+								style="color: darkorange">
+								<c:choose>
+									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'S'}">
+										Silver										
+									</c:when>
+									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'G'}">
+										Gold										
+									</c:when>
+									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'V'}">
+										VIP										
+									</c:when>
+									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'VV'}">
+										VVIP										
+									</c:when>
+									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'TF'}">
+										The First										
+									</c:when>
+								</c:choose>
+								</strong>입니다
 						</div>
 					</td>
 				</tr>
@@ -33,7 +51,7 @@
 						<p>
 							<strong>티몬캐쉬/적립금</strong>
 						</p>
-						<p>20,000원</p>
+						<p><fmt:formatNumber pattern=",###">${LOGIN_INFO.LOGIN_USER.point}</fmt:formatNumber>원</p>
 					</td>
 					<td>
 						<p>

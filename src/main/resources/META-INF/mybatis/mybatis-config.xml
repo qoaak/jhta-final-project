@@ -8,7 +8,8 @@
 	<typeAliases>
 		<typeAlias type="kr.co.hangsho.customers.vo.Customer"/>
 		<typeAlias alias="Product" type="kr.co.hangsho.products.vo.Product"/>
-		<typeAlias type="kr.co.hangsho.orders.vo.Order"/>
+		<typeAlias alias="Order" type="kr.co.hangsho.orders.vo.Order"/>
+		<typeAlias alias="Coupon" type="kr.co.hangsho.coupons.vo.Coupon"/>
 		<typeAlias alias="Company" type="kr.co.hangsho.company.vo.Company"/>
 		<typeAlias alias="Item" type="kr.co.hangsho.item.vo.Item"/>
 		<typeAlias alias="SmallCategory" type="kr.co.hangsho.categories.vo.SmallCategory"/>
@@ -20,11 +21,12 @@
 		<typeAlias alias="Privatedeal" type="kr.co.hangsho.privatedeal.vo.Privatedeal"/>
 		<typeAlias alias="Image" type="kr.co.hangsho.images.vo.Image"/>
 		<typeAlias alias="DailyChart" type="kr.co.hangsho.charts.vo.DailyChart"/>
-		<typeAlias alias="CriteriaForChart" type="kr.co.hangsho.web.criteria.CriteriaForChart"/>		
+		<typeAlias alias="CriteriaForChart" type="kr.co.hangsho.web.criteria.CriteriaForChart"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="META-INF/mybatis/mappers/customer.xml" />
+		<mapper resource="META-INF/mybatis/mappers/coupon.xml" />
 		<mapper resource="META-INF/mybatis/mappers/product.xml" />
 		<mapper resource="META-INF/mybatis/mappers/order.xml" />
 		<mapper resource="META-INF/mybatis/mappers/company.xml" />

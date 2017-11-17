@@ -17,9 +17,9 @@ public class Privatedeal {
 	private Customer customer;	
 	private Code division;	
 	private SmallCategory smallcategory;
-	private int desiredprice;
+	private Integer desiredprice;
 	private String title;
-	private String editor;
+	private String contents;
 	
 	public int getId() {
 		return id;
@@ -75,10 +75,10 @@ public class Privatedeal {
 	public void setSmallcategory(SmallCategory smallcategory) {
 		this.smallcategory = smallcategory;
 	}
-	public int getDesiredprice() {
+	public Integer getDesiredprice() {
 		return desiredprice;
 	}
-	public void setDesiredprice(int desiredprice) {
+	public void setDesiredprice(Integer desiredprice) {
 		this.desiredprice = desiredprice;
 	}
 	public String getTitle() {
@@ -86,12 +86,12 @@ public class Privatedeal {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}	
+	public String getContents() {
+		return contents;
 	}
-	public String getEditor() {
-		return editor;
-	}
-	public void setEditor(String editor) {
-		this.editor = editor;
+	public void setContents(String contents) {
+		this.contents = contents;
 	}
 	
 	@Override
@@ -99,6 +99,6 @@ public class Privatedeal {
 		return "Privatedeal [id=" + id + ", createdate=" + createdate + ", status=" + status + ", deleted=" + deleted
 				+ ", clicked=" + clicked + ", type=" + type + ", customer=" + customer + ", division=" + division
 				+ ", smallcategory=" + smallcategory + ", desiredprice=" + desiredprice + ", title=" + title
-				+ ", editor=" + editor + "]";
+				+ ", editor=" + contents + "]";
 	}	
 }

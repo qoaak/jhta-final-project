@@ -142,6 +142,11 @@
     			$("#error-message-box").show();
     			return false;
     		}
+    		if (!$.trim($("#imagefile").val())) {
+    			$("#error-message").text("그림파일을 업로드해 주세요.");
+    			$("#error-message-box").show();
+    			return false;
+    		}
     		return true;
     	});
     	

@@ -1,11 +1,13 @@
 package kr.co.hangsho.products.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import kr.co.hangsho.categories.vo.SmallCategory;
 import kr.co.hangsho.company.vo.Company;
 import kr.co.hangsho.images.vo.Image;
+import kr.co.hangsho.orders.vo.OrderDetail;
 
 public class Product {
 	

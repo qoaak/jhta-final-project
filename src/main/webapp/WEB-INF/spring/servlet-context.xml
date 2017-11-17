@@ -18,22 +18,63 @@
 			<ref bean="loginCheckerInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
 
 	<bean id="loginCheckerInterceptor" class="kr.co.hangsho.web.interceptor.LoginCheckInterceptor">
-		<property name="urlSets" ref="urlSets"></property>
+		<property name="urlSets" ref="urlSet"></property>
 	</bean>
-
-	<util:set id="urlSets">
+	
+	<util:set id="urlSet">
 		<value>/index.do</value>
 		<value>/customers/login.do</value>
+		<value>/customers/logout.do</value>
+		<value>/customers/logincheck.do</value>
 		<value>/customers/register.do</value>
-		<value>/customers/index.do</value>
+		<value>/merona/index.do</value>
+		<value>/merona/detail.do</value>
 	</util:set>
 
+
 	<util:map id="imagePathMap">
+		<!-- 식품 -->
 		<entry key="111" value="/resources/images/food/fruits/domestic/"/>
 		<entry key="112" value="/resources/images/food/fruits/imported/"/>
 		<entry key="113" value="/resources/images/food/fruits/iced/"/>
+		
+		<entry key="121" value="/resources/images/food/vegetable/cabbage/"/>
+		<entry key="122" value="/resources/images/food/vegetable/herb/"/>
+		<entry key="123" value="/resources/images/food/vegetable/salad/"/>
+
+		<entry key="131" value="/resources/images/food/meat/pork/"/>
+		<entry key="132" value="/resources/images/food/meat/beef/"/>
+		<entry key="133" value="/resources/images/food/meat/chicken/"/>
+	
+		<!-- 패션 -->
+		<entry key="211" value="/resources/images/fashion/womanclothes/domestic/"/>
+		<entry key="212" value="/resources/images/fashion/womanclothes/imported/"/>
+		<entry key="213" value="/resources/images/fashion/womanclothes/iced/"/>
+
+		<entry key="221" value="/resources/images/fashion/manclothes/shirts/"/>
+		<entry key="222" value="/resources/images/fashion/manclothes/pants/"/>
+		<entry key="223" value="/resources/images/fashion/manclothes/skirt/"/>
+
+		<entry key="231" value="/resources/images/fashion/bag/shirts/"/>
+		<entry key="232" value="/resources/images/fashion/bag/pants/"/>
+		<entry key="233" value="/resources/images/fashion/bag/suits/"/>
+		
+		<!-- 가전 -->
+		<entry key="311" value="/resources/images/appliance/kitchen/pot/"/>
+		<entry key="312" value="/resources/images/appliance/kitchen/oven/"/>
+		<entry key="313" value="/resources/images/appliance/kitchen/coffee/"/>
+
+		<entry key="321" value="/resources/images/appliance/life/vaccum/"/>
+		<entry key="322" value="/resources/images/appliance/life/telephone/"/>
+		<entry key="323" value="/resources/images/appliance/life/stand/"/>
+
+		<entry key="331" value="/resources/images/appliance/health/massage/"/>
+		<entry key="332" value="/resources/images/appliance/health/skin/"/>
+		<entry key="333" value="/resources/images/appliance/health/bidet/"/>
+	
 	</util:map>
 	
 	<util:set id="urlSets">
