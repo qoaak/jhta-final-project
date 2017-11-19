@@ -167,13 +167,35 @@ public class CustomerController {
 	}
 
 	@RequestMapping("/info-update.do")
-	public String infoEdit(InfoForm infoForm) {
+	public String infoEdit(InfoForm infoForm, HttpSession session) {
 		// infoForm에는 name, password, passwordCheck, phoneNumber만이 담겨있다.
 		// 아이디 정보는 session에서 가져오면 되며, infoForm에 아이디를 담지 않음으로써
 		// 사용자가 인위적으로 아이디를 form에 입력하여 전송해도 서버에서 처리하지 않기때문에
 		// 악의적인 사용자에 의해 데이터베이스의 구성이 바뀔 일이 없다.
-		System.out.println(infoForm);
-		return "redirect:/customers/index.do";
+		Map loginInfo = (Map) session.getAttribute("LOGIN_INFO");
+		Customer loginUser = (Customer) loginInfo.get("LOGIN_USER");
+		Customer customer = new Customer();
+		customer.setId(loginUser.getId());
+		BeanUtils.copyProperties(infoForm, customer);
+		String additionalQuery = "";
+		if(infoForm.getPassword() != null && infoForm.getPasswordCheck() != null) {
+			if(infoForm.getPassword().equals(infoForm.getPasswordCheck())) {
+				customerService.updateCustomerInfo(customer);
+				additionalQuery = "?infoUpdate=T";
+				customer = customerService.getCustomerByNo(customer.getId());
+				loginInfo.replace("LOGIN_USER", customer);
+				session.setAttribute("LOGIN_INFO", loginInfo);
+			} else {
+				additionalQuery = "?infoUpdate=F";
+			}
+		} else if(infoForm.getPassword() == null && infoForm.getPasswordCheck() == null) {
+			customerService.updateCustomerInfo(customer);
+			additionalQuery = "?infoUpdate=T";
+			customer = customerService.getCustomerByNo(customer.getId());
+			loginInfo.replace("LOGIN_USER", customer);
+			session.setAttribute("LOGIN_INFO", loginInfo);
+		}
+		return "redirect:/customers/info.do"+additionalQuery;
 	}
 
 }

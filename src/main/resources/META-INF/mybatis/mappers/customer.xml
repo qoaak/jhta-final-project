@@ -67,4 +67,16 @@
 		where customer_id = #{value}
 	</select>
 	
+	<update id="updateCustomer" parameterType="Customer">
+		update customers
+		set
+		<if test="password != null">
+		customer_password = #{password},
+		</if>
+		customer_phonenumber = #{phonenumber},
+		customer_mainaddress = #{mainaddress},
+		customer_detailaddress = #{detailaddress},
+		customer_postalcode = #{postalcode}
+		where customer_id = #{id}
+	</update>
 </mapper>

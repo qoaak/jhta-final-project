@@ -22,11 +22,11 @@ public class CustomerServiceImpl implements CustomerService{
 		customerMapper.addCustomer(customer);
 	}
 
-/*	@Override
+	@Override
 	public void updateCustomerInfo(Customer customer) {
-		
+		customerMapper.updateCustomer(customer);
 	}
-*/
+
 	@Override
 	public Customer getCustomerById(String id) {
 		return customerMapper.getCustomer(id);
