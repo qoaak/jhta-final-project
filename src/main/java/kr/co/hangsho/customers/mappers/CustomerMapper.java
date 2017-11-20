@@ -13,7 +13,7 @@ public interface CustomerMapper {
 	Customer getCustomer(String customerId);
 	void addCustomer(Customer customer);
 	List<Customer> getCustomers();
-//	void updateCustomer(Customer customer);
+	void updateCustomer(Customer customer);
 	int getSeq();
 	Customer getCustomerByNo(int id);
 }
