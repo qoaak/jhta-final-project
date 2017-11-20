@@ -14,4 +14,7 @@ public interface ProductQueMapper {
 	void addProductQue(ProductQue productQue);
 	List<ProductQue> getProductQues();
 	ProductQue getProductQueById(int id);	// 상품문의 하나에 해당하는 내용 하나 가져오기
+	// 페이징 처리
+	List<ProductQue> getProductQuess(Criteria criteria);
+	int getTotalRows(Criteria criteria);
 }

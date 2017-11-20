@@ -67,6 +67,7 @@ $(function(){
 	$('#pwdcheck-btn').click(function(event) {
 		event.preventDefault();
 		var pwdVal = $('#customer-pwd').val();		
+		
 		$.ajax({
 			type : "GET", 
 			url : 'pwdcheck.do', 
@@ -83,6 +84,7 @@ $(function(){
 				}
 			}
 		})
+		
 	});
 })
 

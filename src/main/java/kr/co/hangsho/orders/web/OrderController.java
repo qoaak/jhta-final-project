@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.hangsho.coupons.service.CouponService;
+import kr.co.hangsho.coupons.vo.Coupon;
 import kr.co.hangsho.customers.services.CustomerService;
 import kr.co.hangsho.customers.vo.Customer;
 import kr.co.hangsho.images.service.ImageService;
@@ -35,27 +36,31 @@ public class OrderController {
 	@Autowired
 	private CouponService couponService;
 
+	
+	
 	@RequestMapping("/orderPage.do")
 	public String orderPage(Model model) {
 		
 		Customer customer = new Customer();
 		customer.setId(8);
-		model.addAttribute("getCustomerByNo", customerService.getCustomerByNo(customer.getId()));
+		model.addAttribute("customer", customerService.getCustomerByNo(customer.getId()));
 		
 		Product product = new Product();
 		product.setId(1);
-		model.addAttribute("productByNo", productService.getProductByProductNo(product.getId()));
 		
 		Item item = new Item();
 		item.setId(1);
-		model.addAttribute("itemDetail", itemService.getItemByProductNo(item.getId()));
+		item = itemService.getItemByProductNo(item.getId());
+		item.setProduct(productService.getProductByProductNo(product.getId()));
+		model.addAttribute("itemDetail", item);
 		
 		Image image = new Image();
 		image.setId(11);
-		model.addAttribute("getImage", imageService.getImageByNo(image.getId()));
+		model.addAttribute("image", imageService.getImageByNo(image.getId()));
 		
-		model.addAttribute("getCoupon", couponService.getCouponByCustomerId(customer.getId()));
+		model.addAttribute("coupons", couponService.getCouponListByCustomerId(customer.getId()));
 		
+		model.addAttribute("couponCount", couponService.couponCountByCustomerId(customer.getId()));
 		
 		
 		return "/order";

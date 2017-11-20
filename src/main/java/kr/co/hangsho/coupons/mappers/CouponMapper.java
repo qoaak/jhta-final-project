@@ -1,5 +1,7 @@
 package kr.co.hangsho.coupons.mappers;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.hangsho.coupons.vo.Coupon;
@@ -8,5 +10,8 @@ import kr.co.hangsho.coupons.vo.Coupon;
 public interface CouponMapper {
 
 	int getSeq();
-	Coupon getCouponByCustomerId(int customerId);
+	List<Coupon> getCouponListByCustomerId(int customerId);
+	int couponCountByCustomerId(int customerId);
+//	Coupon getOldCoupon(int customerId);
+//	void couponUsed(Coupon coupon);
 }

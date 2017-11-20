@@ -59,7 +59,7 @@
 	        <div class="container-fluid">
 				<ul class="nav navbar-nav" id="sc" role="tablist">
 					<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">상품설명</a></li>
-					<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">상품()</a></li>
+					<li role="presentation"><a href="#profile"  aria-controls="profile" role="tab" data-toggle="tab">상품()</a></li>
 					<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">구매후기()</a></li>
 					<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">환불교환/상품고시</a></li>
 				</ul>
@@ -118,18 +118,17 @@
                   </div>
                   <div class="col-sm-6">
                         <form id="search-form" class="form-inline pull-left">
-							<input type="hidden" name="id" value="1">
-							<input type="hidden" name="rows" value="5">
+							<input type="hidden" name="pageNo" value="${param.pageNo }">
 								<div class="form-group">
 								    <label class="sr-only">검색조건</label>
 								    <select class="form-control" name="opt" id="keyresult">
-								        <option value="title">제목</option>
-								        <option value="title-contents">제목+내용</option>
+								        <option value="title" ${param.opt eq 'title' ? 'selected' : '' }>제목</option>
+								        <option value="contents" ${param.opt eq 'contents' ? 'selected' : '' }>내용</option>
 								    </select>
 								</div>
                                 <div class="form-group">
                                     <label class="sr-only">키워드</label>
-                                    <input type="text" class="form-control" id="keywordwidth" name="keyword" value="검색어를 입력하세요" />
+                                    <input type="text" class="form-control" id="keywordwidth" name="keyword" value="${param.keyword }" />
                                 </div>
                                 <button type="submit" class="btn btn-basic" id="btn-search">검색</button>
                          </form> 
@@ -218,17 +217,8 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div class="text-center">
-                    <ul class="pagination">
-                    	<li><a href="javascript:void(0);">&lt;</a></li>
-                    	<li><a href="javascript:void(0);">1</a></li>
-                    	<li><a href="javascript:void(0);">2</a></li>
-                    	<li><a href="javascript:void(0);">3</a></li>
-                    	<li><a href="javascript:void(0);">4</a></li>
-                    	<li><a href="javascript:void(0);">5</a></li>
-                    	<li><a href="javascript:void(0);">&gt;</a></li>
-                    </ul>
-                </div>
+                    <!-- 페이징처리 -->
+                    <%@ include file="/WEB-INF/views/inc/paginations.jsp" %> 
             </div>
             <div role="tabpanel" class="tab-pane" id="messages">
 	            <div>
@@ -333,6 +323,9 @@
 </body>
 <script>
 $(function() {
+	$("#clicked").click(function() {
+		$("#productQuestion").click();
+	})
     $("#day").mouseenter(function() {
         $("#day").click();
     })
@@ -407,10 +400,17 @@ $(function() {
  			});
  	});
  	
+ 	$(".pagination a").click(function(event) {
+ 		event.preventDefault();
+ 		$(":input[name=pageNo]").val($(this).attr("href"));
+ 		$("#search-form").submit();
+ 	});
  	
+ 	$("#btn-search").click(function() {
+ 		$(":input[name=pageNo]").val(1);
+ 	});
+
 });
     
-    
-
 </script>
 </html>

@@ -32,6 +32,9 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter{
 		if(urlSets.contains(requestURI))
 			return true;
 		
+
+
+
 		HttpSession session = request.getSession();
 		Map<String, Object> loginInfo = (Map) session.getAttribute("LOGIN_INFO");
 		if(loginInfo == null) {
@@ -40,7 +43,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter{
 		} else {
 			return true;
 		}
-		
+
 
 		
 /*		User user = (User) session.getAttribute("LOGIN_USER");

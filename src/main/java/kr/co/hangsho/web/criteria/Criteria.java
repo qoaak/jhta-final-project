@@ -15,7 +15,6 @@ public class Criteria {
 	private Integer mc;
 	private Integer bc;
 	private String division;
-	
 	private int totalRows;
 	
 	public int getBeginIndex() {				// 리스트 행 시작 숫자

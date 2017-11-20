@@ -1,5 +1,7 @@
 package kr.co.hangsho.coupons.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,25 @@ public class CouponServiceImpl implements CouponService {
 	CouponMapper couponMapper;
 	
 	@Override
-	public Coupon getCouponByCustomerId(int customerId) {
+	public List<Coupon> getCouponListByCustomerId(int customerId) {
 		
-		return couponMapper.getCouponByCustomerId(customerId);
+		return couponMapper.getCouponListByCustomerId(customerId);
 	}
+	
+	@Override
+	public int couponCountByCustomerId(int customerId) {
+		
+		return couponMapper.couponCountByCustomerId(customerId);
+	}
+	
+//	@Override
+//	public void couponUsed(Coupon coupon) {
+//		couponMapper.couponUsed(coupon);
+//	}
+	
+//	@Override
+//	public Coupon getOldCoupon(int customerId) {
+//
+//		return couponMapper.getOldCoupon(customerId);
+//	}
 }

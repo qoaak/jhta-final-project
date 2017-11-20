@@ -29,8 +29,15 @@ public class ProductQueController {
 	
 	
 	@RequestMapping("/detail.do")
-	public String list(Model model) {
-		model.addAttribute("productque", productQueService.getAllProductQues());
+	public String list(Criteria criteria, Model model) {
+		//System.out.println(criteria);
+		
+		int totalRows = productQueService.getTotalRows(criteria);
+		criteria.setTotalRows(totalRows);
+		
+		model.addAttribute("pagination", criteria);
+		model.addAttribute("productque", productQueService.getProductQuess(criteria));
+		
 		return "detail";
 	}
 	
@@ -56,7 +63,7 @@ public class ProductQueController {
 		BeanUtils.copyProperties(productQueForm, productQue);
 		productQue.setProduct(product);
 		Customer customer = new Customer();
-		customer.setId(4);
+		customer.setId(8);
 		productQue.setCustomer(customer);
 		
 		

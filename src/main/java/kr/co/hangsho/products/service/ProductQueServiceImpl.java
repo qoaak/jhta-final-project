@@ -33,4 +33,14 @@ public class ProductQueServiceImpl implements ProductQueService {
 		return productQueMapper.getProductQueById(id);
 	}
 	
+	@Override
+	public int getTotalRows(Criteria criteria) {
+		return productQueMapper.getTotalRows(criteria);
+	}
+	
+	@Override
+	public List<ProductQue> getProductQuess(Criteria criteria) {
+		return productQueMapper.getProductQuess(criteria);
+	}
+	
 }

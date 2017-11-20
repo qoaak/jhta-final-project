@@ -53,6 +53,70 @@
 		where
 			product_q_id = #{value}
 	</select>
+	
+	<select id="getTotalRows" parameterType="Criteria" resultType="int">
+		select
+			count(*)
+		from
+			product_q P, customers C
+		where 
+			P.customer_id = C.customer_id
+		and
+			P.product_q_deleted = 'N'
+		
+		<if test="keyword != ''">
+			<choose>
+				<when test="opt == 'title'">
+					and P.product_q_title like '%' || #{keyword} || '%'
+				</when>
+				<when test="opt == 'contents'">
+					and P.product_q_question like '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="getProductQuess" parameterType="Criteria" resultType="ProductQue">
+		select
+			product_q_id				as id,
+			product_q_question			as question,
+			product_id					as "product.id",
+			customer_id					as "customer.id",
+			product_q_createdate		as createDate,
+			product_q_deleted			as deleted,
+			product_q_title				as title,
+			customer_username			as "customer.username"
+		from (
+			select
+				row_number() over (order by product_q_id desc) rn,
+				P.product_q_id				,
+				P.product_q_question		,
+				P.product_id				,
+				P.customer_id				,
+				P.product_q_createdate		,
+				P.product_q_deleted			,
+				P.product_q_title			,
+				C.customer_username			
+				
+			from
+				product_q P, customers C
+			where 
+				P.customer_id = C.customer_id
+				and
+				P.product_q_deleted = 'N'
+				<if test="keyword != ''">
+					<choose>
+						<when test="opt == 'title'">
+							and P.product_q_title like '%' || #{keyword} || '%'
+						</when>
+						<when test="opt == 'contents'">
+							and P.product_q_question like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</if>
+			)
+		where rn >= #{beginIndex} and rn &lt;= #{endIndex}
+	</select>
 
 </mapper>
 

@@ -10,4 +10,7 @@ public interface ProductQueService {
 	void addProductQue(ProductQue productQue);
 	List<ProductQue> getAllProductQues();
 	ProductQue getProductQueContent(int id);
+	
+	List<ProductQue> getProductQuess(Criteria criteria);
+	int getTotalRows(Criteria criteria);
 }

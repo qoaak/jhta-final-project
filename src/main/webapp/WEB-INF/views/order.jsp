@@ -4,13 +4,7 @@
 <script type="text/javascript" src="/resources/js/order.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <link rel="stylesheet" href="/resources/css/order.css">
-<script type="text/javascript">
-	//$("#apply-coupon-btn").click(function() {
-	//	$(".dis").text($("#grade").attr("data-discount"));
-	//	$("#sumprice").val(${itemDetail.originalPrice + productByNo.deliveryFee - getCoupon.discountPrice })
-	//});
-	
-</script>
+
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/inc/header.jsp"%>
@@ -19,11 +13,11 @@
 		<h1 class="pd">주문/결제</h1>
 		<div class="row spd">
 			<div class="col-sm-2">
-				<img src="${getImage.path }" width="90%" />
+				<img src="${image.path }" width="90%" />
 			</div>
 			<div class="col-sm-10 ck">
 				<h5>
-					<strong class="d">${productByNo.name }</strong> 상품을 주문합니다.
+					<strong class="d">${product.name }</strong> 상품을 주문합니다.
 				</h5>
 				<div>
 					<small class="gray">선택하신 상품의 가격과 옵션정보는 하단 주문상품 정보에서 확인하실 수
@@ -43,12 +37,12 @@
 				<div class="col-sm-4 spd">
 					<input type="text" class="form-control" name="address"
 						id="address1" placeholder="주소를 입력하세요."
-						value="${getCustomerByNo.mainaddress }" disabled>
+						value="${customer.mainaddress }" disabled>
 				</div>
 				<div class="col-sm-4 spd">
 					<input type="text" class="form-control" name="detailaddress"
 						id="detailaddress1" placeholder="상세주소를 입력하세요."
-						value="${getCustomerByNo.detailaddress }" disabled>
+						value="${customer.detailaddress }" disabled>
 				</div>
 			</div>
 			<div class="col-sm-2 btnposition">
@@ -228,7 +222,7 @@
 				</div>
 				<div class="col-sm-10 inputline">
 					<input type="text" class="form-control" name="name" id="name"
-						value="${getCustomerByNo.name }">
+						value="${customer.name }">
 				</div>
 			</div>
 			<div class="row">
@@ -237,7 +231,7 @@
 				</div>
 				<div class="col-sm-10 inputline">
 					<input type="text" class="form-control" name="phonenumber"
-						id="phonenumber" value="${getCustomerByNo.phonenumber }">
+						id="phonenumber" value="${customer.phonenumber }">
 				</div>
 			</div>
 			<div class="row">
@@ -248,12 +242,12 @@
 					<div class="col-sm-6">
 						<input type="text" class="form-control" name="address"
 							id="address4" placeholder="주소를 입력하세요."
-							value="${getCustomerByNo.mainaddress }" disabled>
+							value="${customer.mainaddress }" disabled>
 					</div>
 					<div class="col-sm-6">
 						<input type="text" class="form-control" name="detailaddress"
 							id="detailaddress4" placeholder="상세주소를 입력하세요."
-							value="${getCustomerByNo.detailaddress }" disabled>
+							value="${customer.detailaddress }" disabled>
 					</div>
 				</div>
 			</div>
@@ -275,8 +269,8 @@
 					<strong>적용가능 쿠폰</strong>
 				</div>
 				<div class="col-sm-10">
-					딜전용 쿠폰 <strong class="d">0</strong>장&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<span>장바구니 쿠폰</span> <strong class="d">0</strong>장 <a href=""
+					딜전용 쿠폰 <strong class="d">${couponCount }</strong>장&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href=""
 						class="btn btn-warning btn-sm" id="couponbtn" data-toggle="modal"
 						data-target="#exampleModalLong">쿠폰적용</a>
 
@@ -293,16 +287,21 @@
 									</button>
 								</div>
 								<div class="modal-body">
+								<c:if test="${empty coupons }">
+									<h4>사용가능한 쿠폰이 없습니다.</h4>
+								</c:if>
+								<c:forEach var="coupon" items="${coupons }">
 									<div>
 										<div class="showradio1">
 											<div class="radio">
-												<label class="grade"> 			<!-- $("#grade").attr("data-discount") -->
-													<input type="radio" name="optionsRadios2" id="grade" data-discount="${getCoupon.discountPrice }" value="${getCustomerByNo.grade}" checked>
-													<img src="/resources/images/coupon/${getCustomerByNo.grade}.jpg" /> <span>&nbsp;&nbsp;&nbsp;<strong id="fir">쿠폰갯수</strong>개</span>
+												<label class="grade"> 			
+													<input type="radio" name="optionsRadios2" id="grade" data-discount="${coupon.discountPrice }" value="${customer.grade}" checked>
+													<img src="/resources/images/coupon/${customer.grade}.jpg" /> <span>&nbsp;&nbsp;&nbsp;<strong id="fir">${couponCount }</strong>개</span>
 												</label>
 											</div>
 										</div>
 									</div>
+								</c:forEach>
 								</div>
 								<div class="modal-footer">
 									<button type="button" id="apply-coupon-btn" class="btn btn-primary" data-dismiss="modal">적용</button>
@@ -348,10 +347,10 @@
 			<div class="row">
 				<div class="col-sm-5 ck">
 					<div class="col-sm-6">
-						<img src="${getImage.path }" width="80%" />
+						<img src="${image.path }" width="80%" />
 					</div>
 					<h5>
-						<strong>${productByNo.name }</strong>
+						<strong>${itemDetail.product.name }</strong>
 					</h5>
 					<div>
 						<small class="sm">${itemDetail.options } &nbsp; 1개</small>
@@ -361,13 +360,13 @@
 					<h4><span class="originalPriceOne">${itemDetail.salePrice }</span>원</h4>
 				</div>
 				<div class="col-sm-2 kk">
-					<strong class="discountPriceOne"><c:out value="${itemDetail.salePrice*(productByNo.discountRatio/100) }"></c:out></strong><strong>원</strong>
+					<strong>- </strong><strong class="discountPriceOne"><c:out value="${itemDetail.salePrice * itemDetail.product.discountRatio/100 }"></c:out></strong><strong>원</strong>
 				</div>
 				<div class="col-sm-1 kk">
-					<strong class="deliveryFeeOne">${productByNo.deliveryFee }</strong><strong>원</strong>
+					<strong class="deliveryFeeOne">${itemDetail.product.deliveryFee }</strong><strong>원</strong>
 				</div>
 				<div class="col-sm-2 kk">
-					<h3><span class="sumpriceone"><c:out value="${itemDetail.salePrice + productByNo.deliveryFee - itemDetail.salePrice*(productByNo.discountRatio/100) }" /></span>원</h3>
+					<h3><span class="sumpriceone"><c:out value="${itemDetail.salePrice + itemDetail.product.deliveryFee - itemDetail.salePrice*(itemDetail.product.discountRatio/100) }" /></span>원</h3>
 				</div>
 
 			</div>
@@ -399,12 +398,12 @@
 					</div>
 					<div class="row right">
 						<h4>
-							<strong class="salePriceAll">${itemDetail.salePrice*(productByNo.discountRatio/100) }</strong><strong>원</strong>
+							<strong>- </strong><strong class="salePriceAll">${itemDetail.salePrice*(itemDetail.product.discountRatio/100) }</strong><strong>원</strong>
 						</h4>
 					</div>
 					<div class="row right">
 						<h4>
-							<strong class="deliveryFeeAll">${productByNo.deliveryFee }</strong><strong>원</strong>
+							<strong class="deliveryFeeAll">${itemDetail.product.deliveryFee }</strong><strong>원</strong>
 						</h4>
 					</div>
 				</div>
@@ -415,7 +414,7 @@
 					<h3>총 주문금액</h3>
 				</div>
 				<h4>
-					<span class="sumpriceall"><c:out value="${itemDetail.salePrice + productByNo.deliveryFee - itemDetail.salePrice*(productByNo.discountRatio/100) }" /></span><strong>원</strong>
+					<span class="sumpriceall"><c:out value="${itemDetail.salePrice + itemDetail.product.deliveryFee - itemDetail.salePrice*(itemDetail.product.discountRatio/100) }" /></span><strong>원</strong>
 				</h4>
 			</div>
 
@@ -513,7 +512,7 @@
 							<strong>총 주문금액</strong>
 						</div>
 						<div class="col-sm-6 text-right">
-							<strong class="allPrice"><c:out value="${itemDetail.salePrice + productByNo.deliveryFee - itemDetail.salePrice*(productByNo.discountRatio/100) }" /></strong><strong>원</strong>
+							<strong class="allPrice"><c:out value="${itemDetail.salePrice + itemDetail.product.deliveryFee - itemDetail.salePrice*(itemDetail.product.discountRatio/100) }" /></strong><strong>원</strong>
 						</div>
 					</div>
 					<div class="row">
@@ -521,7 +520,7 @@
 							<strong>쿠폰할인금액</strong>
 						</div>
 						<div class="col-sm-6 text-right">
-							<strong class="dis couponPrice">0</strong><strong>원</strong>
+							<strong>- </strong><strong class="dis couponPrice">0</strong><strong>원</strong>
 						</div>
 					</div>
 					<div class="row spd">
@@ -529,7 +528,7 @@
 							<strong>적립금 사용</strong>
 						</div>
 						<div class="col-sm-6 text-right">
-							<strong>0원</strong>
+							<strong>- </strong><strong>0원</strong>
 						</div>
 					</div>
 					<div class="row">
@@ -538,7 +537,7 @@
 					<div class="row text-right">
 						
 						<h3 class="d">
-							<span class="sumpricepay"><c:out value="${itemDetail.salePrice + productByNo.deliveryFee - itemDetail.salePrice*(productByNo.discountRatio/100) }" /></span><span>원</span>
+							<span class="sumpricepay"><c:out value="${itemDetail.salePrice + itemDetail.product.deliveryFee - itemDetail.salePrice*(itemDetail.product.discountRatio/100) }" /></span><span>원</span>
 						</h3>
 					</div>
 				</div>
