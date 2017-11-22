@@ -61,7 +61,7 @@ public class Criteria {
 	}
 
 	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
+		this.pageNo = (pageNo == null) ? 1 : pageNo;
 	}
 
 	public String getOpt() {
@@ -112,9 +112,6 @@ public class Criteria {
 		this.endday = endday;
 	}
 	
-	
-
-
 	public Integer getSc() {
 		return sc;
 	}

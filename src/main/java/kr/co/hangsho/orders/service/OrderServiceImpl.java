@@ -1,6 +1,7 @@
 package kr.co.hangsho.orders.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void addNewOrder(Order order) {
 		order.setId(orderMapper.getSeq());
+		order.setCondition("배송대기");
 		orderMapper.addOrder(order);
 	}
 
@@ -37,9 +39,9 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public List<Order> getOrdersByCustomer(Customer customer) {
+	public List<Order> getOrdersByCustomer(Map map) {
 		
-		return orderMapper.getOrdersByCustomer(customer);
+		return orderMapper.getOrdersByCustomer(map);
 	}
 
 }

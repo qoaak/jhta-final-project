@@ -8,6 +8,7 @@
 	<typeAliases>
 		<typeAlias type="kr.co.hangsho.customers.vo.Customer"/>
 		<typeAlias alias="Product" type="kr.co.hangsho.products.vo.Product"/>
+		<typeAlias alias="Delivery" type="kr.co.hangsho.deliveries.vo.Delivery"/>
 		<typeAlias alias="Order" type="kr.co.hangsho.orders.vo.Order"/>
 		<typeAlias alias="Coupon" type="kr.co.hangsho.coupons.vo.Coupon"/>
 		<typeAlias alias="Company" type="kr.co.hangsho.company.vo.Company"/>
@@ -16,16 +17,20 @@
 		<typeAlias alias="MiddleCategory" type="kr.co.hangsho.categories.vo.MiddleCategory"/>
 		<typeAlias alias="ProductQue" type="kr.co.hangsho.products.vo.ProductQue"/>	
 		<typeAlias alias="Criteria" type="kr.co.hangsho.web.criteria.Criteria"/>
-		<typeAlias type="kr.co.hangsho.orders.vo.OrderDetail"/>
+		<typeAlias alias="OrderDetail" type="kr.co.hangsho.orders.vo.OrderDetail"/>
 		<typeAlias type="kr.co.hangsho.products.vo.ProductDetail"/>
 		<typeAlias alias="Privatedeal" type="kr.co.hangsho.privatedeal.vo.Privatedeal"/>
 		<typeAlias alias="Image" type="kr.co.hangsho.images.vo.Image"/>
-		<typeAlias alias="DailyChart" type="kr.co.hangsho.charts.vo.DailyChart"/>
+		<typeAlias alias="ProfitChart" type="kr.co.hangsho.charts.vo.ProfitChart"/>
 		<typeAlias alias="CriteriaForChart" type="kr.co.hangsho.web.criteria.CriteriaForChart"/>
+		<typeAlias alias="Review" type="kr.co.hangsho.review.vo.Review"/>
+		<typeAlias alias="Comment" type="kr.co.hangsho.privatedeal.vo.Comment"/>
+		<typeAlias alias="ProductAns" type="kr.co.hangsho.products.vo.ProductAns"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="META-INF/mybatis/mappers/customer.xml" />
+		<mapper resource="META-INF/mybatis/mappers/delivery.xml" />
 		<mapper resource="META-INF/mybatis/mappers/coupon.xml" />
 		<mapper resource="META-INF/mybatis/mappers/product.xml" />
 		<mapper resource="META-INF/mybatis/mappers/order.xml" />
@@ -40,6 +45,8 @@
 		<mapper resource="META-INF/mybatis/mappers/privatedeal.xml" />
 		<mapper resource="META-INF/mybatis/mappers/image.xml" />
 		<mapper resource="META-INF/mybatis/mappers/chart.xml" />
+		<mapper resource="META-INF/mybatis/mappers/review.xml" />
+		<mapper resource="META-INF/mybatis/mappers/productans.xml"/>
 	</mappers>
 
 </configuration>

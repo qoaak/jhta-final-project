@@ -42,7 +42,7 @@
 			<h3>관리목록</h3>
 			<a href="#" class="w3-bar-item w3-button"><span></span>문의 접수</a>
 			<a href="/product/list.do" class="w3-bar-item w3-button">상품 리스트</a>
-			<a href="#" class="w3-bar-item w3-button">개별상품 판매량</a>
+			<a href="/item/list.do" class="w3-bar-item w3-button">아이템 리스트</a>
 			<a href="#" class="w3-bar-item w3-button">전체 상품 판매량</a>
 			
 			<a href="#" class="w3-bar-item w3-button">개별상품 실적관리</a>

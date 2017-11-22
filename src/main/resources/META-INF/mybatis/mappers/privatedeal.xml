@@ -9,7 +9,7 @@
 		insert into privatedeal_board
 		(board_id, board_title, board_desired_price, board_contents, board_type, board_division, board_writer, small_category_id)
 		values
-		(pd_board_seq.nextval, #{title}, #{desiredprice,jdbcType=NUMERIC}, #{editor,jdbcType=CLOB}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
+		(pd_board_seq.nextval, #{title}, #{desiredprice,jdbcType=NUMERIC}, #{contents,jdbcType=CLOB}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
 	</insert>
 	
 	<!-- <select id="getMeronaList" resultType="Privatedeal">
@@ -139,21 +139,139 @@
 	<select id="getBoardByNo" parameterType="int" resultType="Privatedeal">
 		select
 			C.customer_username		as "customer.usernameSubstring",
-			C.customer_nickname		as "customer.nickname",			
+			C.customer_nickname		as "customer.nickname",
+			P.board_division		as "division.id",		
 			D.code_name				as "division.name",
 			S.code_name				as "status.name",
+			P.board_status			as "status.id",
 			P.board_desired_price	as desiredprice,
 			P.board_clicked			as clicked,
 			P.board_title			as title,
 			P.board_createdate		as createdate,
-			P.board_contents		as contents
+			P.board_contents		as contents,
+			P.small_category_id		as "smallcategory.id",
+			P.board_writer			as "customer.id",
+			P.board_id				as id
 		from
 			privatedeal_board P, customers C, codes D, codes S
 		where
 			P.board_writer = C.customer_id
 		and P.board_division = D.code_id
 		and P.board_status = S.code_id
+		and P.board_deleted = 'N'
 		and P.board_id = #{value}
+	</select>
+	
+	<update id="clickedPlusByBoardNo" parameterType="int">
+		update 
+			privatedeal_board
+		set
+			board_clicked = board_clicked + 1
+		where
+			board_id = #{value}
+	</update>
+	
+	<update id="dpiUpdate" parameterType="int">
+		update
+			privatedeal_board
+		set
+			board_status = 'DPI'
+		where
+			board_id = #{value}
+	</update>
+	
+	<update id="diUpdate" parameterType="int">
+		update
+			privatedeal_board
+		set
+			board_status = 'DI'
+		where
+			board_id = #{value}
+	</update>
+	
+	<update id="dcUpdate" parameterType="int">
+		update
+			privatedeal_board
+		set
+			board_status = 'DC'
+		where
+			board_id = #{value}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		update
+			privatedeal_board
+		set
+			board_deleted = 'Y'
+		where
+			board_id = #{value}
+	</delete>
+	
+	<update id="modifyBoard" parameterType="Privatedeal">
+		update
+			privatedeal_board
+		set
+			board_title = #{title},
+			board_desired_price = #{desiredprice,jdbcType=NUMERIC},
+			board_contents = #{contents,jdbcType=CLOB},
+			board_division = #{division.id},
+			small_category_id = #{smallcategory.id}
+		where
+			board_id = #{id}
+	</update>
+	
+	<select id="getCommentSeq" resultType="int">
+		select
+			pd_comment_seq.nextval
+		from
+			dual	
+	</select>
+	
+	<insert id="addComment" parameterType="Comment">
+		insert into privatedeal_comments
+		(comment_id, comment_writer, comment_contents, replied_id, board_id, group_id)
+		values
+		(#{id}, #{customer.id}, #{comment}, #{repliedId.id}, #{boardId.id}, #{groupId.id})
+	</insert>
+	
+	<select id="getCommentsByBoardNo" parameterType="int" resultType="Comment">
+		select
+			P.comment_id			as "id",
+			C.customer_nickname		as "customer.nickname",
+			P.comment_writer		as "customer.id",
+			P.comment_createdate	as createdate,
+			P.comment_contents		as "comment",
+			P.replied_id			as "repliedId.id",
+			C2.customer_nickname	as "repliedId.customer.nickname"			
+		from
+			privatedeal_comments P, customers C, privatedeal_comments R, customers C2
+		where
+			P.board_id = #{value}
+		and P.comment_deleted = 'N'
+		and P.comment_writer = C.customer_id
+		and P.replied_id = R.comment_id
+		and R.comment_writer = C2.customer_id
+		order by
+			P.group_id asc, P.comment_id asc
+	</select>
+	
+	<select id="getRepliedRootId" parameterType="Comment" resultType="int">
+		select
+			group_id
+		from
+			privatedeal_comments
+		where			
+			comment_id = #{id}
+	</select>
+	
+	<select id="getRepliedNickName" parameterType="Comment" resultType="Customer">
+		select
+			C.customer_nickname		as nickname
+		from
+			privatedeal_comments P, customers C
+		where
+			P.comment_writer = C.customer_id
+		and P.comment_id = #{id}
 	</select>
 	
 </mapper>

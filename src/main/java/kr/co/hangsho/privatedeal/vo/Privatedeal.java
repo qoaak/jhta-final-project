@@ -8,7 +8,7 @@ import kr.co.hangsho.customers.vo.Customer;
 
 public class Privatedeal {
 	
-	private int id;
+	private Integer id;
 	private Date createdate;
 	private Code status;
 	private String deleted;
@@ -21,10 +21,10 @@ public class Privatedeal {
 	private String title;
 	private String contents;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public Date getCreatedate() {

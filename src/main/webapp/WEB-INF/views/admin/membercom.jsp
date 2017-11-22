@@ -7,10 +7,10 @@
 <link rel="stylesheet" href="/resources/css/admin/memberlist.css">
 </head>
 <body>
-	<c:set var="menu" value="earning"></c:set>
-	<c:set var="sidemenu" value="allearning"></c:set>
+	<c:set var="menu" value="member"></c:set>
+	<c:set var="sidemenu" value="company"></c:set>
 	<%@ include file="/WEB-INF/views/admin/nav.jsp"%>
-	<%@ include file="/WEB-INF/views/admin/sidenav/earning.jsp"%>
+	<%@ include file="/WEB-INF/views/admin/sidenav/member.jsp"%>
 
 	<div id="body-container-body">
 		<div class="container">
@@ -53,24 +53,27 @@
 								<td><a href="">012345</a></td>
 								<td>김나은</td>
 								<td>2017-05-12</td>
-								<td>가입</td>
+								<td><label class="btn btn-xs btn-default">가입</label></td>
 							</tr>
 							<tr>
 								<td><input type="checkbox" /></td>
 								<td><a href="">012345</a></td>
 								<td>김나은</td>
 								<td>2017-05-12</td>
-								<td>정지</td>
+								<td><label class="btn btn-xs btn-warning">정지</label></td>
 							</tr>
 							<tr>
 								<td><input type="checkbox" /></td>
 								<td><a href="">012345</a></td>
 								<td>김나은</td>
 								<td>2017-05-12</td>
-								<td>탈퇴</td>
+								<td><label class="btn btn-xs btn-danger">탈퇴</label></td>
 							</tr>
 						</tbody>
 					</table>
+				</div>
+				<div class="pagination">
+				페이지네이션
 				</div>
 			</div>
 		</div>

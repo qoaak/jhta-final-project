@@ -21,7 +21,7 @@ import kr.co.hangsho.products.web.form.ProductQueForm;
 import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
-@RequestMapping("/productque")
+@RequestMapping("/hangshoproducts")
 public class ProductQueController {
 
 	@Autowired
@@ -32,18 +32,18 @@ public class ProductQueController {
 	public String list(Criteria criteria, Model model) {
 		//System.out.println(criteria);
 		
-		int totalRows = productQueService.getTotalRows(criteria);
+		/*int totalRows = productQueService.getTotalRows(criteria);
 		criteria.setTotalRows(totalRows);
 		
 		model.addAttribute("pagination", criteria);
-		model.addAttribute("productque", productQueService.getProductQuess(criteria));
+		model.addAttribute("productque", productQueService.getProductQuess(criteria));*/
 		
 		return "detail";
 	}
 	
 	@RequestMapping("/form.do")
 	public String form() {
-		return "productque/form";
+		return "hangshoproducts/form";
 	}
 	
 	@RequestMapping("/add.do")
@@ -71,7 +71,7 @@ public class ProductQueController {
 		productQueService.addProductQue(productQue);
 		
 		//productQue.setCustomer(customer);
-		return "redirect:/productque/detail.do";
+		return "redirect:/hangshoproducts/detail.do";
 	}
 	
 }

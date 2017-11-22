@@ -41,7 +41,6 @@ public class Item {
 	public void setSaledQuantity(int saledQuantity) {
 		this.saledQuantity = saledQuantity;
 	}
-	
 	public Product getProduct() {
 		return product;
 	}
@@ -54,7 +53,6 @@ public class Item {
 	public void setSalePrice(int salePrice) {
 		this.salePrice = salePrice;
 	}
-
 	public Integer getOriginalPrice() {
 		return originalPrice;
 	}

@@ -1,5 +1,6 @@
 package kr.co.hangsho.products.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import kr.co.hangsho.customers.vo.Customer;
@@ -13,7 +14,20 @@ public class ProductQue {
 	private Date createDate;
 	private String deleted;
 	private String title;
+	private String status;
 	
+	@Override
+	public String toString() {
+		return "ProductQue [id=" + id + ", question=" + question + ", product=" + product + ", customer=" + customer
+				+ ", createDate=" + createDate + ", deleted=" + deleted + ", title=" + title + ", status=" + status
+				+ "]";
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public int getId() {
 		return id;
 	}
@@ -55,6 +69,14 @@ public class ProductQue {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getStrCreateDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if (createDate != null) {
+			return sdf.format(createDate);
+		} else {
+			return "";
+		}
 	}
 	
 	

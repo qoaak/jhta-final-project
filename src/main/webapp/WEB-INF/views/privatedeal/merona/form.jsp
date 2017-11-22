@@ -79,7 +79,7 @@
                         </tbody>                        
                     </table>
                     
-                    <textarea name="editor" id="editor" style="width: 100%; height: 400px;"></textarea>             
+                    <textarea name="contents" id="editor" style="width: 100%; height: 400px;"></textarea>             
                           
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-info" id="insertBoard">등록</button>

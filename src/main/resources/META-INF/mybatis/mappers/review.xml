@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="kr.co.hangsho.review.mappers.ReviewMapper">
+
+	<select id="getReviewsByProductId" parameterType="int" resultType="Review">
+		select
+			R.review_id				as id,
+			R.review_comment		as "comment",
+			R.review_createdate		as createDate,
+			R.review_rates			as rates,
+			R.product_id			as "product.id",
+			R.customer_id			as "customer.nickname",
+			C.customer_username		as "customer.id",
+			R.review_deleted		as deleted
+		from
+			product_review R, customers C
+		where 
+			product_id = #{value}
+	</select>
+</mapper>

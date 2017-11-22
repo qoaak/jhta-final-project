@@ -8,7 +8,8 @@ public class PrivatedealForm {
 	private int smallcategory;
 	private Integer desiredprice;
 	private String title;
-	private String editor;
+	private String contents;
+	private Integer id;
 	
 	public String getDivision() {
 		return division;
@@ -46,17 +47,23 @@ public class PrivatedealForm {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getEditor() {
-		return editor;
+	public String getContents() {
+		return contents;
 	}
-	public void setEditor(String editor) {
-		this.editor = editor;
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	@Override
 	public String toString() {
 		return "PrivatedealForm [division=" + division + ", bigcategory=" + bigcategory + ", middlecategory="
 				+ middlecategory + ", smallcategory=" + smallcategory + ", desiredprice=" + desiredprice + ", title="
-				+ title + ", editor=" + editor + "]";
+				+ title + ", contents=" + contents + ", id=" + id + "]";
 	}	
 }

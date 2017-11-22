@@ -10,27 +10,27 @@
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="home">
 			<div class="buy_lst">
-				<div class="row">
+				<div class="well">
 					<div style="margin-top: 20px" class="btn-group col-sm-3 date-btn"
 						role="group" aria-label="...">
-						<button type="button" class="btn btn-warning btn-sm"
-							date-search="-1">전체</button>
-						<button type="button" class="active btn btn-warning btn-sm"
-							date-search="3">3개월</button>
-						<button type="button" class="btn btn-warning btn-sm"
-							date-search="6">6개월</button>
-						<button type="button" class="btn btn-warning btn-sm"
-							date-search="12">1년</button>
+						<a href="?search=0" class="btn btn-warning btn-sm ${(param.search eq 0 or param.search eq null) ? 'active' : '' }">전체</a>
+						<a href="?search=3" class="btn btn-warning btn-sm ${param.search eq 3 ? 'active' : '' }">3개월</a>
+						<a href="?search=6" class="btn btn-warning btn-sm ${param.search eq 6 ? 'active' : '' }">6개월</a>
+						 <a	href="?search=12" class="btn btn-warning btn-sm ${param.search eq 12 ? 'active' : '' }">1년</a>
 					</div>
-					<form>
-						<div></div>
-						<div class="form-group col-sm-2">
-							<label>특정 날짜로 찾기</label> <input type="date" class="form-control" />
-						</div>
-						<div class="form-group col-sm-2">
-							<label>특정 날짜로 찾기</label> <input type="date" class="form-control" />
-						</div>
-					</form>
+						<form action="" class="container">
+							<label>특정 날짜로 찾기</label>
+							<div class="form-group col-sm-3">
+								<label>시작일</label> <input type="date" class="form-control"
+									name="beginday" value="${param.beginday }" min="2010-01-01" max="${now }" />
+							</div>
+							<div class="form-group col-sm-3">
+								<label>마지막일</label> <input type="date" class="form-control"
+									name="endday" value="${param.endday }" max="${now }"/>
+							</div>
+							<input type="hidden" value="-1" name="search">
+							<button type="submit" class="btn btn-md btn-primary">조회</button>
+						</form>
 				</div>
 
 
@@ -85,12 +85,15 @@
 										</th>
 
 										<th class="well">
-										<% int oldPId = 0; %>
-										<c:set target="<%=oldPId %>"  var="pId" value="0" />
-											<c:forEach var="orderDetail" items="${order.orderDetails }">
+											<%
+												int oldPId = 0;
+											%> <c:set target="<%=oldPId%>" var="pId"
+												value="0" /> <c:forEach var="orderDetail"
+												items="${order.orderDetails }">
 												<c:if test="${pId != orderDetail.item.product.id }">
-													<c:set target="<%=oldPId %>"  var="pId" value="${orderDetail.item.product.id  }" />
-													
+													<c:set target="<%=oldPId %>" var="pId"
+														value="${orderDetail.item.product.id  }" />
+
 													<div class="product-list">
 														<div class="thmb_area">
 															<a href="/deal/680182918?isHistory=Y" tl:area="PDCO"
@@ -109,36 +112,40 @@
 															배송완료일 : <strong>2017.09.20</strong>
 														</p>
 														<ul class="list-unstyled">
-														
-														<%int productPriceSum = 0; %>
+
+															<%
+																int productPriceSum = 0;
+															%>
 															<c:forEach var="orderDetail"
-																	items="${order.orderDetails }">
-																	<c:if test="${orderDetail.item.product.id == pId }">
-																	<c:set var="sum" target="<%= productPriceSum %>" value="${sum + orderDetail.realPrice * orderDetail.orderQuantity}"  scope="page"/>
-															<li>
-																	<div class="text-left">
-																		<div class="tit">
-																			<strong>${orderDetail.item.options }</strong>
-																			<p>
-																				(구매수량<em>${orderDetail.orderQuantity}</em>개)
-																			</p>
+																items="${order.orderDetails }">
+																<c:if test="${orderDetail.item.product.id == pId }">
+																	<c:set var="sum" target="<%= productPriceSum %>"
+																		value="${sum + orderDetail.realPrice * orderDetail.orderQuantity}"
+																		scope="page" />
+																	<li>
+																		<div class="text-left">
+																			<div class="tit">
+																				<strong>${orderDetail.item.options }</strong>
+																				<p>
+																					(구매수량<em>${orderDetail.orderQuantity}</em>개)
+																				</p>
+																			</div>
 																		</div>
-																	</div>
-																</li>
-																
-																	</c:if>
-																</c:forEach>
+																	</li>
+
+																</c:if>
+															</c:forEach>
 															<p class="pay_info">
 																<span class="won"><em><fmt:formatNumber
 																			pattern=",###">${sum}</fmt:formatNumber></em>원</span>(${order.condition })
 															</p>
-															<c:remove var="sum" scope="page"/>
+															<c:remove var="sum" scope="page" />
 														</ul>
 													</div>
 												</c:if>
-											</c:forEach>
-											 <c:remove var="pId" scope="page" /></th>
-											
+											</c:forEach> <c:remove var="pId" scope="page" />
+										</th>
+
 										<td class="expiry">
 											<p class="delivery_condition">
 												<strong>배송완료</strong> <a class="parcel"
@@ -151,15 +158,12 @@
 											<div class="ly_btn">
 												<div class="refund_qes">
 													<button type="submit" class="btn btn-default btn-sm">
-														<a href="javascript:noticeClaim('N_DP05');"
-															class="cncl_inquiry">환불문의</a>
+														<a href="javascript:void(0)">환불문의</a>
 													</button>
 												</div>
 												<div class="af_orderwrite">
 													<button type="submit" class="btn btn-warning btn-sm">
-														<a
-															href="javascript:layer_process('review', 'review', '1553184610', '680182918', '1', '');"
-															class="review_w" id="review_1553184610_680182918">구매후기쓰기</a>
+														<a href="javascript:void(0)">구매후기쓰기</a>
 													</button>
 												</div>
 											</div>
@@ -169,15 +173,13 @@
 										<td colspan="3" class=" delivery"><span title=""
 											class="adr">
 												<p class="addr">
-													<em>배송지 정보 : </em><span>${order.receiver }, (${order.delivery.postalCode }) ${order.delivery.mainAddress } </span>
+													<em>배송지 정보 : </em><span>${order.receiver },
+														(${order.delivery.postalCode })
+														${order.delivery.mainAddress } </span>
 												</p>
 												<p class="etc">${order.delivery.detailAddress }</p>
 										</span></td>
 									</tr>
-
-
-
-
 
 								</c:forEach>
 						</c:when>
@@ -207,11 +209,12 @@
 </body>
 <script>
 	$(function() {
-		$('.date-btn button').click(function() {
-			console.log($(this).attr('date-search'));
-			$(this).addClass('active');
-			$(this).siblings().removeClass('active');
-		});
+		$('input[name=beginday]').change(function(){
+			$('input[name=endday]').attr('min', $(this).val())
+		})
+		$('input[name=endday]').change(function(){
+			$('input[name=beginday]').attr('max', $(this).val())
+		})
 	})
 </script>
 </html>

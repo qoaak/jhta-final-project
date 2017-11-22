@@ -22,7 +22,7 @@
                 <!--판매중인 상품 리스트-->
                 <div class="row">
                     <div class="row" id="sale-product-area">
-                       <h1>현재 판매중인 상품 리스트</h1>
+                       <h1>등록된 상품 리스트</h1>
                     </div>
                     <hr/>
                     
@@ -67,16 +67,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach var="product" items="${products }" varStatus="status">
-                            		<tr>
-	                                    <td> ${status.count }</td>
-	                                    <td><c:out value="${product.smallCategory.name }"></c:out></td>
-	                                    <td><a href="deatil.do?no=${product.id }" >${product.name }</a></td>
-	                                    <td><c:out value="${product.discountRatio }"></c:out></td>
-	                                    <td><fmt:formatDate value="${product.createDate }"/></td>
-	                                    <td><c:out value="${product.show }"></c:out></td>
-	                                </tr>
-                            	</c:forEach>
+	                            <c:choose>
+			                            <c:when test="${empty products }">
+			                            	<tr class="text-center">
+		                            			<td colspan="6">등록된 상품이 없습니다.</td>
+			                            	</tr>
+			                            </c:when>
+			                            <c:otherwise>
+		                            	<c:forEach var="product" items="${products }" varStatus="status">
+		                            		<tr>
+			                                    <td> ${status.count }</td>
+			                                    <td><c:out value="${product.smallCategory.name }"></c:out></td>
+			                                    <td><a href="deatil.do?no=${product.id }" >${product.name }</a></td>
+			                                    <td><c:out value="${product.discountRatio }"></c:out></td>
+			                                    <td><fmt:formatDate value="${product.createDate }"/></td>
+			                                    <td><c:out value="${product.show }"></c:out></td>
+			                                </tr>
+		                            	</c:forEach>
+		                            </c:otherwise>
+	                            </c:choose>
                             </tbody>
                         </table>
                         <div class="text-right" id="add-btn">
@@ -93,9 +102,136 @@
     </div>  
 </body>
 <script type="text/javascript">
+$(function() {
+	
+	var opt = $("select[name=opt] option:selected").val();
+	var keyword = $("input[name=keyword]").val();
+	var beginday = $("input[name=beginday]").val();
+	var endday = $("input[name=endday]").val();
+	var pageNo = $("input[name=pageNo]").val();
+
+	$.ajax({
+		type:"GET",
+		url:"getProducts.do",
+		dataType:"json",
+		data:{
+			opt: opt, 
+			keyword: keyword,
+			beginday: beginday,
+			endday: endday,
+			pageNo: pageNo
+		},
+		success:function(result) {
+			
+			var html = "";
+			$.each(result.products, function(index, product) {
+				html += "<tr>";
+				html += "<td>"+product.id+"</td>";
+				html += "<td>"+product.smallCategory.name+"</td>";
+				html += "<td><a href='detail.do?productId="+product.id+"'>"+product.name+"</a></td>";
+				html += "<td>"+product.discountRatio+"</td>";
+				html += "<td>"+product.createDate+"</td>";
+				html += "<td>"+product.show+"</td>";
+				html += "<td>";
+				html += "<button class='btn btn-success btn-sm' id='btn-modify-"+product.id+"'>상태변경</button>";
+				html += "<button class='btn btn-danger btn-sm' id='btn-del-"+product.id+"'>삭제</button>";
+				html += "</td>";
+				html += "</tr>";
+			});
+			$("#sale-product tbody").html(html);
+		}
+	});
+
+	$("#sale-product tbody").on('click', 'button[id^=btn-del]', function () {
+		
+		var productId = $(this).attr("id").replace("btn-del-", "");
+		var opt = $("select[name=opt] option:selected").val();
+		var keyword = $("input[name=keyword]").val();
+		var beginday = $("input[name=beginday]").val();
+		var endday = $("input[name=endday]").val();
+		var pageNo = $("input[name=pageNo]").val();
+		
+		$.ajax({
+			type:"GET",
+			url:'delete.do',
+			data:{
+				productId: productId,
+				opt: opt, 
+				keyword: keyword,
+				beginday: beginday,
+				endday: endday,
+				pageNo: pageNo
+			},
+			dataType:'json',
+			success: function(result) {
+				var html = "";
+				$.each(result.products, function(index, product) {
+					html += "<tr>";
+					html += "<td>"+product.id+"</td>";
+					html += "<td>"+product.smallCategory.name+"</td>";
+					html += "<td><a href='detail.do?productId="+product.id+"'>"+product.name+"</a></td>";
+					html += "<td>"+product.discountRatio+"</td>";
+					html += "<td>"+product.createDate+"</td>";
+					html += "<td>"+product.show+"</td>";
+					html += "<td>";
+					html += "<button class='btn btn-success btn-sm' id='btn-modify-"+product.id+"'>상태변경</button>";
+					html += "<button class='btn btn-danger btn-sm' id='btn-del-"+product.id+"'>삭제</button>";
+					html += "</td>";
+					html += "</tr>";
+				});
+				$("#sale-product tbody").html(html);
+			}
+		});
+	});
+	
+	$("#sale-product tbody").on('click', 'button[id^=btn-modify-]', function() {
+		
+		var productId = $(this).attr("id").replace("btn-modify-", "");
+		var opt = $("select[name=opt] option:selected").val();
+		var keyword = $("input[name=keyword]").val();
+		var beginday = $("input[name=beginday]").val();
+		var endday = $("input[name=endday]").val();
+		var pageNo = $("input[name=pageNo]").val();
+		
+		$.ajax({
+			type: 'GET',
+			url: 'change.do',
+			data: {
+				productId: productId,
+				opt: opt, 
+				keyword: keyword,
+				beginday: beginday,
+				endday: endday,
+				pageNo: pageNo
+			},
+			dataType: 'json',
+			success:function (result) {
+				var html = "";
+				$.each(result.products, function(index, product) {
+					html += "<tr>";
+					html += "<td>"+product.id+"</td>";
+					html += "<td>"+product.smallCategory.name+"</td>";
+					html += "<td><a href='detail.do?productId="+product.id+"'>"+product.name+"</a></td>";
+					html += "<td>"+product.discountRatio+"</td>";
+					html += "<td>"+product.createDate+"</td>";
+					html += "<td>"+product.show+"</td>";
+					html += "<td>";
+					html += "<button class='btn btn-success btn-sm' id='btn-modify-"+product.id+"'>상태변경</button>";
+					html += "<button class='btn btn-danger btn-sm' id='btn-del-"+product.id+"'>삭제</button>";
+					html += "</td>";
+					html += "</tr>";
+				});
+				$("#sale-product tbody").html(html);
+			}
+		});
+	});
+	
+	
 	$('#search-btn').click(function() {
 		
 		$('input[name=pageNo]').val(1);
-	})
+	});
+	
+});
 </script>
 </html>

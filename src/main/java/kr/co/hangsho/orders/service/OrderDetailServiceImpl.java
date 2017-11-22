@@ -1,6 +1,7 @@
 package kr.co.hangsho.orders.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,17 @@ public class OrderDetailServiceImpl implements  OrderDetailService{
 	OrderDetailMapper orderDetailMapper;
 
 	@Override
-	public List<OrderDetail> getOrderDetailsByCustomer(Customer customer) {
-		return orderDetailMapper.getOrderDetailsByCustomer(customer);
+	public List<OrderDetail> getOrderDetailsByCustomer(Map map) {
+		return orderDetailMapper.getOrderDetailsByCustomer(map);
+	}
+	@Override
+	public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
+		
+		return orderDetailMapper.getOrderDetailsByOrderId(orderId);
+	}
+	@Override
+	public void addOrderDetail() {
+		orderDetailMapper.addOrderDetail();
+		
 	}
 }

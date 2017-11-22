@@ -2,67 +2,122 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/abcompany/header.jsp" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-<title>패키지 상세</title>
+<title>개별상품 페이지</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+<style>
+	.mainthumbnail img {width: 280px;}
+	.pro th {padding-top: 12px !important;}
+	.pro td {padding-top: 12px !important;}
+	.etc {padding-top: 12px !important;}
+	.mainimage {height: 300px !important; padding: 0px !important;}
+	.subimage img {width: 770px;}
+	.subimage div {text-align: center;}
+	.remot {width: 50px; height: 150px; #ccc; top: 350px; left: 50%; margin-left: 600px; position: fixed;}
+	#table-area th {background-color: #e6f7ff;}
+	#table-area {overflow-y: scroll !important; height: 150px;}
+</style>
 <body>
 <%@ include file="/WEB-INF/views/abcompany/navi.jsp" %>
     <div id="body-container" class="container-fluid">     
         <div id="body-container-body">
-			<div class="container">
-			
-			    <div class="row">
-			        <table class="table table-hover">
-			            <colgroup>
-			                <col width="20%">
-			                <col width="*%">
-			                <col width="10%">
-			                <col width="20%">
-			                <col width="10%">
-			                <col width="10%">
-			            </colgroup>
-			            <tbody>
-			                <tr>
-			                    <th>상품 상세 번호</th>
-			                    <td>${products.productsId}</td>
-			                    <th>소분류</th>
-			                    <td>${products.category.smallCategoryName}</td>
-			                    <th>판매상태</th>
-			                    <td>${products.productsShow}</td>
-			                </tr>
-			                <tr>
-			                    <th>상품명</th>
-			                    <td>${products.productsName}</td>
-			                    <th>배송비</th>
-			                    <td>${products.deliveryFee}</td>
-			                </tr>
-			                <tr>
-			                    <th>조회수</th>
-			                    <td><span>${products.productsClicked}</span><span>원</span></td>
-			                    <th>할인률</th>
-			                    <td>${products.discountRatio}</td>
-			                </tr>
-			                <tr>
-			                	<th>상세 설명</th>
-			                	<td>${products.productsDescription}</td>
-			                </tr>
-			           </tbody>
-			        </table>
-			    </div>
-			    
-			    <div class="text-right">
-			        <a href="modify.do" class="btn btn-info">수정</a>
-			        <a href="list.do" class="btn btn-success">목록</a>
-			    </div>
-			    
-			</div>
-		</div>
-	</div>
+            <div class="container">
+				 <div class="col-sm-offset-1 col-sm-10">
+				 
+				 	<h1>${product.name }</h1>
+				 	
+				 	<!-- 스크롤 -->
+                    <div class="remot">
+                        <a id="btn-top" class="btn btn-default btn-xm">▲</a>
+                        <a id="btn-bottom" class="btn btn-default btn-xm">▼</a>
+                    </div>
+                    
+                    <div class="row text-right">
+                    	<a href="modifyForm.do?productId=${product.id }" class="btn btn-info btn-sm">수정</a>
+                    	<a href="list.do" class="btn btn-primary btn-sm">목록</a>
+                    </div>
+                    
+                    <!-- 상품 상세 내용 -->
+					<div>
+					    <table class="table">
+					        <colgroup>
+					            <col width="310px">
+					            <col width="100px">
+					        </colgroup>
+							<tbody>
+							    <tr>
+							        <td class="mainthumbnail" rowspan="7"><img src="${product.image.path }"></td>
+							        <th class="etc">상품번호</th>
+							        <td class="etc">No.${product.id }</td>
+							        <th>등록날짜</th>
+							        <td colspan="3"><fmt:formatDate value="${product.createDate }"/></td>
+							    </tr>
+							    <tr class="pro">
+							        <th>판매여부</th>
+							        <td colspan="4">${product.show }</td>
+							    </tr>
+							    <tr class="pro">
+							        <th>가격</th>
+							        <td colspan="3"> 원</td>
+							    </tr>
+							    <tr class="pro">
+							        <th>할인율</th>
+							        <td colspan="3">${product.discountRatio }%</td>
+							    </tr>
+							    <tr class="pro">
+							        <th>배송비</th>
+							        <td>${product.deliveryFee }</td>
+							    </tr>
+							    <tr class="pro">
+							        <th>카테고리</th>
+							        <td colspan="3"> ${product.smallCategory.midCategory.bigCategory.name } > ${product.smallCategory.midCategory.name } > ${product.smallCategory.name } </td></tr>
+							    </tr>
+							    <tr><td colspan="7"></td></tr>
+							</tbody>
+					    </table>
+					</div>
+                    
+                    <!-- 관련 상품 -->
+					<div id="table-area">
+					    <table class="table table-hover">
+					        <thead>
+					            <tr>
+					                <th>번호</th>
+					                <th>상품 옵션 이름</th>
+					                <th>판매가</th>
+					                <th>재고</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+						        <c:forEach var="item" items="${items }">
+						            <tr>
+						                <td>${item.id }</td>
+						                <td><a href="${item.id }">${item.options}</a></td>
+						                <td>${item.salePrice} 원</td>
+						                <td>${item.initialQuantity - item.saledQuantity} 개</td>
+						            </tr>
+						        </c:forEach>
+					        </tbody>
+					    </table>
+					</div>
+                    <hr />
+                    <!-- 상품 설명 -->
+                    <div class="subimage">
+                        <p>${product.description }</p>
+                        <div>
+	                        	<img src="">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -4,12 +4,11 @@
 li{list-style: none;}
 img{border: none;vertical-align: middle;max-width:100%;}
 h1,h2,h3,h4,h5,h6,address,strong,em,th{font-weight: normal;font-size: 100%;font-style: normal;}
-a{text-decoration: none !important;color:#333 !important;}
+/* a{text-decoration: none !important;color:#333 !important;} */
 body{font: 13px/1.4 malgungothic,"맑은고딕",dotum,"돋움",gulim,"굴림",sans-serif;color:#333;}
 del{color:#aaa;margin-left: 2px;}
-a.btn{color:#fff !important;}
-a.btn-default{color:#000 !important;}
-.active a{color:#fff !important;}
+/* a.btn{color:#fff !important;}
+ */a.btn-default{color:#000 !important;}
 
 #header{border-bottom: 1px solid #5bc0de;}
 .box_util{background-color: #5bc0de;height:35px;}

@@ -64,24 +64,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="exist-ques-lst1">갤럭시 노트 8</td>
-                                <td class="exist-ques-lst2">전원이 켜지지 않습니다</td>
-                                <td class="exist-ques-lst3">2017-11-02</td>
-                                <td class="exist-ques-lst4">답변보류</td>
+                        <c:forEach var="qna" items="${questionList}">
+                        	<tr>
+                                <td class="exist-ques-lst1"><a href="/hangshoproducts/detail.do?productId=${qna.product.id }">${qna.product.name }</a></td>
+                                <td class="exist-ques-lst2"> ${qna.question }</td>
+                                <td class="exist-ques-lst3"> <fmt:formatDate value="${qna.createDate }" pattern="yyyy-MM-dd"/> </td>
+                                <td class="exist-ques-lst4">${qna.status == 'N' ? '답변보류' : '답변완료'}</td>
                             </tr>
-                            <tr>
-                                <td class="exist-ques-lst1">lg curve TV</td>
-                                <td class="exist-ques-lst2">TV가 엉망진창으로 왔네요 환불받고 싶습니다</td>
-                                <td class="exist-ques-lst3">2017-11-03</td>
-                                <td class="exist-ques-lst4">답변완료</td>
-                            </tr>
+                        </c:forEach>
                         </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
+        </div>	<!-- customers/inc 파일에서 div.container태그가 열린상태로 남아있기때문에 닫아주기 위함. -->
 <%@ include file="/WEB-INF/views/inc/footer.jsp" %>
 </body>
 <script>

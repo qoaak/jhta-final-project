@@ -1,17 +1,24 @@
 package kr.co.hangsho.privatedeal.merona.web;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.co.hangsho.categories.service.MiddleCategoryService;
 import kr.co.hangsho.categories.service.SmallCategoryService;
+import kr.co.hangsho.categories.vo.MiddleCategory;
+import kr.co.hangsho.categories.vo.SmallCategory;
 import kr.co.hangsho.privatedeal.service.PrivatedealService;
+import kr.co.hangsho.privatedeal.vo.Comment;
 import kr.co.hangsho.privatedeal.vo.Privatedeal;
+import kr.co.hangsho.privatedeal.web.form.PrivatedealForm;
 import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
@@ -48,11 +55,56 @@ public class MeronaController {
 	}
 	
 	@RequestMapping("/detail.do")
-	public String detail(int no, Model model) {
+	public String detail(int no, Model model, HttpSession httpSession) {
+		
+		privatedealService.clickedPlus(no);
+		
+		List<Comment> comments = privatedealService.getCommentsByBoardNo(no);
+		System.out.println(comments);
+		
+		Privatedeal merona = privatedealService.getMeronaByNo(no);
+		
+		List<MiddleCategory> middleCategories = middleCategoryService.getMidCategoryByBigNo(merona.getSmallcategory().getMidCategory().getBigCategory().getId());
+		List<SmallCategory> smallCategories = smallCategoryService.getSmaCategoryByMidNo(merona.getSmallcategory().getMidCategory().getId());
 						
-		model.addAttribute("merona", privatedealService.getMeronaByNo(no));
+		model.addAttribute("merona", merona);
+		model.addAttribute("middleCategories", middleCategories);
+		model.addAttribute("smallCategories", smallCategories);
+		model.addAttribute("comments", comments);
 		
 		return "/privatedeal/merona/detail";
 	}
+	
+	@RequestMapping("/dpi.do")
+	public String dpim(int no) {
+		
+		privatedealService.dpiUpdateByBoardNo(no);
+		
+		return "redirect:/merona/detail.do?no=" + no;
+	}
+	
+	@RequestMapping("/di.do")
+	public String dim(int no) {
+		
+		privatedealService.diUpdateByBoardNo(no);
+		
+		return "redirect:/merona/detail.do?no=" + no;
+	}
+	
+	@RequestMapping("/dc.do")
+	public String dcm(int no) {
+		
+		privatedealService.dcUpdateByBoardNo(no);
+		
+		return "redirect:/merona/detail.do?no=" + no;
+	}
+	
+	@RequestMapping("/delete.do")
+	public String delete(int no) {
+		
+		privatedealService.deleteBoardByBoardNo(no);
+		
+		return "redirect:/merona/index.do";
+	}	
 	
 }

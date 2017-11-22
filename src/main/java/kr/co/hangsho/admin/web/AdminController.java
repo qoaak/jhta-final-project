@@ -22,6 +22,8 @@ public class AdminController {
 		
 	}
 	
+	// 상품관리
+	
 	@RequestMapping("/prolist.do")
 	public String productList(Criteria criteria, Model model) {
 	
@@ -30,15 +32,43 @@ public class AdminController {
 		return "admin/prolist";
 	}
 	
-	@RequestMapping("/proearning.do")
-	public String allearning(Criteria criteria, Model model) {
-			model.addAttribute("items", adminService.getItems(criteria));
-		return "admin/proearning";
+	@RequestMapping("/recompro.do")
+	public String recompro(Criteria criteria, Model model) {
+			model.addAttribute("products", adminService.getProductList(criteria));
+		return "admin/recompro";
 	}
 	
-	@RequestMapping("/memberlist.do")
-	public String memberlist() {
+	// 실적관리
+	
+	@RequestMapping("/earning.do")
+	public String earning() {
+		return "admin/earning";
+	}
+	
+	@RequestMapping("/earningpro.do")
+	public String allearning(Criteria criteria, Model model) {
+			model.addAttribute("items", adminService.getItems(criteria));
+		return "admin/earningpro";
+	}
+	
+	// 회원관리
+	
+	@RequestMapping("/membercom.do")
+	public String memberCompany() {
 		
-		return "admin/memberlist";
+		return "admin/membercom";
+	}
+	
+	@RequestMapping("/membercus.do")
+	public String memberCustomer() {
+		
+		return "admin/membercus";
+	}
+	
+	// 문의관리
+	
+	@RequestMapping("/qnalist.do")
+	public String qnalist() {
+		return "admin/qnalist";
 	}
 }

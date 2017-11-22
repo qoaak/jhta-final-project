@@ -157,7 +157,7 @@
 	                            		<td class="text-primary">${merona.status.name }</td>
 	                            	</c:when>
 	                            	<c:when test="${merona.status.id eq 'DI'}">
-	                            		<td class="text-warining">${merona.status.name }</td>
+	                            		<td class="text-warning">${merona.status.name }</td>
 	                            	</c:when>
 	                            	<c:when test="${merona.status.id eq 'DC'}">
 	                            		<td class="text-danger">${merona.status.name }</td>

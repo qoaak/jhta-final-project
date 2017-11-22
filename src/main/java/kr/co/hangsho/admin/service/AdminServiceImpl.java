@@ -42,6 +42,16 @@ public class AdminServiceImpl implements AdminService {
 		return itemMapper.getItems(criteria);
 	}
 	
+	public List<Product> getProductList(Criteria criteria) {
+		List<Product> products = productMapper.getProductList(criteria);
+		
+		for(Product product : products) {
+			SmallCategory category = categoryMapper.getCategory(product.getSmallCategory().getId());
+			product.setSmallCategory(category);
+		}
+		return products;
+	}
+	
 
 	
 

@@ -18,6 +18,31 @@
 		(#{id}, #{question}, #{product.id}, #{customer.id}, sysdate, #{title})
 	</insert>
 	
+		<select id="getProductQuesByCustomer" resultType="ProductQue" parameterType="Customer">
+		select
+			PQ.product_q_id				as id,
+			PQ.product_q_question		as question,
+			PQ.product_id				as "product.id",
+			PQ.customer_id				as "customer.id",
+			PQ.product_q_createdate		as createDate,
+			PQ.product_q_deleted			as deleted,
+			PQ.product_q_title			as title,
+			P.product_name			as "product.name",
+			PQ.product_q_status	 as "status"
+		from
+			product_q PQ, customers C, products P
+		where 
+			PQ.customer_id = C.customer_id
+		and
+			C.customer_id = #{id}
+		and
+			PQ.product_q_deleted = 'N'
+		and
+			PQ.product_id = P.product_id
+		order by
+			PQ.product_q_id desc
+	</select>
+	
 	<select id="getProductQues" resultType="ProductQue">
 		select
 			P.product_q_id				as id,

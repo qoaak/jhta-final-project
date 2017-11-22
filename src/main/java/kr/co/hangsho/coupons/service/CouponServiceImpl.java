@@ -26,14 +26,9 @@ public class CouponServiceImpl implements CouponService {
 		return couponMapper.couponCountByCustomerId(customerId);
 	}
 	
-//	@Override
-//	public void couponUsed(Coupon coupon) {
-//		couponMapper.couponUsed(coupon);
-//	}
-	
-//	@Override
-//	public Coupon getOldCoupon(int customerId) {
-//
-//		return couponMapper.getOldCoupon(customerId);
-//	}
+	@Override
+	public void couponUsed(int couponId) {
+		couponMapper.couponUsed(couponId);
+	}
+
 }

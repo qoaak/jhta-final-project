@@ -5,7 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemForm {
 
 	private int smallCategory;
-	private String product;
+	private String options;
+	private int product;
 	private int originalPrice;
 	private int salePrice;
 	private int initialQuantity;
@@ -17,10 +18,16 @@ public class ItemForm {
 	public void setSmallCategory(int smallCategory) {
 		this.smallCategory = smallCategory;
 	}
-	public String getProduct() {
+	public String getOptions() {
+		return options;
+	}
+	public void setOptions(String options) {
+		this.options = options;
+	}
+	public int getProduct() {
 		return product;
 	}
-	public void setProduct(String product) {
+	public void setProduct(int product) {
 		this.product = product;
 	}
 	public int getOriginalPrice() {
@@ -49,8 +56,8 @@ public class ItemForm {
 	}
 	@Override
 	public String toString() {
-		return "ItemForm [smallCategory=" + smallCategory + ", product=" + product + ", originalPrice=" + originalPrice
-				+ ", salePrice=" + salePrice + ", initialQuantity=" + initialQuantity + ", imagefile=" + imagefile
-				+ "]";
+		return "ItemForm [smallCategory=" + smallCategory + ", options=" + options + ", product=" + product
+				+ ", originalPrice=" + originalPrice + ", salePrice=" + salePrice + ", initialQuantity="
+				+ initialQuantity + ", imagefile=" + imagefile + "]";
 	}
 }

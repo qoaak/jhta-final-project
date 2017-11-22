@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/inc/top.jsp" %>
-<%@ include file="/WEB-INF/views/inc/header.jsp" %>            
+<%@ include file="/WEB-INF/views/inc/header.jsp" %>
+<script src="/resources/js/detail.js"></script>            
 <link rel="stylesheet" href="/resources/css/detail.css">	
 </head>
 <body>
@@ -59,8 +60,8 @@
 	        <div class="container-fluid">
 				<ul class="nav navbar-nav" id="sc" role="tablist">
 					<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">상품설명</a></li>
-					<li role="presentation"><a href="#profile"  aria-controls="profile" role="tab" data-toggle="tab">상품()</a></li>
-					<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">구매후기()</a></li>
+					<li role="presentation"><a href="#profile"  aria-controls="profile" role="tab" data-toggle="tab">상품문의</a></li>
+					<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">구매후기</a></li>
 					<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">환불교환/상품고시</a></li>
 				</ul>
 	         </div>
@@ -114,7 +115,7 @@
                 </ul>
 				<div class="row">
                   <div class="itemques">
-                       <h4 class="quespro"><strong>상품 문의하기</strong><strong id="quesnum">147</strong></h4> 
+                       <h4 class="quespro"><strong>상품 문의하기</strong></h4> 
                   </div>
                   <div class="col-sm-6">
                         <form id="search-form" class="form-inline pull-left">
@@ -180,13 +181,13 @@
 	                                 </div>
 	                             </div>
 	                         </div> 
-	                         <button type="button" class="btn btn-default">내 문의하기</button>    
-	                         <button type="button" class="btn btn-default">전체 문의하기</button>  
+	                         <a href="#" class="btn btn-default">내 문의보기</a>    
+	                         <a href="#" class="btn btn-default" id="allSearch">전체 문의보기</a> 
 	                     </form>  
                      </div>  
                 </div>              
                 <hr />
-                    <table class="table table-condensed qnaitems">
+                    <table class="table table-condensed qnaitems" id="qnaitemstable">
                        <colgroup>
                            <col width="50">
                            <col width="300">
@@ -201,24 +202,13 @@
                                 <th scope="col">등록일</th>
                             </tr>
                         </thead>
-                        <tbody>
-                        <c:if test="${empty productque }">
-                        	<tr>
-                        		<td colspan="5" class="text-center">검색된 결과가 없습니다</td>
-                        	</tr>
-                        </c:if>
-                        <c:forEach var="proque" items="${productque }">
-                            <tr>
-                                <td scope="row">${proque.id }</td>
-                                <td class="on" id="questiontitle_${proque.id }"><a href="javascript:void(0);"><c:out value="${proque.title }"></c:out></a></td>
-                                <td>${proque.customer.username }</td>
-                                <td><fmt:formatDate value="${proque.createDate }" pattern="yyyy-MM-dd" /></td>
-                            </tr>
-                        </c:forEach>
+                        <tbody id="quelists">
                         </tbody>
                     </table>
-                    <!-- 페이징처리 -->
-                    <%@ include file="/WEB-INF/views/inc/paginations.jsp" %> 
+                    <div class="text-center">
+                    <ul class="pagination" id="pagination-product-qna">
+                    </ul>
+                </div> 
             </div>
             <div role="tabpanel" class="tab-pane" id="messages">
 	            <div>
@@ -256,14 +246,7 @@
                 </table>
                 </div>
                 <div class="text-center">
-                    <ul class="pagination">
-                    	<li><a href="javascript:void(0);">&lt;</a></li>
-                    	<li><a href="javascript:void(0);">1</a></li>
-                    	<li><a href="javascript:void(0);">2</a></li>
-                    	<li><a href="javascript:void(0);">3</a></li>
-                    	<li><a href="javascript:void(0);">4</a></li>
-                    	<li><a href="javascript:void(0);">5</a></li>
-                    	<li><a href="javascript:void(0);">&gt;</a></li>
+                    <ul class="pagination" id="pagination-product-review">
                     </ul>
                 </div>
             </div>
@@ -319,98 +302,5 @@
         </div>  
     </div>
     </div>
-    
 </body>
-<script>
-$(function() {
-	$("#clicked").click(function() {
-		$("#productQuestion").click();
-	})
-    $("#day").mouseenter(function() {
-        $("#day").click();
-    })
-    $("#free").mouseenter(function() {
-        $("#free").click();
-    })
-    
-   $("#img2").hide(); 
-    $("#img11").mouseenter(function() {
-       $("#img1").show(); 
-        $("#img11").css("border", "orange solid 2px");
-        $("#img2").hide();
-        $("#img21").css("border", "");
-    });
-    $("#img21").mouseenter(function() {
-       $("#img2").show(); 
-        $("#img21").css("border", "orange solid 2px");
-        $("#img1").hide();
-        $("#img11").css("border", "");
-    });
-    $("#btn-buy").click(function() {
-        alert("상세옵션을 선택해 주세요.")
-    });
-    $("#btn-cart").click(function() {
-        alert("상세옵션을 선택해 주세요.")
-    });
- 	$(window).scroll(function() {
-     var sclTop = $(this).scrollTop();
-     if(sclTop > 649) {
-             $('#sc').css('position', 'fixed').css('top', '1px'); 
-             $('#scr').css('position', 'fixed');
-             $("#top").show();
-             $("#bottom").show();
-        } else {
-           $('#sc').css('position', '').css('top', '');
-           $('#scr').css('position', '');
-           $("#top").hide();
-            $("#bottom").hide();
-        }
-     
- 	})
- 	$("tr").on('click', '.off',function(event){
- 		console.log($(this));
- 		var $tr = $(this).closest('tr');
- 		$tr.next().remove();
- 		$(this).removeClass('off');
- 		$(this).addClass('on');
- 	});
- 	$("tr").on('click', '.on', function(event) {
- 		event.preventDefault();
- 		var $tr = $(this).closest('tr');
- 		var $td = $(this);
- 		id = $td.attr('id').replace("questiontitle_", "");
- 		console.log(id);
- 		if($td.attr('class') == 'on')
- 			$.ajax({
- 				type:"GET",
- 				url:"getQueContent.do",
- 				data:{id:id},
- 				dataType:'json',
- 				success:function(content) {
- 					console.log(content);
- 					var html = "<tr>";
- 					html += "<td colspan='4'>"+content.question+"</td>";
- 					html += "</tr>";
- 					
- 					$tr.after(html);
- 				}
- 			}).done(function(){
- 				$td.removeClass('on');
- 				$td.addClass('off');
- 			});
- 	});
- 	
- 	$(".pagination a").click(function(event) {
- 		event.preventDefault();
- 		$(":input[name=pageNo]").val($(this).attr("href"));
- 		$("#search-form").submit();
- 	});
- 	
- 	$("#btn-search").click(function() {
- 		$(":input[name=pageNo]").val(1);
- 	});
-
-});
-    
-</script>
 </html>

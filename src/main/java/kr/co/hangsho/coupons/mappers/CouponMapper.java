@@ -13,5 +13,5 @@ public interface CouponMapper {
 	List<Coupon> getCouponListByCustomerId(int customerId);
 	int couponCountByCustomerId(int customerId);
 //	Coupon getOldCoupon(int customerId);
-//	void couponUsed(Coupon coupon);
+	void couponUsed(int couponId);
 }

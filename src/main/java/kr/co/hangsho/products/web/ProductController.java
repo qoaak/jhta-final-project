@@ -17,10 +17,13 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.hangsho.categories.service.CategoryService;
 import kr.co.hangsho.categories.vo.SmallCategory;
 import kr.co.hangsho.company.vo.Company;
 import kr.co.hangsho.images.service.ImageService;
 import kr.co.hangsho.images.vo.Image;
+import kr.co.hangsho.item.service.ItemService;
+import kr.co.hangsho.item.vo.Item;
 import kr.co.hangsho.products.service.ProductService;
 import kr.co.hangsho.products.vo.Product;
 import kr.co.hangsho.products.web.form.ProductForm;
@@ -38,6 +41,15 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private ItemService itemService;
 	
 	@RequestMapping("/form.do")
 	public String form() {
@@ -65,7 +77,6 @@ public class ProductController {
 		products.setImage(image);
 		
 		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
-		
 		Company company = (Company) loginInfo.get("LOGIN_USER");
 		products.setCompany(company);
 		
@@ -77,34 +88,47 @@ public class ProductController {
 	}
 
 	@RequestMapping("/list.do")
-	public String productList(HttpSession httpSession, Model model, Criteria criteria) {
-		
-		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
-		if (loginInfo == null) {
-			return "redirect:../customers/login.do"; 	
-		}
-		Company company = (Company) loginInfo.get("LOGIN_USER");
-		
-		int companyNo = company.getId();
-		Map<String, Object> searchMap = new HashMap<String, Object>();
-		
-		searchMap.put("criteria", criteria);
-		searchMap.put("companyId", companyNo);
-		
-		int totalRows= productService.getTotalRowsByCriteria(searchMap);
-		criteria.setTotalRows(totalRows);
-		model.addAttribute("criteria", criteria);
-		List<Product> products = productService.getProductsByComId(searchMap);
-		model.addAttribute("products", products);
+	public String list() {
 		
 		return "/products/list";
 	}
 	
-	/*@RequestMapping("/detail.do")
-	public String detail(int productNo, Model model) {
-		Product product = productService.getProductByProductNo(productNo);
+	@RequestMapping("/detail.do")
+	public String detail(int productId, Model model) {
+		
+		Product product = productService.getProductByProductId(productId);
+		int productImageId = product.getImage().getId();
+		
+		Image mainImage =  imageService.getImageByNo(productImageId);
+		product.setImage(mainImage);
+		int smallCategoryId = product.getSmallCategory().getId();
+		SmallCategory smallCategory = categoryService.getCategory(smallCategoryId);
+		product.setSmallCategory(smallCategory);
+		
 		model.addAttribute("product", product);
 		
-		return "/products/";
-	}*/
+		List<Item> items = itemService.getItemsByProductId(productId);
+		model.addAttribute("items", items);
+		
+		return "/products/detail";
+	}
+	@RequestMapping("/modifyForm.do")
+	public String modify(int productId, Model model) {
+	
+		Product product = productService.getProductByProductId(productId);
+		
+		int productImageId = product.getImage().getId();
+		Image mainImage =  imageService.getImageByNo(productImageId);
+		product.setImage(mainImage);
+
+		int smallCategoryId = product.getSmallCategory().getId();
+		SmallCategory smallCategory = categoryService.getCategory(smallCategoryId);
+		product.setSmallCategory(smallCategory);
+		
+		model.addAttribute("product", product);
+		System.out.println(product);
+		
+		return "/products/modify";
+	}
+	
 }

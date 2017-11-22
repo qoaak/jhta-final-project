@@ -18,6 +18,7 @@
 		values
 		(#{id}, #{path})
 	</insert>
+	
 	<select id="getImageByNo" parameterType="int" resultType="Image">
 		select
 			image_id	as id,
@@ -27,6 +28,12 @@
 		where
 			image_id = #{value}
 	</select>
+	
+	<delete id="deleteImageById" parameterType="int">
+		delete from images
+		where 
+			image_id = #{value}	
+	</delete>
 	
 </mapper>
 

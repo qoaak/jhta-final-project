@@ -1,6 +1,11 @@
 package kr.co.hangsho.item.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +14,12 @@ import kr.co.hangsho.categories.service.MiddleCategoryService;
 import kr.co.hangsho.categories.service.SmallCategoryService;
 import kr.co.hangsho.categories.vo.MiddleCategory;
 import kr.co.hangsho.categories.vo.SmallCategory;
+import kr.co.hangsho.company.vo.Company;
+import kr.co.hangsho.item.service.ItemService;
+import kr.co.hangsho.item.vo.Item;
 import kr.co.hangsho.products.service.ProductService;
 import kr.co.hangsho.products.vo.Product;
+import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
 @RequestMapping("/item")
@@ -24,6 +33,9 @@ public class ItemAjaxController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ItemService itemService;
 	
 	
 	@RequestMapping("/getMidCate.do")
@@ -47,5 +59,54 @@ public class ItemAjaxController {
 		System.out.println(products);
 		return products;
 		
+	}
+	
+	@RequestMapping("/getItems.do")
+	@ResponseBody
+	public Map<String, Object> getProductListByCompanyId(HttpSession httpSession, 
+Criteria criteria) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Company company = (Company) loginInfo.get("LOGIN_USER");
+		int companyId = company.getId();
+		
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("criteria", criteria);
+		searchMap.put("companyId", companyId);
+		
+		int totalRows = itemService.getTotalRows(searchMap);
+		criteria.setTotalRows(totalRows);
+		
+		List<Item> items = itemService.getItemsByCompanyId(searchMap);
+		searchMap.remove("companyId");
+		searchMap.put("items", items);
+		//System.out.println("searchMap:" + searchMap);
+		
+		return searchMap;
+		
+	}
+	@RequestMapping("/delete.do")
+	@ResponseBody
+	public Map<String, Object> deleteItemById(int itemId, HttpSession httpSession, Criteria criteria) {
+		
+		itemService.deleteItemByItemId(itemId);
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Company company = (Company) loginInfo.get("LOGIN_USER");
+		int companyId = company.getId();
+		
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("criteria", criteria);
+		searchMap.put("companyId", companyId);
+		
+		int totalRows = itemService.getTotalRows(searchMap);
+		criteria.setTotalRows(totalRows);
+		
+		List<Item> items = itemService.getItemsByCompanyId(searchMap);
+		searchMap.remove("companyId");
+		searchMap.put("items", items);
+		
+		
+		return searchMap;
 	}
 }

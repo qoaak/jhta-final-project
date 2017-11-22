@@ -17,14 +17,26 @@
 			<mvc:mapping path="/*/*.do"/>
 			<ref bean="loginCheckerInterceptor"/>
 		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/customers/*.do"/>
+			<mvc:mapping path="/company/*.do"/>
+			<mvc:mapping path="/product/*.do"/>
+			 <ref bean="userTypeCheckInterceptor"/>			
+		</mvc:interceptor>
 	</mvc:interceptors>
 	
 
 	<bean id="loginCheckerInterceptor" class="kr.co.hangsho.web.interceptor.LoginCheckInterceptor">
-		<property name="urlSets" ref="urlSet"></property>
+		<property name="urlSets" ref="loginCheckPassUrlSet"></property>
 	</bean>
 	
-	<util:set id="urlSet">
+	<bean id="userTypeCheckInterceptor" class="kr.co.hangsho.web.interceptor.UserTypeCheckInterceptor">
+		<property name="customerUrlSets" ref="customerCheckUrlSet"></property>
+		<property name="companyUrlSets" ref="companyCheckUrlSet"></property>
+	</bean>
+	
+	<util:set id="loginCheckPassUrlSet">
 		<value>/index.do</value>
 		<value>/customers/login.do</value>
 		<value>/customers/logout.do</value>
@@ -34,6 +46,22 @@
 		<value>/merona/detail.do</value>
 	</util:set>
 
+<util:set id="customerCheckUrlSet">
+	<value>/customers/qnalist.do</value>
+	<value>/customers/membership.do</value>
+	<value>/customers/info.do</value>
+	<value>/customers/info-update.do</value>
+</util:set>
+
+<util:set id="companyCheckUrlSet">
+	<value>/company/index.do</value>
+	<value>/company/add.do</value>
+	<value>/company/modify.do</value>
+	<value>/product/form.do</value>
+	<value>/product/add.do</value>
+	<value>/product/list.do</value>
+	<value>/product/modifyForm.do</value>
+</util:set>
 
 	<util:map id="imagePathMap">
 		<!-- 식품 -->

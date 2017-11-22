@@ -1,6 +1,8 @@
 package kr.co.hangsho.item.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,39 @@ public class ItemServiceImpl implements ItemService {
 	public List<Item> getItemListByProductsNo(int itemNo) {
 		return null;
 	}
+	@Override
+	public List<Item> getItemsByCompanyId(Map<String, Object> map) {
+		return itemMapper.getItemsByComId(map);
+	}
+	@Override
+	public int getTotalRows(Map<String, Object> map) {
+		return itemMapper.getTotalRows(map);
+	}
+	
 
+	@Override
+	public Item deleteItemByItemId(int itemId) {
+		
+		Item item = itemMapper.getItemById(itemId);
+		
+		int imageId = item.getImage().getId();
+		imageMapper.deleteImageById(imageId);
+		
+		itemMapper.deleteItemById(itemId);
+		return item;
+	}
+	@Override
+	public Item getItemByItemId(int itemId) {
+		return itemMapper.getItemById(itemId);
+	}
+	@Override
+	public List<Item> getItemsByProductId(int productId) {
+		return itemMapper.getItemsByProductId(productId);
+	}
+	
+	@Override
+	public List<Item> getItemListByProductNo(int productNo) {
+	      
+	   return itemMapper.getItemListByProductNo(productNo);
+	}
 }

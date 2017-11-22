@@ -16,24 +16,24 @@
 			</div>
 			<div class="col-sm-9" id="grade-descrip">
 				<h4>
-					<strong>${ LOGIN_INFO.LOGIN_USER.nickname}</strong>님의 티몬 멤버십 등급은 <strong style="color: firebrick">
-		<c:choose>
-									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'S'}">
+					<strong>${ LOGIN_INFO.LOGIN_USER.nickname}</strong>님의 티몬 멤버십 등급은 <strong
+						style="color: firebrick"> <c:choose>
+							<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'S'}">
 										Silver										
 									</c:when>
-									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'G'}">
+							<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'G'}">
 										Gold										
 									</c:when>
-									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'V'}">
+							<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'V'}">
 										VIP										
 									</c:when>
-									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'VV'}">
+							<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'VV'}">
 										VVIP										
 									</c:when>
-									<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'TF'}">
+							<c:when test="${ LOGIN_INFO.LOGIN_USER.grade == 'TF'}">
 										The First										
 									</c:when>
-								</c:choose>
+						</c:choose>
 
 					</strong>입니다
 				</h4>
@@ -49,8 +49,6 @@
 			</div>
 		</div>
 		<hr />
-	</div>
-	</div>
 	</div>
 	</div>
 	<%@ include file="/WEB-INF/views/inc/footer.jsp"%>

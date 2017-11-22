@@ -33,29 +33,12 @@
 			coupon_used = 'N'		
 	</select>
 	
-<!-- 
-	<select id="getOldCoupon" parameterType="int" resultType="Coupon">
-		select 
-			coupon_expiredate 	as expireDate,
-			coupon_id 			as id,
-			coupon_used 		as used,
-			CUSTOMER_ID 		as customer,
-			rownum
-		from (select coupon_expiredate as expireDate, coupon_id as id,coupon_used as used, customer_id as customer
-			  from coupons
-			  where customer_id = #{value}
-			  and coupon_used = 'N'
-			  order by coupon_expiredate desc) A
-		where rownum =1
-	</select>
-
-	
-	<update id="couponUsed" parameterType="Coupon">
+	<update id="couponUsed" parameterType="int">
 		update coupons
 		set coupon_used = 'Y'
 		where coupon_id = #{id}
 	</update>
-	 -->
+
 	
 </mapper>
 

@@ -2,6 +2,8 @@ package kr.co.hangsho.item.web;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -9,14 +11,23 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+
+import kr.co.hangsho.categories.service.CategoryService;
+import kr.co.hangsho.categories.vo.SmallCategory;
+import kr.co.hangsho.company.vo.Company;
+import kr.co.hangsho.images.service.ImageService;
 import kr.co.hangsho.images.vo.Image;
+import kr.co.hangsho.item.mappers.ItemMapper;
 import kr.co.hangsho.item.service.ItemService;
 import kr.co.hangsho.item.vo.Item;
 import kr.co.hangsho.item.web.form.ItemForm;
+import kr.co.hangsho.products.service.ProductService;
 import kr.co.hangsho.products.vo.Product;
+import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
 @RequestMapping("/item")
@@ -31,6 +42,15 @@ public class ItemController {
 	@Autowired
 	private ItemService itemService;
 	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
 	@RequestMapping("/form.do")
 	public String form() {
 		return "/item/register";
@@ -41,16 +61,15 @@ public class ItemController {
 		
 		Item item = new Item();
 		BeanUtils.copyProperties(itemForm, item);
-		System.out.println("itemForm : " + itemForm);
 		
 		Product product = new Product();
-		product.setName(itemForm.getProduct());
-		System.out.println(product);
+		product.setId(itemForm.getProduct());
+		item.setProduct(product);
 		
 		MultipartFile imageFile = itemForm.getImagefile();
 		String filename = imageFile.getOriginalFilename();
-		System.out.println(filename);
-		String imagePath = imagePathMap.get(String.valueOf(product.getId())) + filename;
+		
+		String imagePath = imagePathMap.get(String.valueOf(itemForm.getSmallCategory())) + filename;
 		String savePath = uploadDrectoryPrefix +  imagePath;
 		
 		Image image = new Image();
@@ -63,5 +82,58 @@ public class ItemController {
 		
 		return "redirect:../product/list.do";
 	}
+	@RequestMapping("/list.do")
+	public String list() {
+		
+		
+		return "/item/list";
+	}
 	
+	@RequestMapping("/detail.do")
+	public String detail(int itemId, Model model) {
+		
+		Item item = itemService.getItemByItemId(itemId);
+
+		int imageId = item.getImage().getId();
+		Image image = imageService.getImageByNo(imageId);
+		item.setImage(image);
+		
+		int productId = item.getProduct().getId();
+		Product product = productService.getProductByProductId(productId);
+		
+		int smallCategoryId = product.getSmallCategory().getId();
+		SmallCategory smallCategory = categoryService.getCategory(smallCategoryId);
+		product.setSmallCategory(smallCategory);
+		
+		item.setProduct(product);
+		
+		model.addAttribute("item", item);
+		//System.out.println(item);
+			
+		return "/item/detail";
+	}
+	
+	@RequestMapping("/modifyForm.do")
+	public String modify(int itemId, Model model) {
+		
+		Item item = itemService.getItemByItemId(itemId);
+
+		int imageId = item.getImage().getId();
+		Image image = imageService.getImageByNo(imageId);
+		item.setImage(image);
+		
+		int productId = item.getProduct().getId();
+		Product product = productService.getProductByProductId(productId);
+		
+		int smallCategoryId = product.getSmallCategory().getId();
+		SmallCategory smallCategory = categoryService.getCategory(smallCategoryId);
+		product.setSmallCategory(smallCategory);
+		
+		item.setProduct(product);
+		
+		model.addAttribute("item", item);
+		System.out.println(item);
+		
+		return "/item/modify";
+	}
 }

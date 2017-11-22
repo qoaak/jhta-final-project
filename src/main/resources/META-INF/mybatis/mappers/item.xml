@@ -13,10 +13,10 @@
 	</select>
 
 	<insert id="addItem" parameterType="Item">
-		insert into product_details
+		insert into items
 		(item_id, item_option, initial_quantity, saled_quantity, product_id, item_sale_price, item_original_price, image_id)
 		values
-		(#{id}, #{options}, #{initialQuantity}, #{saledQuantity}, #{"product.id"}, #{salePrice}, #{originalPrice}, #{"image.id"})
+		(#{id}, #{options}, #{initialQuantity}, #{saledQuantity}, #{product.id}, #{salePrice}, #{originalPrice}, #{image.id})
 	</insert>
 	
 	<select id="getItems" parameterType="Criteria" resultType="Item">
@@ -65,5 +65,162 @@
 			item_id = #{value}
 	</select>
 	
+	<select id="getItemsByComId" parameterType="map" resultType="Item">
+		select 
+			item_id				as id,
+			item_option			as options,
+			item_original_price	as originalPrice,
+			item_sale_price		as salePrice,
+			item_createdate		as createdate,
+			product_name		as "product.name",
+			product_show		as "product.show",
+			product_createdate	as "product.createDate",
+			company_id			as "product.id",
+			small_category_name	as "product.smallCategory.name"
+		from(
+			select 
+				row_number() over(order by item_id asc, product_name asc) rn,
+				I.item_id,
+				I.item_option,
+				I.item_original_price,
+				I.item_sale_price,
+				I.item_createdate,
+				P.product_name,
+				P.product_show,
+				P.product_createdate,
+				P.company_id,
+				SC.small_category_name
+			from
+				items I, products P, small_categories SC
+			where
+				P.small_category_id = SC.small_category_id
+			and
+				P.product_id = I.product_id
+			and
+				P.company_id = ${companyId}
+				<if test="criteria.keyword != null">
+					<choose>
+						<when test="criteria.opt == 'productName'">
+							and item_option like '%' || #{criteria.keyword} || '%'
+						</when>
+						<when test="criteria.opt == 'category'">
+							and small_category_name like '%' || #{criteria.keyword} || '%'
+						</when>
+						<when test="criteria.opt == 'productId'">
+							and company_id like '%' || #{criteria.keyword} || '%'
+						</when>
+						<when test="criteria.opt == 'show'">
+							and product_show like '%' || #{criteria.keyword} || '%'
+						</when>
+					</choose>
+				</if>
+				<if test="criteria.beginday != null">
+					and product_createdate &gt; #{criteria.beginday}
+				</if>
+				<if test="criteria.endday != null">
+					and product_createdate &lt; #{criteria.endday} + 1
+				</if>
+			)
+			where rn >= #{criteria.beginIndex} and rn &lt;= #{criteria.endIndex}
+	</select>
 	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count (*)
+		from
+			items I, products P, small_categories SC
+		where
+			P.small_category_id = SC.small_category_id
+		and
+			P.product_id = I.product_id
+		and
+			P.company_id = #{companyId}
+			<if test="criteria.keyword != null">
+				<choose>
+					<when test="criteria.opt == 'productName'">
+						and item_option like '%' || #{criteria.keyword} || '%'
+					</when>
+					<when test="criteria.opt == 'category'">
+						and small_category_name like '%' || #{criteria.keyword} || '%'
+					</when>
+					<when test="criteria.opt == 'productId'">
+						and company_id like '%' || #{criteria.keyword} || '%'
+					</when>
+					<when test="criteria.opt == 'show'">
+						and product_show like '%' || #{criteria.keyword} || '%'
+					</when>
+				</choose>
+			</if>
+			<if test="criteria.beginday != null">
+				and product_createdate &gt; #{criteria.beginday}
+			</if>
+			<if test="criteria.endday != null">
+				and product_createdate &lt; #{criteria.endday} + 1
+			</if>
+	</select>
+	
+	<select id="getItemsByProductId" parameterType="int" resultType="Item">
+		select
+			I.item_id				as id,
+			I.item_option			as options,
+			I.initial_quantity		as initialQuantity,
+			I.saled_quantity		as saledQuantity,
+			P.product_id			as "product.id",
+			I.item_original_price	as originalPrice,
+			I.item_sale_price		as salePrice,
+			M.image_id				as "image.id",
+			I.item_createdate		as createdate
+		from 
+			items I, products  P, images M
+		where
+			I.product_id = P.product_id
+		and
+			I.image_id = M.image_id
+		and
+			I.product_id = #{value}
+	</select>
+	
+	<select id="getItemById" parameterType="int" resultType="Item">
+		select
+			I.item_id				as id,
+			I.item_option			as options,
+			I.initial_quantity		as initialQuantity,
+			I.saled_quantity		as saledQuantity,
+			P.product_id			as "product.id",
+			I.item_original_price	as originalPrice,
+			I.item_sale_price		as salePrice,
+			M.image_id				as "image.id",
+			I.item_createdate		as createdate
+		from 
+			items I, products  P, images M
+		where
+			I.product_id = P.product_id
+		and
+			I.image_id = M.image_id
+		and
+			I.item_id = #{value}
+	</select>
+	
+	<delete id="deleteItemById" parameterType="int">
+		delete from items
+		where 
+			item_id = #{value}
+	</delete>
+	
+	<select id="getItemListByProductNo" parameterType="int" resultType="Item">
+      select
+         item_id            as id,
+         item_option         as options,
+         initial_quantity   as initialQuantity,
+         saled_quantity      as saledQuantity,
+         product_id         as "product.id",
+         item_original_price   as originalPrice,
+         item_sale_price      as salePrice,
+         image_id         as image,
+         item_createdate      as createdate
+      from
+         items
+      where
+         product_id = #{value}
+   </select>
 </mapper>

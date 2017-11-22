@@ -2,8 +2,7 @@
 <div class="w3-sidebar w3-dark-gray w3-bar-block">
 	<div class="sidenav">
 		<h3>회원 관리</h3>
-		<a href="#" class="w3-bar-item w3-button"><span></span>메인 슬라이드 리스트</a>
-		<a href="#" class="w3-bar-item w3-button w3-light-gray">추천상품 리스트</a> 
-		<a href="#" class="w3-bar-item w3-button">배너??</a>
+		<a href="/admin/membercom.do" class="w3-bar-item w3-button ${sidemenu eq 'company' ? 'w3-light-gray' : ''}">기업회원</a>
+		<a href="/admin/membercus.do" class="w3-bar-item w3-button ${sidemenu eq 'customer' ? 'w3-light-gray' : ''}">개인회원</a> 
 	</div>
 </div>

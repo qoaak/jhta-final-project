@@ -5,45 +5,52 @@
   
 <mapper namespace="kr.co.hangsho.charts.mappers.ChartMapper">
 
-<select id="getDailyChart" parameterType="CriteriaForChart" resultType="DailyChart">
-	select   
-		sum(decode(hours, '00', profit, 0)) 			as t0,
-		sum(decode(hours, '01', profit, 0)) 			as t1,
-		sum(decode(hours, '02', profit, 0)) 			as t2,
-		sum(decode(hours, '03', profit, 0)) 			as t3,
-		sum(decode(hours, '04', profit, 0)) 			as t4,
-		sum(decode(hours, '05', profit, 0)) 			as t5,
-		sum(decode(hours, '06', profit, 0)) 			as t6,
-		sum(decode(hours, '07', profit, 0)) 			as t7,
-		sum(decode(hours, '08', profit, 0)) 			as t8,
-		sum(decode(hours, '09', profit, 0)) 			as t9,
-		sum(decode(hours, '10', profit, 0)) 			as t10,
-		sum(decode(hours, '11', profit, 0)) 			as t11,
-		sum(decode(hours, '12', profit, 0)) 			as t12,
-		sum(decode(hours, '13', profit, 0)) 			as t13,
-		sum(decode(hours, '14', profit, 0)) 			as t14,
-		sum(decode(hours, '15', profit, 0)) 			as t15,
-		sum(decode(hours, '16', profit, 0)) 			as t16,
-		sum(decode(hours, '17', profit, 0)) 			as t17,
-		sum(decode(hours, '18', profit, 0)) 			as t18,
-		sum(decode(hours, '19', profit, 0)) 			as t19,
-		sum(decode(hours, '20', profit, 0)) 			as t20,
-		sum(decode(hours, '21', profit, 0)) 			as t21,
-		sum(decode(hours, '22', profit, 0)) 			as t22,
-		sum(decode(hours, '23', profit, 0)) 			as t23
-	from (select 
-					A.order_id,
-					to_char(A.order_date, 'hh24') hours,
-					B.item_id,
-					(B.order_quantity * C.item_sale_price) - (B.order_quantity * C.item_original_price) as profit
-				from 
-					orders A, order_details B, items C
-				where
-					A.order_id = B.order_id
-					and B.item_id = C.item_id
-					and to_char(order_date, 'yyyy-MM-dd') = #{selectDate}
-					and B.item_id = #{itemId})
+<select id="getDailyChart" parameterType="CriteriaForChart" resultType="ProfitChart">
+	select 
+		B.tm											as tm,
+		nvl(sum(A.profit), 0)					as profit,
+		nvl(sum(order_quantity), 0)		as qty
+		from (
+				select
+				to_char(order_date, 'hh24') hours, order_quantity,
+				(B.order_quantity * C.item_sale_price) - (B.order_quantity * C.item_original_price) as profit
+				from orders A, order_details B, items C
+				where A.order_id = B.order_id
+				and B.item_id = C.item_id
+				and to_char(A.order_date, 'yyyy-MM-dd') = #{selectDate}
+				and B.item_id = #{itemId}
+				) A ,
+				(
+					select lpad(level-1 , 2, '0') tm
+				    from dual connect by level &lt;= 24
+				) B
+		where A.hours(+) = B.tm 
+		group by B.tm
+		order by B.tm
+</select>
 
+<select id="getMonthChart" parameterType="CriteriaForChart" resultType="ProfitChart">
+	select 
+		B.dd											as tm,
+		nvl(sum(A.profit), 0)					as profit,
+		nvl(sum(order_quantity), 0)		as qty
+		from (
+				select
+				to_char(order_date, 'dd') days, order_quantity,
+				(B.order_quantity * C.item_sale_price) - (B.order_quantity * C.item_original_price) as profit
+				from orders A, order_details B, items C
+				where A.order_id = B.order_id
+				and B.item_id = C.item_id
+				and to_char(A.order_date, 'yyyy-MM') = #{selectDate}
+				and B.item_id = #{itemId}
+				) A ,
+				(
+					select lpad(level , 2, '0') dd
+				    from dual connect by level &lt;= 31
+				) B
+		where A.days(+) = B.dd 
+		group by B.dd
+		order by B.dd
 </select>
 
 </mapper>

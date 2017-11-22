@@ -21,4 +21,8 @@ public interface ProductMapper {
 	int getTotalRows(Map<String, Object> map);
 	
 	List<Product> getProductsNameByNo(int smaCateNo);
+	Product getProductById(int productId);
+	void deleteProductById(int Id);
+	
+	void modifyProduct(Product product);
 }

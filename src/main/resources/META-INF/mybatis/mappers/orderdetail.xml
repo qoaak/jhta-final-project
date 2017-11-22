@@ -78,11 +78,39 @@
       <result property="productDetail.product.product.description" column="product_description"/>
    </resultMap> -->
 
-   <select id="getOrderDetailsByCustomer" resultType="map" resultMap="details" parameterType="Customer">
+   <select id="getOrderDetailsByCustomer" resultType="map" resultMap="details" parameterType="map">
       select *
 from ORDER_DETAILS OD, orders O, ITEMS I, PRODUCTS P, IMAGES img
-where OD.order_id  = O.order_id and O.CUSTOMER_ID = #{id} and OD.ITEM_ID = I.ITEM_ID and I.PRODUCT_ID = P.PRODUCT_ID and img.image_id = I.image_id
+where 
+	OD.order_id  = O.order_id 
+and O.CUSTOMER_ID = #{customer.id} 
+and OD.ITEM_ID = I.ITEM_ID 
+and I.PRODUCT_ID = P.PRODUCT_ID 
+and img.image_id = I.image_id
+<if test="criteria.beginday != null">
+	and O.ORDER_DATE>= #{criteria.beginday}
+</if>
+<if test="criteria.endday != null">
+	and O.ORDER_DATE &lt;= #{criteria.endday}
+</if>
 order by OD.order_id desc, OD.item_id asc
    </select>
-
+   
+   <select id="getOrderDetailsByOrderId" resultType="OrderDetail" parameterType="int">
+   		select
+   			order_id	as orderId,
+   			item_id		as "item.id",
+   			order_quantity	as orderQuantity,
+   			order_real_price	as realPrice
+   		from
+   			order_details
+   		where
+   			order_id = ${value}
+   </select>
+	<insert id="addOrderDetail" parameterType="OrderDetail">
+		insert into order_details
+		(order_id, item_id, order_quantity, order_real_price)
+		values
+		(#{orderId}, #{item.id}, #{orderQuantity}, #{realPrice})
+	</insert>
 </mapper>

@@ -55,7 +55,7 @@
 									<td>${product.id }</td>
 									<td><a href="detail.do/id=${product.id }"><c:out value="${product.name }"></c:out> </a></td>
 									<td><a href="">${product.company.name }</a></td>
-									<td>2017-10-11</td>
+									<td><fmt:formatDate value="${product.createDate }" pattern="yyyy-MM-dd"/></td>
 									<td>${product.smallCategory.midCategory.bigCategory.name } &gt; 
 											${product.smallCategory.midCategory.name } &gt; 
 											${product.smallCategory.name }</td>

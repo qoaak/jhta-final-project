@@ -27,33 +27,32 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter{
 		System.out.println(requestURI);
 		String loginUrl = "/customers/login.do?error=deny&returnUrl="+requestURI+params;
 		System.out.println(urlSets.contains(requestURI));
+		String acceptContentType = request.getHeader("Accept");
 
 		
 		if(urlSets.contains(requestURI))
 			return true;
+
 		
-
-
-
 		HttpSession session = request.getSession();
 		Map<String, Object> loginInfo = (Map) session.getAttribute("LOGIN_INFO");
+		
+		
 		if(loginInfo == null) {
-			response.sendRedirect(loginUrl);
-			return false;
+			if (acceptContentType.startsWith("application/json")) {
+				response.getWriter().write("{\"success\":false, \"cause\":\"loginfail\"}");
+				return false;
+			} else {
+				response.sendRedirect(loginUrl);
+				return false;				
+			}
 		} else {
 			return true;
 		}
+		
+//		return true;
 
 
-		
-/*		User user = (User) session.getAttribute("LOGIN_USER");
-		if(user == null) {
-			response.sendRedirect("/user/login.do?error=deny");
-			return false;
-		} else {
-			return true;
-		}*/
-		
 	}
 	
 }

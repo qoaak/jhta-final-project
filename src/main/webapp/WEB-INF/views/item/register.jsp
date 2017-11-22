@@ -20,7 +20,7 @@
 					<strong>Error!</strong> <span id="error-message"></span>
 				</div>
 				
-				<form method="post" action="additem.do" enctype="multipart/form-data" id="item-register-form">
+				<form method="post" action="add.do" enctype="multipart/form-data" id="item-register-form">
 					<table class="table table-hover table-bordered">
 			            <colgroup>
 			                <col width="20%">
@@ -55,6 +55,14 @@
 		                                <select class="form-control" name="product" id="product-name">
 		                                	<option>등록된 상품명</option>
 		                                </select>
+		                            </div>
+		                        </td>
+		                    </tr>
+		                    <tr>
+		                    	<th>옵션</th>
+		                        <td>
+			                        <div class="form-group">
+			                            <input type="text" class="form-control" name="options" id="options-input"/>
 		                            </div>
 		                        </td>
 		                    </tr>
@@ -104,6 +112,8 @@ $(function () {
 	
 	$("#error-message-box").hide();
 	
+	var optionRegex = /^[가-힣a-zA-Z\s]{2,}$/;
+	
 	$("#item-register-form").submit(function() {
 
 		if($("select[name=bigCategory] option:selected").val() == "대분류") {
@@ -126,6 +136,17 @@ $(function () {
 			$("#error-message-box").show();
 			return false;
 		}
+		if (!$("input[name=options]").val()) {
+ 			$("#error-message").text("옵션을 입력해 주세요.");
+ 			$("#error-message-box").show();
+ 			return false;
+ 		} 
+		
+		if(!optionRegex.test($("input[name=options]").val())) {
+    			$("#error-message").text("한글, 영문 2글자 이상 입력해 주세요.");
+    			$("#error-message-box").show();
+    			return false;
+    	}
 		if (!$("input[name=originalPrice]").val()) {
  			$("#error-message").text("원가를 입력해 주세요.");
  			$("#error-message-box").show();
@@ -141,11 +162,13 @@ $(function () {
 			$("#error-message-box").show();
 			return false;
 		}
+		/* 
 		if (!$.trim($("#imagefile").val())) {
 			$("#error-message").text("그림파일을 업로드해 주세요.");
 			$("#error-message-box").show();
 			return false;
 		}
+		 */
 		return true;
 	});
 	

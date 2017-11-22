@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.co.hangsho.customers.vo.Customer;
 import kr.co.hangsho.products.mappers.ProductQueMapper;
 import kr.co.hangsho.products.vo.ProductQue;
 import kr.co.hangsho.web.criteria.Criteria;
@@ -41,6 +42,11 @@ public class ProductQueServiceImpl implements ProductQueService {
 	@Override
 	public List<ProductQue> getProductQuess(Criteria criteria) {
 		return productQueMapper.getProductQuess(criteria);
+	}
+
+	@Override
+	public List<ProductQue> getProductQuesByCustomer(Customer customer) {
+		return productQueMapper.getProductQuesByCustomer(customer);
 	}
 	
 }

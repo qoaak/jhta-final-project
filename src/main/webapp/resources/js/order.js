@@ -4,24 +4,13 @@ $(function() {
 	$("#apply-coupon-btn").click(function() {
 		$(".dis").text($("#grade").attr("data-discount"));
 		
-		var originOne = $(".originalPriceOne").text();
-		var deliveryOne = $(".deliveryFeeOne").text();
-		var discountOne = $(".discountPriceOne").text();
-		
-		var originAll = $(".originalPriceAll").text();
-		var deliveryAll = $(".deliveryFeeAll").text();
-		var salePriceAll = $(".salePriceAll").text();
-		
+
 		var originPay = $(".allPrice").text();
 		var deliveryPay = $(".deliveryFee").text();
 		var couponPay = $(".couponPrice").text();
-		
-		var resultOne = Number(originOne)+Number(deliveryOne)-Number(discountOne);
-		var resultAll = Number(originAll)+Number(deliveryAll)-Number(salePriceAll);
+
 		var resultPay = Number(originPay)+Number(deliveryPay)-Number(couponPay);
-		
-		$(".sumpriceone").text(resultOne);
-		$(".sumpriceall").text(resultAll);
+
 		$(".sumpricepay").text(resultPay);
 		
 	});
@@ -49,59 +38,95 @@ $(function() {
     $("#optionsRadios1").click(function() {
         $("#address4").val("");
         $("#detailaddress4").val("");
+        $("#postalcode4").val("");
+        $("#home").val("");
         
         var addre = $("#address1").val();
         var detailaddre = $("#detailaddress1").val();
+        var postal = $("#postalcode1").val();
+        var delivery = $("#delivery1").val();
         
         $("#address4").val(addre);
         $("#detailaddress4").val(detailaddre);
+        $("#postalcode4").val(postal);
+        $("#home").val(delivery);
+        
+        var home = $("#home").val();
+        $("#delivery").val(home);
     });
     
     $("#optionsRadios2").click(function() {
         $("#address4").val("");
         $("#detailaddress4").val("");
+        $("#postalcode4").val("");
+        $("#home").val("");
         
         var addre = $("#address2").val();
         var detailaddre = $("#detailaddress2").val();
+        var postal = $("#postalcode2").val();
+        var delivery = $("#delivery2").val();
         
         $("#address4").val(addre);
         $("#detailaddress4").val(detailaddre);
+        $("#postalcode4").val(postal);
+        $("#home").val(delivery);
+        
+        var home = $("#home").val();
+        $("#delivery").val(home);
     });
     
     $("#optionsRadios3").click(function() {
         $("#address4").val("");
         $("#detailaddress4").val("");
+        $("#postalcode4").val("");
+        $("#home").val("");
         
         var addre = $("#address3").val();
         var detailaddre = $("#detailaddress3").val();
+        var postal = $("#postalcode3").val();
+        var delivery = $("#delivery3").val();
+        
         
         $("#address4").val(addre);
         $("#detailaddress4").val(detailaddre);
+        $("#postalcode4").val(postal);
+        $("#home").val(delivery);
+        
+        var home = $("#home").val();
+        $("#delivery").val(home);
     });
         
     
     $("#useadd1").click(function() {
         var addr1 = $("#main-address1").val();
         var detailaddr = $("#address-detail-input1").val();
+        var postalCode = $("#postal-code1").val();
         
         $("#address1").val(addr1);
         $("#detailaddress1").val(detailaddr);
+        $("#postalcode1").val(postalCode);
+        
     });
     
     $("#useadd2").click(function() {
         var addr1 = $("#main-address2").val();
         var detailaddr = $("#address-detail-input2").val();
+        var postalCode = $("#postal-code2").val();
         
         $("#address2").val(addr1);
         $("#detailaddress2").val(detailaddr);
+        $("#postalcode2").val(postalCode);
+        
     });
     
     $("#useadd3").click(function() {
         var addr1 = $("#main-address3").val();
         var detailaddr = $("#address-detail-input3").val();
+        var postalCode = $("#postal-code3").val();
         
         $("#address3").val(addr1);
         $("#detailaddress3").val(detailaddr);
+        $("#postalcode3").val(postalCode);
     });
     
     
@@ -231,6 +256,14 @@ $(function() {
                 $('#address-detail-input3').focus();
             }
         }).open();
+    });
+    
+    $("#submit-btn").click(function() {
+    	
+    	var payPrice = $(".allPrice").text();
+    	$("#realPrice").val(payPrice);
+    	var price = $(".sumpriceall").text();
+    	$("#totalPrice").val(price);
     });
     
 })

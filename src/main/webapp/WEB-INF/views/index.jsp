@@ -132,7 +132,7 @@
 						<ul class="main_list">
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -142,7 +142,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -152,7 +152,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -162,7 +162,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -177,7 +177,7 @@
 						<ul>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16,900원</del>
@@ -187,7 +187,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -202,7 +202,7 @@
 						<ul>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -212,7 +212,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -222,7 +222,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -232,7 +232,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>
@@ -242,7 +242,7 @@
 							</li>
 							<li>
 								<figure>
-									<a href="/productque/detail.do?productId=5">
+									<a href="/hangshoproducts/detail.do?productId=5">
 										<img src="/resources/images/main/main_li.jpg">										
 										<figcaption>[겨울준비] 소보제화 겨울신상</figcaption>							
 										<del>16900원</del>

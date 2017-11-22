@@ -17,4 +17,9 @@ public interface ProductService {
 	
 	List<Product> getProductsByComId(Map<String, Object> map);
 	List<Product> getProductsNameBySmaCateNo(int smaCateNo);
+	
+	Product deleteProductByProductId(int productId);
+	void modifyProduct(Product product);
+	Product getProductByProductId(int id);
+	
 }

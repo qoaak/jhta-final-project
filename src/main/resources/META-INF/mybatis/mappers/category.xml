@@ -7,10 +7,12 @@
 
 	<select id="getCategory" parameterType="int" resultType="SmallCategory">
 		select 
-			S.small_category_id 					as id,
-			S.small_category_name				as name,
+			S.small_category_id 			as id,
+			S.small_category_name			as name,
+			M.middle_category_id			as "midcategory.id",
 			M.middle_category_name			as "midcategory.name",
-			B.big_category_name					as "midcategory.bigcategory.name"
+			B.big_category_id				as "midcategory.bigcategory.id",
+			B.big_category_name				as "midcategory.bigcategory.name"
 		from 
 			small_categories S, middle_categories M, big_categories B
 		where

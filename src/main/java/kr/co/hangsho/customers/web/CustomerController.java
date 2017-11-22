@@ -1,5 +1,12 @@
 package kr.co.hangsho.customers.web;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +28,15 @@ import kr.co.hangsho.customers.services.CustomerService;
 import kr.co.hangsho.customers.vo.Customer;
 import kr.co.hangsho.customers.vo.InfoForm;
 import kr.co.hangsho.customers.vo.RegisterForm;
+import kr.co.hangsho.customers.vo.SearchForm;
 import kr.co.hangsho.orders.service.OrderDetailService;
 import kr.co.hangsho.orders.service.OrderService;
 import kr.co.hangsho.orders.vo.Order;
 import kr.co.hangsho.orders.vo.OrderDetail;
 import kr.co.hangsho.products.service.ProductDetailService;
+import kr.co.hangsho.products.service.ProductQueService;
 import kr.co.hangsho.products.service.ProductService;
+import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
 @RequestMapping("customers")
@@ -44,9 +54,31 @@ public class CustomerController {
 	OrderDetailService orderDetailService;
 	@Autowired
 	CompanyService companyService;
+	@Autowired
+	ProductQueService productQueService;
 
+	public Date getMinusMonthFromNow(long months) {
+		return Date.from(LocalDateTime.now().minusMonths(months).atZone(ZoneId.systemDefault()).toInstant());
+	}
+	
+	public Map getMap(SearchForm searchForm, Customer customer) {
+		Criteria criteria = new Criteria();
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(searchForm.getSearch() == 0) {
+			System.out.println(criteria);
+		} else if(searchForm.getSearch() > 1){
+			criteria.setBeginday(getMinusMonthFromNow(searchForm.getSearch()));
+		} else if(searchForm.getSearch() == -1) {
+			BeanUtils.copyProperties(searchForm, criteria);
+		} else {
+		}		
+		map.put("customer", customer);
+		map.put("criteria", criteria);
+		return map;
+	}
+	
 	@RequestMapping("/index.do")
-	public String mypage(Model model, HttpSession session) {
+	public String mypage(Model model, HttpSession session, SearchForm searchForm) {
 		Map<String, Object> loginInfo = (Map) session.getAttribute("LOGIN_INFO");
 		Customer customer = new Customer();
 		if("CUSTOMER".equals(loginInfo.get("USER_TYPE")))
@@ -54,15 +86,21 @@ public class CustomerController {
 		else 
 			return "redirect:/company/index.do";
 		long bm = System.currentTimeMillis();
-		List<Order> orders = orderService.getOrdersByCustomer(customer);
+		Map<String, Object> searchParam = getMap(searchForm, customer);
+		List<Order> orders = orderService.getOrdersByCustomer(searchParam);
+		
 		for (Order order : orders) {
-			for (OrderDetail orderDetail : orderDetailService.getOrderDetailsByCustomer(customer)) {
+			for (OrderDetail orderDetail : orderDetailService.getOrderDetailsByCustomer(searchParam)) {
 				if(order.getId() == orderDetail.getOrderId())
 					order.addOrderDetail(orderDetail);
 			}
 		}
+		
+		System.out.println(searchForm);
 		System.out.println(orders);
 		model.addAttribute("orders", orders);
+		model.addAttribute("now", LocalDate.now());
+		
 		long am = System.currentTimeMillis();
 		System.out.println((am-bm) + "ms");
 		return "customers/index";
@@ -81,8 +119,11 @@ public class CustomerController {
 	}
 
 	@RequestMapping("/qnalist.do")
-	public String qnalist() {
-
+	public String qnalist(Model model, HttpSession session) {
+		
+		Map<String, Object> loginInfo = (Map) session.getAttribute("LOGIN_INFO");
+		Customer customer = (Customer) loginInfo.get("LOGIN_USER");
+		model.addAttribute("questionList", productQueService.getProductQuesByCustomer(customer));
 		return "customers/qnalist";
 	}
 
