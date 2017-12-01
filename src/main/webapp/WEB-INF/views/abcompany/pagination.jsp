@@ -18,12 +18,30 @@
 	<div class="text-center">
         <ul class="pagination">
 	        <c:if test="${criteria.totalRows gt 0 }">
-	            <li><a href="#">&lt;</a></li>
+	        
+	        	<c:choose>
+	        		<c:when test="${criteria.pageNo gt 1}">
+			            <li><a href="${criteria.pageNo - 1}">&lt;</a></li>
+	        		</c:when>
+					<c:otherwise>
+					    <li><a class="disabled">&lt;</a></li>
+					</c:otherwise>	        	
+	        	</c:choose>
+	        	        
 	            <c:forEach var="num" begin="${criteria.beginPage }" end="${criteria.endPage }">
 	            	<li class="${criteria.pageNo eq num ? 'active' : '' }"><a href="${num }">${num }</a></li>	
 	            </c:forEach>
 	            
-	            <li><a href="#">&gt;</a></li>
+	            
+	            <c:choose>
+	        		<c:when test="${criteria.pageNo lt criteria.totalPages}">
+			            <li><a href="${criteria.pageNo + 1}">&gt;</a></li>
+	        		</c:when>
+					<c:otherwise>
+					    <li><a class="disabled">&gt;</a></li>
+					</c:otherwise>	        	
+	        	</c:choose>
+	            
 	        </c:if>
         </ul>
     </div>

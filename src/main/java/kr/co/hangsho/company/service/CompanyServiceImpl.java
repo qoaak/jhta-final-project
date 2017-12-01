@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kr.co.hangsho.company.mappers.CompanyMapper;
 import kr.co.hangsho.company.vo.Company;
+import kr.co.hangsho.review.vo.Review;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -35,4 +36,14 @@ public class CompanyServiceImpl implements CompanyService {
 	public Company getCompanyByUserName(String username) {
 		return companyMapper.getCompanyByUserName(username);
 	}
+	@Override
+	public Company getCompanyByCompanyId(int Comapnyid) {
+		return companyMapper.getCompanyById(Comapnyid);
+	}
+
+	@Override
+	public void changeCompany(Company company) {
+		companyMapper.changeCompany(company);
+	}
+
 }

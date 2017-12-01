@@ -29,8 +29,8 @@ public class ProductAnsServiceImpl implements ProductAnsService{
 	}
 	
 	@Override
-	public ProductAns getProductAnsByProQueId(int id) {
-		return productAnsMapper.getProductAnsByProQueId(id);
+	public ProductAns getProductAnsByProQueId(int proqueId) {
+		return productAnsMapper.getProductAnsByProQueId(proqueId);
 	}
 	
 	@Override
@@ -41,5 +41,10 @@ public class ProductAnsServiceImpl implements ProductAnsService{
 	@Override
 	public int getTotalRows(Criteria criteria) {
 		return productAnsMapper.getTotalRows(criteria);
+	}
+
+	@Override
+	public ProductAns getProductAnswerByQuestionId(int questionId) {
+		return productAnsMapper.getProductAnswerByQuestionId(questionId);
 	}
 }

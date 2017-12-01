@@ -4,18 +4,18 @@ import kr.co.hangsho.item.vo.Item;
 
 public class OrderDetail {
 
-//	private Order order;
+	private Order order;
 	private int orderId;
 	private Item item;
 	private int orderQuantity;
 	private int realPrice;
 	
-/*	public Order getOrder() {
+	public Order getOrder() {
 		return order;
 	}
 	public void setOrder(Order order) {
 		this.order = order;
-	}*/
+	}
 	
 	public int getRealPrice() {
 		return realPrice;

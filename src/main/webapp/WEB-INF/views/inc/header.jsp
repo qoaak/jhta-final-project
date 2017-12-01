@@ -20,7 +20,7 @@
 				<c:when test="${not empty LOGIN_INFO }">
 				<c:choose>
 					<c:when test="${LOGIN_INFO.USER_TYPE eq 'CUSTOMER'  }">
-					<li><p>${LOGIN_INFO.LOGIN_USER.nickname }님 환영합니다.</p></li>
+					<li><p style="color:white;">${LOGIN_INFO.LOGIN_USER.nickname }님 환영합니다.</p></li>
 					</c:when>
 					<c:otherwise>
 					<li><p>${LOGIN_INFO.LOGIN_USER.name }님 환영합니다.</p></li>
@@ -34,17 +34,17 @@
 					<li><a href="/customers/login.do">로그인</a></li>
 					<li><a href="/customers/register.do">회원가입</a></li>
 				</c:otherwise>
-			</c:choose>
-				
+			</c:choose>				
 				<li><a href="#">고객센터</a></li>					
 			</ul>
 		</div>						
 	</div>
 	<div class="box_nav">
 		<div class="tsmc">
-			<h1><a href="/index.do"><img src="/resources/images/common/logo.jpg" alt="" width="200px"></a></h1>
-			<form action="#" method="get" class="combine_sch">					
-				<input type="text" name="search" id="search" placeholder=""><input type="image" src="/resources/images/common/searchicon.png" alt="검색">	
+			<h1><a href="/index.do"><img src="/resources/images/common/logo.png" alt="행쇼" width="250px"></a></h1>
+			<form action="/search.do" method="get" class="combine_sch">					
+				<input type="text" name="keyword" id="search" placeholder=""><button type="submit" style="background: transparent;
+    border: none; padding : 0;"><input type="image" src="/resources/images/common/searchicon.png" alt="검색"></button>
 			</form>
 			<figure class="mypage">
 				<a href="/customers/index.do">
@@ -53,7 +53,7 @@
 				</a>				
 			</figure>
 			<figure class="cart">
-				<a href="">
+				<a href="/cart/cart.do">
 					<img src="/resources/images/common/cart.png" alt="장바구니">
 					<em>0</em>
 					<figcaption>장바구니</figcaption>						
@@ -62,39 +62,27 @@
 		</div>						
 		<nav id="nav">			
 			<ul class="gnb">
-				<li><a href="">패션</a>
+				<li><a href="/productList.do?bc=100">식품</a>
 					<ul><div class="triangle_up"><span></span></div>
-						<li><a href="">여성의류</a></li>							
-						<li><a href="">캐주얼의류</a></li>							
-						<li><a href="">남성의류·정장</a></li>						
-						<li><a href="">해외의류</a></li>						
-						<li><a href="">여성화</a></li>						
-						<li><a href="">남성화</a></li>						
-						<li><a href="">가방·소품·아이웨어</a></li>						
-						<li><a href="">시계·쥬얼리</a></li>						
-						<li><a href="">명품관</a></li>						
+						<li><a href="/productList.do?bc=100&mc=110">과일</a></li>							
+						<li><a href="/productList.do?bc=100&mc=120">채소</a></li>							
+						<li><a href="/productList.do?bc=100&mc=130">고기</a></li>						
 					</ul>
 				</li>
-				<li><a href="">가구</a>
+				<li><a href="/productList.do?bc=200">패션</a>
 					<ul><div class="triangle_up"><span></span></div>
-						<li><a href="">침실가구</a></li>							
-						<li><a href="">거실·수납가구</a></li>							
-						<li><a href="">주방가구</a></li>						
-						<li><a href="">서재·사무용가구</a></li>						
-						<li><a href="">아동·학생가구</a></li>						
-						<li><a href="">시공·DIY·정원가구</a></li>						
-						<li><a href="">침구</a></li>					
+						<li><a href="/productList.do?bc=200&mc=210">여성의류</a></li>							
+						<li><a href="/productList.do?bc=200&mc=220">남성의류</a></li>						
+						<li><a href="/productList.do?bc=200&mc=230">가방</a></li>						
 					</ul>
 				</li>
-				<li><a href="">펫샵·도서</a>
+				<li><a href="/productList.do?bc=300">가전</a>
 					<ul><div class="triangle_up"><span></span></div>
-						<li><a href="">스위티펫샵</a></li>							
-						<li><a href="">강아지용품</a></li>							
-						<li><a href="">고양이용품</a></li>						
-						<li><a href="">관상어·소동물</a></li>						
-						<li><a href="">도서</a></li>									
+						<li><a href="/productList.do?bc=300&mc=310">주방가전</a></li>							
+						<li><a href="/productList.do?bc=300&mc=320">생활가전</a></li>							
+						<li><a href="/productList.do?bc=300&mc=330">건강가전</a></li>		
 					</ul>
-				</li>
+				</li>				
 				<li><a href="/merona/index.do">개인거래</a>
 					<ul><div class="triangle_up"><span></span></div>
 						<li><a href="/merona/index.do">올때 메로나</a></li>							
@@ -105,3 +93,4 @@
 		</nav>	
 	</div>			
 </header>
+<%@ include file="chat.jsp" %>

@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <script type="text/javascript" src="/resources/js/user-common.js"></script>
-<div class="container">
+<div class="container" style="overflow: hidden;">
+<c:set var="deal" value="deal"></c:set>
 	<div class="text-center">
 		<div class="thumnail">
 			<img src="/resources/images/tmon.png" width="30%" />
@@ -72,16 +73,15 @@
 			</tr>
 		</tbody>
 	</table>
-	<div>
+	<div style="margin-bottom: 20px;">
 		<div>
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="active"><a href="/customers/index.do">구매내역</a></li>
-				<li><a href="/customers/refundlist.do">취소/환불/교환</a></li>
+				<li><a href="/customers/index.do">구매내역</a></li>
 				<li><a href="/customers/membership.do">티몬 멤버십</a></li>
 				<li><a href="/customers/qnalist.do">문의/답변</a></li>
 				<li><a href="/customers/info.do">개인정보</a></li>
-				<li><a href="/customers/deal.do">개인거래</a></li>
+				<li class="${deal eq 'deal' ? 'active' : '' }"><a href="/customers/deal.do">개인거래</a></li>
 			</ul>
 		</div>
 	</div>

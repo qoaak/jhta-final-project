@@ -20,6 +20,8 @@ public class Privatedeal {
 	private Integer desiredprice;
 	private String title;
 	private String contents;
+	private int requestCnt;
+	private int commentCnt;
 	
 	public Integer getId() {
 		return id;
@@ -92,6 +94,18 @@ public class Privatedeal {
 	}
 	public void setContents(String contents) {
 		this.contents = contents;
+	}	
+	public int getRequestCnt() {
+		return requestCnt;
+	}
+	public void setRequestCnt(int requestCnt) {
+		this.requestCnt = requestCnt;
+	}	
+	public int getCommentCnt() {
+		return commentCnt;
+	}
+	public void setCommentCnt(int commentCnt) {
+		this.commentCnt = commentCnt;
 	}
 	
 	@Override

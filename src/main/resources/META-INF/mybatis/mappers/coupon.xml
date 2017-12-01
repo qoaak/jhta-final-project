@@ -20,6 +20,8 @@
 			coupons
 		where
 			customer_id = #{value}
+		and
+			coupon_used = 'N'
 		
 	</select>
 	<select id="couponCountByCustomerId" parameterType="int" resultType="int">
@@ -35,8 +37,19 @@
 	
 	<update id="couponUsed" parameterType="int">
 		update coupons
-		set coupon_used = 'Y'
-		where coupon_id = #{id}
+		<set>
+			<choose>
+				<when test="value != null and value != ''">
+					coupon_used = 'Y'
+				</when>
+				<otherwise>
+					coupon_used = 'N'
+				</otherwise>
+			</choose>
+		</set>
+		<where>
+			coupon_id = #{value}
+		</where>
 	</update>
 
 	

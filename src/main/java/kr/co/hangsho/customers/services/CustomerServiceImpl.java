@@ -16,7 +16,6 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Override
 	public void addNewCustomer(Customer customer) {
-		customer.setId(customerMapper.getSeq());
 		String shaPwd = DigestUtils.sha256Hex(customer.getPassword());
 		customer.setPassword(shaPwd);
 		customerMapper.addCustomer(customer);
@@ -41,5 +40,19 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public List<Customer> getAllCustomers() {
 		return customerMapper.getCustomers()	;
+	}
+	@Override
+	public void cashUpdate(int useCash) {
+		customerMapper.cashUpdate(useCash);
+		
+	}
+	@Override
+	public void pointUpdate(int point, int id) {
+		customerMapper.pointUpdate(point, id);
+		
+	}
+	@Override
+	public	int getSeq() {
+		return customerMapper.getSeq();
 	}
 }

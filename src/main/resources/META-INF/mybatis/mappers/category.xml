@@ -20,6 +20,18 @@
 			and M.big_category_id = B.big_category_id
 			and S.small_category_id = ${value}
 	</select>
+	<select id="getCategoryListByMiddle" parameterType="int" resultType="SmallCategory">
+		select 
+			S.small_category_id 			as id,
+			S.small_category_name			as name,
+			M.middle_category_id			as "midcategory.id",
+			M.middle_category_name			as "midcategory.name"
+		from 
+			small_categories S, middle_categories M
+		where
+			S.middle_category_id = M.middle_category_id
+			and M.middle_category_id = ${value}
+	</select>
 	
 </mapper>
 

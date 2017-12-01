@@ -7,9 +7,14 @@
 <body>
 	<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 	<div class="container">
-        <img src="/resources/images/daum.png" alt="" class="center-block">
+        
+        <!-- ${pageContext.request.queryString} -->  
+       <c:set var="returnUrl" value="${fn:replace(pageContext.request.queryString, 'error=deny&', '')}" />
+       <c:set var="returnUrl" value="${fn:replace(returnUrl, 'returnUrl=', '')}" />
+        <!-- ${returnUrl} -->
+
         <div class="col-md-6 col-md-offset-3">
-            <form action="logincheck.do?returnUrl=${param.returnUrl }" method="post">
+            <form action="logincheck.do?${not empty returnUrl ? 'returnUrl=' : ''}${returnUrl }" method="post">
                 <div class="form-group">
                     <input type="text" name="username" class="form-control" placeholder="아이디(이메일)" id="username-input">
                 </div>

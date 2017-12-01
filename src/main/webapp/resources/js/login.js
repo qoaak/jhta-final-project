@@ -1,4 +1,10 @@
 $(function() {
+	var urlString = window.location.href;
+	var url = new URL(urlString);
+	var error = url.searchParams.get('error');
+	if(error != undefined && error.startsWith('deny')){
+		alert('아이디나 비밀번호를 확인하세요.');
+	}
 	var nameRegex = /^[가-힣]{2,}$/;
     var idPwdRegex = /^[a-zA-Z0-9]{6,20}$/;
     var emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -21,10 +27,4 @@ $(function() {
         }
         loginPossible = true;
     });
-    
-    $('#login-btn').click(function(){
-        if(loginPossible){
-            alert('로그인 허용')
-        }
-    })
 });

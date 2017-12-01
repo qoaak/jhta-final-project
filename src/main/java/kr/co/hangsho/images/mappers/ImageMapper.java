@@ -11,5 +11,6 @@ public interface ImageMapper {
 	void addImage(Image image);
 	Image getImageByNo(int imageNo);
 	void deleteImageById (int imageId);
-
+	void updateImage(Image image);
+	
 }

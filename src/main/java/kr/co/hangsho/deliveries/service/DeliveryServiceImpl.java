@@ -36,4 +36,9 @@ public class DeliveryServiceImpl implements DeliveryService{
 
 		return deliveryMapper.getDeliveryByDeliveryId(deliveryId);
 	}
+	@Override
+	public void updateDelivery(Delivery delivery) {
+		deliveryMapper.updateDelivery(delivery);
+		
+	}
 }

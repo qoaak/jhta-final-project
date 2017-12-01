@@ -13,6 +13,14 @@ public class Customer {
 	private String grade;
 	private Integer point;
 	private String postalcode;
+	private Integer cash;
+	
+	public Integer getCash() {
+		return cash;
+	}
+	public void setCash(Integer cash) {
+		this.cash = cash;
+	}
 	public int getId() {
 		return id;
 	}
@@ -89,7 +97,8 @@ public class Customer {
 		return "Customer [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password
 				+ ", phonenumber=" + phonenumber + ", mainaddress=" + mainaddress + ", detailaddress=" + detailaddress
 				+ ", nickname=" + nickname + ", grade=" + grade + ", point=" + point + ", postalcode=" + postalcode
-				+ "]";
+				+ ", cash=" + cash + "]";
 	}
+	
 	
 }

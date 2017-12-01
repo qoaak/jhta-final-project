@@ -35,6 +35,14 @@
 			image_id = #{value}	
 	</delete>
 	
+	<update id="updateImage" parameterType="Image">
+		update images
+		set
+			image_path = #{path}
+		where
+			image_id = #{id}
+	</update>
+	
 </mapper>
 
 

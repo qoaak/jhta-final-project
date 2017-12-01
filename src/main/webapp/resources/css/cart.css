@@ -1,4 +1,5 @@
- li {
+	
+ 	ul>li>ul>li {
         list-style: none;
         margin-top: 10px;
     }
@@ -10,7 +11,7 @@
         border-bottom-color: gray;
         border-top-color: gray;
     }
-    img {
+   .deleteList > img {
         height: 60px;
         width: 100px;
     }
@@ -52,7 +53,7 @@
     #product-price, #delivery-btn {
         display: flex;
         justify-content: center;
-        margin-top: 80px;
+        margin-top: 40px;
     }
     #bottom-button-group {
          display:inline-block;

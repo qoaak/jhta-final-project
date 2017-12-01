@@ -2,10 +2,25 @@ package kr.co.hangsho.charts.vo;
 
 public class ProfitChart {
 	
+	private String name;
+	private String dates;
 	private int tm;
 	private int profit;
 	private int qty;
 	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDates() {
+		return dates;
+	}
+	public void setDates(String dates) {
+		this.dates = dates;
+	}
 	public int getTm() {
 		return tm;
 	}
@@ -26,8 +41,9 @@ public class ProfitChart {
 	}
 	@Override
 	public String toString() {
-		return "DailyChart [tm=" + tm + ", profit=" + profit + ", qty=" + qty + "]";
+		return "ProfitChart [name=" + name + ", dates=" + dates + ", tm=" + tm + ", profit=" + profit + ", qty=" + qty
+				+ "]";
 	}
-	
+
 	
 }

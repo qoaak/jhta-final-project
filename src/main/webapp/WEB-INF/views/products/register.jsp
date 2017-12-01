@@ -12,6 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<c:set var="menu" value="product" />
 <%@ include file="/WEB-INF/views/abcompany/navi.jsp" %>
     <div id="body-container" class="container-fluid">     
         <div id="body-container-body">
@@ -104,7 +105,7 @@
     	
     	$("#error-message-box").hide();
     	
-    	var productRegex = /^[가-힣a-zA-Z\s]{2,}$/;
+    	var productRegex = /^[가-힣0-9a-zA-Z\s)]{2,}$/;
     	
     	$("#product-register-form").submit(function() {
     		if (!productRegex.test($("#product-name-input").val())) {

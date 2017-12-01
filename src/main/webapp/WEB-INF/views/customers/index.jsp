@@ -77,11 +77,6 @@
 													<i>티몬캐쉬·적립금 사용</i><em>0</em><em>원</em>
 												</p>
 											</div>
-											<div class="btn">
-												<!--신규 옵션별로 현금영수증 대상이 있다면 나오는 로직 추가 -->
-												<!-- 일반 영수증 출력 -->
-												<a href="#" class="" onclick="">영수증 출력</a>
-											</div>
 										</th>
 
 										<th class="well">
@@ -96,13 +91,13 @@
 
 													<div class="product-list">
 														<div class="thmb_area">
-															<a href="/deal/680182918?isHistory=Y" tl:area="PDCO"
+															<a href="/hangshoproducts/detail.do?productId=${orderDetail.item.product.id  }" tl:area="PDCO"
 																tl:ord="1" target="blank"><img
 																src="${orderDetail.item.product.image.path }"
 																width="106" height="71" alt="구매상품 썸네일" class="thmb">
 															</a>
 															<h4>
-																<a href="/deal/680182918?isHistory=Y" tl:area="PDCO"
+																<a href="/hangshoproducts/detail.do?productId=${orderDetail.item.product.id  }" tl:area="PDCO"
 																	tl:ord="1" target="blank">${orderDetail.item.product.name }</a>
 															</h4>
 
@@ -148,19 +143,11 @@
 
 										<td class="expiry">
 											<p class="delivery_condition">
-												<strong>배송완료</strong> <a class="parcel"
-													href="javascript:pop_delivery_trace_self('1553184610','680182918','892247254','341025784653','CJ대한통운');">CJ대한통운<br>341025784653
-												</a> <span> <a href="'#" class="btn_delivery_trace" id="">배송추적</a>
-												</span>
+												<strong>배송완료</strong>
 											</p>
 										</td>
 										<td id="td_1553184610_680182918" class="manage">
 											<div class="ly_btn">
-												<div class="refund_qes">
-													<button type="submit" class="btn btn-default btn-sm">
-														<a href="javascript:void(0)">환불문의</a>
-													</button>
-												</div>
 												<div class="af_orderwrite">
 													<button type="submit" class="btn btn-warning btn-sm">
 														<a href="javascript:void(0)">구매후기쓰기</a>

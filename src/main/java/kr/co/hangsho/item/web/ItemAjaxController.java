@@ -15,10 +15,13 @@ import kr.co.hangsho.categories.service.SmallCategoryService;
 import kr.co.hangsho.categories.vo.MiddleCategory;
 import kr.co.hangsho.categories.vo.SmallCategory;
 import kr.co.hangsho.company.vo.Company;
+import kr.co.hangsho.item.mappers.ItemMapper;
 import kr.co.hangsho.item.service.ItemService;
 import kr.co.hangsho.item.vo.Item;
 import kr.co.hangsho.products.service.ProductService;
 import kr.co.hangsho.products.vo.Product;
+import kr.co.hangsho.stock.service.StockService;
+import kr.co.hangsho.stock.vo.Stock;
 import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
@@ -37,6 +40,8 @@ public class ItemAjaxController {
 	@Autowired
 	private ItemService itemService;
 	
+	@Autowired
+	private StockService stockService;
 	
 	@RequestMapping("/getMidCate.do")
 	@ResponseBody
@@ -56,15 +61,13 @@ public class ItemAjaxController {
 	@ResponseBody
 	public List<Product> getProductNameBySmaCaNo(int smaCateNum) {
 		List<Product> products = productService.getProductsNameBySmaCateNo(smaCateNum);
-		System.out.println(products);
 		return products;
 		
 	}
 	
 	@RequestMapping("/getItems.do")
 	@ResponseBody
-	public Map<String, Object> getProductListByCompanyId(HttpSession httpSession, 
-Criteria criteria) {
+	public Map<String, Object> getProductListByCompanyId(HttpSession httpSession, Criteria criteria) {
 		
 		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
 		Company company = (Company) loginInfo.get("LOGIN_USER");
@@ -80,11 +83,10 @@ Criteria criteria) {
 		List<Item> items = itemService.getItemsByCompanyId(searchMap);
 		searchMap.remove("companyId");
 		searchMap.put("items", items);
-		//System.out.println("searchMap:" + searchMap);
 		
 		return searchMap;
-		
 	}
+	
 	@RequestMapping("/delete.do")
 	@ResponseBody
 	public Map<String, Object> deleteItemById(int itemId, HttpSession httpSession, Criteria criteria) {
@@ -106,7 +108,29 @@ Criteria criteria) {
 		searchMap.remove("companyId");
 		searchMap.put("items", items);
 		
-		
 		return searchMap;
 	}
+	
+	@RequestMapping("/accuStock.do")
+	@ResponseBody
+	public String accumulateStock(int itemId, int quantity, String reasons) {
+		
+		String result = "true";
+		Stock stock = new Stock();
+		Item item = new Item();
+		item.setId(itemId);
+		stock.setItem(item);
+		stock.setQuantity(quantity);
+		stock.setReasons(reasons);
+		
+		try {
+			stockService.accumulateStockQuantity(stock);
+		} catch (Exception e) {
+			result.replace("true", "false");
+			throw new RuntimeException("");
+		}
+		
+		return result;
+	}
+	
 }

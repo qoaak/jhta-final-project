@@ -10,7 +10,8 @@ import kr.co.hangsho.categories.vo.SmallCategory;
 @Mapper
 public interface CategoryMapper {
 
-	SmallCategory getCategory(int productNo);
+	SmallCategory getCategory(int smallNo);
 	List<MiddleCategory> getMidCategoryByNo(int bigNo);
 	List<SmallCategory> getSmaCategoryByNo(int midNo);
+	List<SmallCategory> getCategoryListByMiddle(int no);
 }

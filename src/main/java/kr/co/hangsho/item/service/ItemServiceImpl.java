@@ -21,9 +21,9 @@ public class ItemServiceImpl implements ItemService {
 	private ImageMapper imageMapper;
 
 	@Override
-	public Item getItemByProductNo(int itemNo) {
+	public Item getItemByItemNo(int itemNo) {
 		
-		return itemMapper.getItemByProductNo(itemNo);
+		return itemMapper.getItemByItemNo(itemNo);
 	}
 	@Override
 	public void addNewItem(Item item) {
@@ -39,10 +39,6 @@ public class ItemServiceImpl implements ItemService {
 		itemMapper.addItem(item);
 	}
 
-	@Override
-	public List<Item> getItemListByProductsNo(int itemNo) {
-		return null;
-	}
 	@Override
 	public List<Item> getItemsByCompanyId(Map<String, Object> map) {
 		return itemMapper.getItemsByComId(map);
@@ -72,10 +68,39 @@ public class ItemServiceImpl implements ItemService {
 	public List<Item> getItemsByProductId(int productId) {
 		return itemMapper.getItemsByProductId(productId);
 	}
+
+	@Override
+	public void updateItem(Item item) {
+		
+		if (item.getImage() != null) {
+			int imageId = item.getImage().getId();
+			Image image = imageMapper.getImageByNo(imageId);
+			item.setImage(image);
+		}
+		itemMapper.updateItem(item);
+	}
+
 	
 	@Override
 	public List<Item> getItemListByProductNo(int productNo) {
 	      
 	   return itemMapper.getItemListByProductNo(productNo);
 	}
+	
+	// 상품번호로 상세페이지 상품옵션 출력
+	@Override
+	public List<Item> getProductOptionsByProductId(int productNo) {
+		return itemMapper.getProductOptionsByProductId(productNo);
+	}
+	
+	@Override
+	public List<Item> getItemsForIndex(int companyId) {
+		return itemMapper.getItemsForIndex(companyId);
+	}
+	@Override
+	public void updateQty(int qty, int id) {
+		itemMapper.updateQty(qty, id);
+		
+	}
+
 }

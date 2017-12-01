@@ -26,8 +26,8 @@ public class OrderDetailServiceImpl implements  OrderDetailService{
 		return orderDetailMapper.getOrderDetailsByOrderId(orderId);
 	}
 	@Override
-	public void addOrderDetail() {
-		orderDetailMapper.addOrderDetail();
+	public void addOrderDetail(OrderDetail orderDetail) {
+		orderDetailMapper.addOrderDetail(orderDetail);
 		
 	}
 }

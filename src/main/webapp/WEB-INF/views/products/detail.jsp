@@ -24,6 +24,7 @@
 	#table-area {overflow-y: scroll !important; height: 150px;}
 </style>
 <body>
+<c:set var="menu" value="product" />
 <%@ include file="/WEB-INF/views/abcompany/navi.jsp" %>
     <div id="body-container" class="container-fluid">     
         <div id="body-container-body">
@@ -32,12 +33,6 @@
 				 
 				 	<h1>${product.name }</h1>
 				 	
-				 	<!-- 스크롤 -->
-                    <div class="remot">
-                        <a id="btn-top" class="btn btn-default btn-xm">▲</a>
-                        <a id="btn-bottom" class="btn btn-default btn-xm">▼</a>
-                    </div>
-                    
                     <div class="row text-right">
                     	<a href="modifyForm.do?productId=${product.id }" class="btn btn-info btn-sm">수정</a>
                     	<a href="list.do" class="btn btn-primary btn-sm">목록</a>
@@ -61,10 +56,6 @@
 							    <tr class="pro">
 							        <th>판매여부</th>
 							        <td colspan="4">${product.show }</td>
-							    </tr>
-							    <tr class="pro">
-							        <th>가격</th>
-							        <td colspan="3"> 원</td>
 							    </tr>
 							    <tr class="pro">
 							        <th>할인율</th>
@@ -98,7 +89,7 @@
 						        <c:forEach var="item" items="${items }">
 						            <tr>
 						                <td>${item.id }</td>
-						                <td><a href="${item.id }">${item.options}</a></td>
+						                <td><a href="../item/detail.do?itemId=${item.id }">${item.options}</a></td>
 						                <td>${item.salePrice} 원</td>
 						                <td>${item.initialQuantity - item.saledQuantity} 개</td>
 						            </tr>
@@ -110,9 +101,6 @@
                     <!-- 상품 설명 -->
                     <div class="subimage">
                         <p>${product.description }</p>
-                        <div>
-	                        	<img src="">
-                        </div>
                     </div>
                     
                 </div>

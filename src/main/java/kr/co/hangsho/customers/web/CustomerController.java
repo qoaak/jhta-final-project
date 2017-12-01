@@ -22,20 +22,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.co.hangsho.carts.service.CartService;
 import kr.co.hangsho.company.service.CompanyService;
 import kr.co.hangsho.company.vo.Company;
+import kr.co.hangsho.customers.services.CustomerDealService;
 import kr.co.hangsho.customers.services.CustomerService;
 import kr.co.hangsho.customers.vo.Customer;
 import kr.co.hangsho.customers.vo.InfoForm;
 import kr.co.hangsho.customers.vo.RegisterForm;
 import kr.co.hangsho.customers.vo.SearchForm;
+import kr.co.hangsho.deliveries.service.DeliveryService;
+import kr.co.hangsho.deliveries.vo.Delivery;
 import kr.co.hangsho.orders.service.OrderDetailService;
 import kr.co.hangsho.orders.service.OrderService;
 import kr.co.hangsho.orders.vo.Order;
 import kr.co.hangsho.orders.vo.OrderDetail;
+import kr.co.hangsho.privatedeal.service.RequestService;
+import kr.co.hangsho.privatedeal.vo.Deal;
+import kr.co.hangsho.privatedeal.vo.Privatedeal;
+import kr.co.hangsho.privatedeal.vo.Request;
 import kr.co.hangsho.products.service.ProductDetailService;
 import kr.co.hangsho.products.service.ProductQueService;
 import kr.co.hangsho.products.service.ProductService;
+import kr.co.hangsho.qnas.services.QnaService;
 import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
@@ -56,7 +65,14 @@ public class CustomerController {
 	CompanyService companyService;
 	@Autowired
 	ProductQueService productQueService;
-
+	@Autowired
+	CustomerDealService customerDealService;
+	@Autowired
+	DeliveryService deliveryService;
+	@Autowired
+	QnaService qnaService;
+	@Autowired
+	CartService cartService;
 	public Date getMinusMonthFromNow(long months) {
 		return Date.from(LocalDateTime.now().minusMonths(months).atZone(ZoneId.systemDefault()).toInstant());
 	}
@@ -106,12 +122,6 @@ public class CustomerController {
 		return "customers/index";
 	}
 
-	@RequestMapping("/refundlist.do")
-	public String refundList() {
-
-		return "customers/refundlist";
-	}
-
 	@RequestMapping("/membership.do")
 	public String membership() {
 
@@ -131,13 +141,7 @@ public class CustomerController {
 	public String info() {
 
 		return "customers/info";
-	}
-
-	@RequestMapping("/deal.do")
-	public String deal() {
-
-		return "customers/deal";
-	}
+	}	
 
 	@RequestMapping("/login.do")
 	public String login() {
@@ -154,7 +158,10 @@ public class CustomerController {
 	@RequestMapping("/logincheck.do")
 	public String loginCheck(String username, String password, HttpSession session, HttpServletRequest request) {
 		String denyUrl = "redirect:/customers/login.do?error=deny";
-		String returnUrl = request.getParameter("returnUrl");
+		String returnUrl = request.getQueryString();
+		if(returnUrl.split("returnUrl=").length > 1) {
+				returnUrl = returnUrl.split("returnUrl=")[1];
+			}
 		returnUrl = (returnUrl == null || "".equals(returnUrl )) ? "/index.do" : returnUrl;
 		denyUrl += returnUrl;
 		boolean isEmail = Pattern.matches(
@@ -173,7 +180,7 @@ public class CustomerController {
 					return denyUrl;
 				}
 			} catch (Exception e) {
-
+				return denyUrl;
 			}
 		} else {
 			Company company = companyService.getCompanyByUserName(username);
@@ -183,9 +190,10 @@ public class CustomerController {
 					loginInfo.put("USER_TYPE", "COMPANY");
 					session.setAttribute("LOGIN_INFO", loginInfo);
 				} else {
-					return returnUrl;
+					return denyUrl;
 				}
 			} catch (Exception e) {
+				return denyUrl;
 			}
 		}
 		System.out.println(returnUrl);
@@ -202,8 +210,19 @@ public class CustomerController {
 
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(registerForm, customer);
+		int id = customerService.getSeq();
+		customer.setId(id);
 		customerService.addNewCustomer(customer);
 
+		Delivery delivery = new Delivery();
+		delivery.setCustomer(customer);
+		delivery.setDetailAddress("");
+		delivery.setMainAddress("");
+		delivery.setPostalCode("");
+		delivery.setTitle("추가배송지");
+		deliveryService.addDelivery(delivery);
+		deliveryService.addDelivery(delivery);
+		cartService.addNewCart(customer);
 		return "redirect:/index.do";
 	}
 
@@ -238,5 +257,124 @@ public class CustomerController {
 		}
 		return "redirect:/customers/info.do"+additionalQuery;
 	}
+	
+	@RequestMapping("/deal.do")
+	public String saleBoardList(Criteria criteria, Model model, HttpSession httpSession) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Customer customer = (Customer) loginInfo.get("LOGIN_USER");		
+		int no = customer.getId();
+		
+		criteria.setRows(6);
+		criteria.setCustomerNo(no);		
+		int totalRows = customerDealService.getTotalRows(no);
+		criteria.setTotalRows(totalRows);
 
+		List<Privatedeal> sales = customerDealService.getSalesByCustomerNo(criteria);
+	
+		model.addAttribute("pagination", criteria);
+		model.addAttribute("sales", sales);
+
+		return "customers/deal/saleBoardList";
+	}
+	
+	@RequestMapping("/saleRequest.do")
+	public String saleRequest(Criteria criteria, Model model, HttpSession httpSession) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Customer customer = (Customer) loginInfo.get("LOGIN_USER");		
+		int no = customer.getId();
+		
+		criteria.setRows(6);
+		criteria.setCustomerNo(no);		
+		int totalRows = customerDealService.getTotalRowsSR(no);
+		criteria.setTotalRows(totalRows);
+		
+		List<Request> srequest = customerDealService.getSaleRequestsByCustomerNo(criteria);
+		
+		model.addAttribute("pagination", criteria);
+		model.addAttribute("sreqs", srequest);
+
+		return "customers/deal/saleRequest";
+	}
+	
+	@RequestMapping("/saleList.do")
+	public String saleList(Criteria criteria, Model model, HttpSession httpSession) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Customer customer = (Customer) loginInfo.get("LOGIN_USER");		
+		int no = customer.getId();
+		
+		criteria.setRows(6);
+		criteria.setCustomerNo(no);		
+		int totalRows = customerDealService.getTotalRowsSL(no);
+		criteria.setTotalRows(totalRows);
+
+		List<Deal> solds = customerDealService.getSoldList(criteria);
+		
+		model.addAttribute("pagination", criteria);
+		model.addAttribute("solds", solds);
+
+		return "customers/deal/saleList";
+	}
+	
+	@RequestMapping("/buyBoardList.do")
+	public String buyBoardList(Criteria criteria, Model model, HttpSession httpSession) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Customer customer = (Customer) loginInfo.get("LOGIN_USER");		
+		int no = customer.getId();
+		
+		criteria.setRows(6);
+		criteria.setCustomerNo(no);		
+		int totalRows = customerDealService.getTotalRowsB(no);
+		criteria.setTotalRows(totalRows);
+
+		List<Privatedeal> buys = customerDealService.getBuyByCustomerNo(criteria);
+				
+		model.addAttribute("pagination", criteria);
+		model.addAttribute("buys", buys);
+
+		return "customers/deal/buyBoardList";
+	}
+	
+	@RequestMapping("/buyRequest.do")
+	public String buyRequest(Criteria criteria, Model model, HttpSession httpSession) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Customer customer = (Customer) loginInfo.get("LOGIN_USER");		
+		int no = customer.getId();
+		
+		criteria.setRows(6);
+		criteria.setCustomerNo(no);		
+		int totalRows = customerDealService.getTotalRowsBR(no);
+		criteria.setTotalRows(totalRows);
+
+		List<Request> brequest = customerDealService.getBuyRequestsByCustomerNo(criteria);
+		
+		model.addAttribute("pagination", criteria);
+		model.addAttribute("breqs", brequest);
+
+		return "customers/deal/buyRequest";
+	}
+	
+	@RequestMapping("/buyList.do")
+	public String buyList(Criteria criteria, Model model, HttpSession httpSession) {
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		Customer customer = (Customer) loginInfo.get("LOGIN_USER");		
+		int no = customer.getId();
+		
+		criteria.setRows(6);
+		criteria.setCustomerNo(no);		
+		int totalRows = customerDealService.getTotalRowsBL(no);
+		criteria.setTotalRows(totalRows);
+		
+		List<Deal> boughts = customerDealService.getBoughtList(criteria);		
+		
+		model.addAttribute("pagination", criteria);
+		model.addAttribute("boughts", boughts);
+
+		return "customers/deal/buyList";
+	}
 }

@@ -10,8 +10,9 @@ public class Cart {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public Cart setId(int id) {
 		this.id = id;
+		return this;
 	}
 	public Customer getCustomer() {
 		return customer;

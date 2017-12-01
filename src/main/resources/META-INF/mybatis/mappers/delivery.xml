@@ -56,6 +56,15 @@
 		where
 			delivery_id = #{value}
 	</select>
+	<update id="updateDelivery" parameterType="delivery">
+		update deliveries
+		set delivery_mainaddress = #{mainAddress},
+			delivery_title		= #{title},
+			delivery_postalcode = #{postalCode},
+			delivery_detailaddress = #{detailAddress}
+		where
+			delivery_id = #{id}
+	</update>
 	
 </mapper>
 

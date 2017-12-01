@@ -11,10 +11,11 @@ tbody tr:first-child>td:first-child+td{text-align: right;width:100px;padding-rig
 .commentlist>div{border-bottom: 1px solid #ccc;padding: 10px 0;}
 .commentlist>div:nth-last-child(2){border: 0;}
 .commentlist>div:last-child{border-bottom: 0; border-top:1px solid #ccc;}
+.commentlist>div:first-child{border-top: 0 !important;}
 .commentlist p span{padding-left: 15px;color: #888;}
 .title{padding-left:24px !important;}
 .form-group{width: 100%;}
-.form-group textarea{height: 47px !important;}
+.container .form-group textarea{height: 47px !important;}
 .comment textarea{width: 93% !important;}
 .replycomment textarea{width: 91.7% !important;}
 .comment{margin-top: 10px;}

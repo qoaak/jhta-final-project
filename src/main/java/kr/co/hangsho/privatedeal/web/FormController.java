@@ -91,7 +91,35 @@ public class FormController {
 	}
 	
 	@RequestMapping(value = "/insertUsed.do", method = RequestMethod.POST)
-	public String insertUsed(String editor) {
+	public String insertUsed(PrivatedealForm privatedealForm, HttpSession httpSession) {
+		
+		Privatedeal privatedeal = new Privatedeal();
+		BeanUtils.copyProperties(privatedealForm, privatedeal);
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		if(loginInfo == null) {
+			return "redirect:/customers/login.do?error=deny"; 
+		}
+		
+		Customer customer = new Customer();
+		if("CUSTOMER".equals(loginInfo.get("USER_TYPE"))) {
+			customer = (Customer) loginInfo.get("LOGIN_USER");
+		}
+		privatedeal.setCustomer(customer);		
+		
+		SmallCategory smallCategory = new SmallCategory();
+		smallCategory.setId(privatedealForm.getSmallcategory());
+		privatedeal.setSmallcategory(smallCategory);	
+		
+		Code division = new Code();
+		division.setId(privatedealForm.getDivision());
+		privatedeal.setDivision(division);
+		
+		Code type = new Code();
+		type.setId("U");
+		privatedeal.setType(type);
+		
+		privatedealService.addPDBoard(privatedeal);
 		
 		return "redirect:/used/index.do";
 	}
@@ -109,6 +137,21 @@ public class FormController {
 		model.addAttribute("smallCategories", smallCategories);
 		
 		return "/privatedeal/merona/modify";
+	}
+	
+	@RequestMapping("/modifyU.do")
+	public String modifyU(int no, Model model) {
+		
+		Privatedeal merona = privatedealService.getMeronaByNo(no);
+		
+		List<MiddleCategory> middleCategories = middleCategoryService.getMidCategoryByBigNo(merona.getSmallcategory().getMidCategory().getBigCategory().getId());
+		List<SmallCategory> smallCategories = smallCategoryService.getSmaCategoryByMidNo(merona.getSmallcategory().getMidCategory().getId());
+		
+		model.addAttribute("merona", merona);
+		model.addAttribute("middleCategories", middleCategories);
+		model.addAttribute("smallCategories", smallCategories);
+		
+		return "/privatedeal/used/modify";
 	}
 	
 	@RequestMapping(value = "/modify.do", method = RequestMethod.POST)
@@ -140,6 +183,36 @@ public class FormController {
 		
 		return "redirect:/merona/detail.do?no=" + privatedealForm.getId();
 	}
+	
+	@RequestMapping(value = "/modifyU.do", method = RequestMethod.POST)
+	public String modifyU(PrivatedealForm privatedealForm, HttpSession httpSession) {
+		
+		Privatedeal privatedeal = new Privatedeal();
+		BeanUtils.copyProperties(privatedealForm, privatedeal);
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");
+		if(loginInfo == null) {
+			return "redirect:/customers/login.do?error=deny"; 
+		}
+		
+		Customer customer = new Customer();
+		if("CUSTOMER".equals(loginInfo.get("USER_TYPE"))) {
+			customer = (Customer) loginInfo.get("LOGIN_USER");
+		}
+		privatedeal.setCustomer(customer);		
+		
+		SmallCategory smallCategory = new SmallCategory();
+		smallCategory.setId(privatedealForm.getSmallcategory());
+		privatedeal.setSmallcategory(smallCategory);	
+		
+		Code division = new Code();
+		division.setId(privatedealForm.getDivision());
+		privatedeal.setDivision(division);		
+		
+		privatedealService.modifyBoard(privatedeal);
+		
+		return "redirect:/used/detail.do?no=" + privatedealForm.getId();
+	}
 
 	// 다중파일업로드
 	@RequestMapping(value = "/file_uploader_html5.do", method = RequestMethod.POST)
@@ -151,7 +224,7 @@ public class FormController {
 			// 파일명을 받는다 - 일반 원본파일명
 			String oldName = request.getHeader("file-name");
 			// 파일 기본경로 _ 상세경로
-			String filePath = "C:/spring_workspace/workspace/hangsho/src/main/webapp/resources/photoUpload/";
+			String filePath = "C:/spring-workspace/workspace/hangsho/src/main/webapp/resources/photoUpload/";
 			String saveName = sb.append(new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis()))
 								.append(UUID.randomUUID().toString())
 								.append(oldName.substring(oldName.lastIndexOf("."))).toString();
@@ -168,7 +241,7 @@ public class FormController {
 			sb = new StringBuffer();
 			sb.append("&bNewLine=true")
 			  .append("&sFileName=").append(oldName)
-			  .append("&sFileURL=").append("http://localhost/resources/photoUpload/").append(saveName);
+			  .append("&sFileURL=").append("http://www.hangsho.com/resources/photoUpload/").append(saveName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -48,5 +48,36 @@
 			company_username = #{value}
 	</select>
 	
+	<select id="getCompanyById" parameterType="int" resultType="Company">
+		select
+			company_id				as id,
+			company_name			as name,
+			company_username		as username,
+			company_postalcode		as postalcode,
+			company_mainaddress		as mainaddress,
+			company_detailaddress	as detailaddress,
+			company_ceonumber		as ceonumber,
+			company_phonenumber		as phonenumber,
+			company_password 		as password
+		from
+			companies
+		where
+			company_id = #{value}
+	</select>
+	
+	<update id="changeCompany" parameterType="Company">
+		update companies
+		set 
+			company_password 		= #{password},
+			company_name			= #{name},
+			company_postalcode		= #{postalcode},
+			company_mainaddress		= #{mainaddress},
+			company_detailaddress	= #{detailaddress},
+			company_ceonumber		= #{ceonumber},
+			company_phonenumber		= #{phonenumber}
+		where
+			company_id = #{id}
+	</update>
+	
 </mapper>
 

@@ -22,6 +22,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String params = request.getQueryString();
+		System.out.println(params);
 		params = params  == null ? "" : "?"+params;
 		String requestURI = request.getRequestURI();
 		System.out.println(requestURI);
@@ -32,13 +33,17 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter{
 		
 		if(urlSets.contains(requestURI))
 			return true;
-
 		
 		HttpSession session = request.getSession();
 		Map<String, Object> loginInfo = (Map) session.getAttribute("LOGIN_INFO");
 		
-		
+
 		if(loginInfo == null) {
+
+			if(requestURI.startsWith("/admin")) {
+				response.sendRedirect("/admin/login.do");
+				return true;
+			}
 			if (acceptContentType.startsWith("application/json")) {
 				response.getWriter().write("{\"success\":false, \"cause\":\"loginfail\"}");
 				return false;
@@ -50,6 +55,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter{
 			return true;
 		}
 		
+
 //		return true;
 
 

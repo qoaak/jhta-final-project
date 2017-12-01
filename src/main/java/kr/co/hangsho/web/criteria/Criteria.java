@@ -15,7 +15,9 @@ public class Criteria {
 	private Integer mc;
 	private Integer bc;
 	private String division;
+	private String type;
 	private int totalRows;
+	private int customerNo;
 	
 	public int getBeginIndex() {				// 리스트 행 시작 숫자
 		return (pageNo -1) * rows + 1;
@@ -136,14 +138,28 @@ public class Criteria {
 		this.bc = bc;
 	}
 	
-	
-	
 	public String getDivision() {
 		return division;
 	}
 
 	public void setDivision(String division) {
 		this.division = division;
+	}	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}	
+
+	public int getCustomerNo() {
+		return customerNo;
+	}
+
+	public void setCustomerNo(int customerNo) {
+		this.customerNo = customerNo;
 	}
 
 	@Override

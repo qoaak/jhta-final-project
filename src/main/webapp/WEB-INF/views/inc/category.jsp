@@ -2,7 +2,8 @@
 <div class="row category_wrap">
 	<ul class="categorylist">
 		<li><a href="/index.do">홈</a><span>＞</span></li>
-		<li><c:choose>
+		<li>
+			<c:choose>
 				<c:when test="${not empty param.bc }">
 					<a href="index.do?bc=${param.bc }" id="chooseBC"></a>
 				</c:when>
@@ -22,7 +23,8 @@
 				<li><a href="index.do?bc=700">남아메리카</a></li>
 				<li><a href="index.do?bc=800">오세아니아</a></li>
 				<li><a href="index.do?bc=900">아프리카</a></li>
-			</ul></li>
+			</ul>
+		</li>
 		<c:if test="${not empty middleCategories }">
 			<li><c:choose>
 					<c:when test="${not empty param.mc }">

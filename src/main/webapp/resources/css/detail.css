@@ -2,13 +2,7 @@
             margin-bottom: 15px;
         }
         
-        table.qnaitems th {
-            text-align: center;
-        }
-        
-        table.qnaitems td {
-            text-align: center;
-        }
+       
         
         .centerman {
             text-align: center;
@@ -108,16 +102,37 @@
             color: orange;
         }
         
-         #lin {
-             left: -40px;
+         /* #lin {
+            left: -40px;
             list-style: none;
             padding: 10px;
             display: inline-block;
             border: 1px solid darkgray;
-             position: relative;
-             background-color: #dddd;
+            position: relative;
+            background-color: #dddd;
+            width: 494px;
+            height: 49px;
         }
-        
+         */
+         
+         .remain-item-number {
+         	height: 49px;
+         	width: 494px;
+         	margin-bottom: 20px;
+         	border: 1px solid #dedede;
+         	background-color: #f9f9f9;
+         	text-align: center;
+         	line-height: 47px; 
+         }
+         
+         #product-selection {
+         	height: 32px;
+         	width: 494px;
+         	display: block;
+         	padding: 6px 12px;
+         	font-size: 14px;
+         }
+         
         ul {
             padding-bottom: 50px;
         }
@@ -144,7 +159,12 @@
             width: 380px;
             margin: 3px;
         }
-        
+        .left {
+        	margin-left: 30px;
+        }
+        .btn-group {
+        	margin-top: 7px;
+        }
         .quescaution {
             margin-top: 20px;
             margin-bottom: 5px;
@@ -153,3 +173,5 @@
         .quemodal {
         	width: 550px;
         }
+        
+        

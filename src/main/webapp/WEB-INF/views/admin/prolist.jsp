@@ -4,6 +4,19 @@
 <title>행쇼-상품관리</title>
 <%@ include file="/WEB-INF/views/admin/common.jsp"%>
 <link rel="stylesheet" href="/resources/css/admin/prolist.css">
+<style>
+.mainthumbnail img {width: 280px;}
+.pro th {padding-top: 12px !important;}
+.pro td {padding-top: 12px !important;}
+.etc {padding-top: 12px !important;}
+.mainimage {height: 300px !important; padding: 0px !important;}
+.subimage img {width: 770px;}
+.subimage div {text-align: center;}
+.remot {width: 50px; height: 150px; #ccc; top: 350px; left: 50%; margin-left: 600px; position: fixed;}
+#body-container-body>div:first-child {margin-top: 50px;}
+.itemtable th {background-color: #e6e6e6;}
+.itemtable {overflow-y: scroll !important; height: 150px;}
+</style>
 </head>
 <body>
 <c:set var="menu" value="product"></c:set>
@@ -50,10 +63,10 @@
 									<td colspan="5" class="text-center">검색된 결과가 없습니다.</td>
 								</tr>
 							</c:if>
-							<c:forEach var="product" items="${products }">
+							<c:forEach var="product" items="${products }" begin="0" end="14">
 								<tr>
 									<td>${product.id }</td>
-									<td><a href="detail.do/id=${product.id }"><c:out value="${product.name }"></c:out> </a></td>
+									<td><a href="prodetail.do?id=${product.id }"><c:out value="${product.name }"></c:out> </a></td>
 									<td><a href="">${product.company.name }</a></td>
 									<td><fmt:formatDate value="${product.createDate }" pattern="yyyy-MM-dd"/></td>
 									<td>${product.smallCategory.midCategory.bigCategory.name } &gt; 

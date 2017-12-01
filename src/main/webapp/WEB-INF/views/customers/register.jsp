@@ -8,7 +8,6 @@
 <body>
 	<%@ include file="/WEB-INF/views/inc/header.jsp"%>
 	<div class="container">
-		<img src="../images/daum.png" alt="" class="center-block">
 		<div class="col-md-6 col-md-offset-3">
 			<form action="addcustomer.do" method="post">
 				<div class="form-group">

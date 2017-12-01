@@ -24,4 +24,10 @@ public interface PrivatedealService {
 	Comment addNewComment(Comment comment);
 	List<Comment> getCommentsByBoardNo(int no);
 	Comment addNewReply(Comment comment);
+	Comment deleteCommentByCno(int cno);
+	Comment deleteReplyByCno(int cno);
+	Comment getCommentByCno(int cno);
+	Comment modifyComment(Comment comment);
+	int getCommentCountByBoardNo(int boardNo);	
+	
 }

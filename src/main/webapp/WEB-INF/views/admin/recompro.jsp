@@ -1,48 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/admin/header.jsp"%>
 <html>
-<title>행쇼-상품관리</title>
+<title>행쇼-추천상품관리</title>
 <%@ include file="/WEB-INF/views/admin/common.jsp"%>
-<link rel="stylesheet" href="/resources/css/admin/recompro.css">
-<script type="text/javascript">
-$(function() {
-	$("#allcheck-01, #allcheck-02").click(function() {
-		var isallcheck = $(this).is(":checked");
-		var $checkbox = $(this).closest("table").find("td input")
-		
-		if (isallcheck) {
-			$checkbox.removeClass("checked");
-			$checkbox.addClass("checked").prop("checked", true);
-		} else {
-			$checkbox.removeClass("checked").prop("checked", false);
-		}
-	});
-	
-	$(document).on("click", "tbody tr input", function() {
-		var ischeck = $(this).is(":checked");
-		
-		if (ischeck == true) {
-			$(this).addClass("checked");		
-		} else {
-			$(this).removeClass("checked");
-		}
-		console.log($(this))
-	})
-	
-	$(document).on("click", "#btn-down", function () {
-		var $trcheck = $("#prolist-table-01 tbody tr .checked").prop("checked", false).removeClass("checked").closest("tr").clone();
-		$("#prolist-table-02 tbody").append($trcheck);
-		$("#allcheck-01").prop("checked", false).removeClass("checked");
-	})
-	
-	$(document).on("click", "#btn-up", function () {
-		var $trcheck = $("#prolist-table-02 tbody tr .checked").closest("tr");
-		console.log($trcheck);
-		$trcheck.remove();
-	}) 
-	
-})
-</script>
+<link rel="stylesheet" href="/resources/css/admin/prolist.css">
 </head>
 <body>
 <c:set var="menu" value="product"></c:set>
@@ -53,90 +14,84 @@ $(function() {
 	<div id="body-container-body">
 		<div class="container">
 			<div class="col-sm-offset-1 col-sm-10">
-				<h3>추천상품 설정</h3>
+				<h3>추천상품관리</h3>
 				<hr />
-				<div class="searchform">
+				<div class="searchform text-right">
+				
 					<form class="form-inline">
 						<div class="form-group">
 							<input type="date" class="form-control input-sm" name="begindate" />
 							<span>~</span> <input type="date" class="form-control input-sm"
-								name="enddate" /> <select class="form-control input-sm">
+								name="enddate" />
+						</div>
+						<div class="form-group">
+							<select class="form-control input-sm">
 								<option>전체</option>
-								<option>상품명</option>
-								<option>카테고리</option>
+								<option>제목</option>
 								<option>판매자</option>
 							</select> <input type="text" class="form-control input-sm" name="keyword" />
 							<button class="btn btn-info btn-sm">조회</button>
 						</div>
 					</form>
 				</div>
-				<div class="prolist">
-					<label class="list-title">상품리스트</label>
-					<div class="listtable">
-						<table class="table table-condensed table-hover text-center" id="prolist-table-01">
-							<colgroup>
-								<col width="5%">
-								<col width="10%">
-								<col width="50%">
-								<col width="15%">
-								<col width="20%">
-							</colgroup>
-							<thead>
+				<div class="listtable">
+					<table class="table table-hover">
+						<colgroup>
+							<col width="10%">
+							<col width="40%">
+							<col width="25%">
+							<col width="25%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>슬라이드 유형</th>
+								<th>시작날짜</th>
+								<th>완료날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:if test="${empty sliders }">
 								<tr>
-									<th><input type="checkbox" id="allcheck-01"/></th>
-									<th>상품번호</th>
-									<th>상품제목</th>
-									<th>판매자</th>
-									<th>카테고리</th>
+									<td colspan="5" class="text-center">검색된 결과가 없습니다.</td>
 								</tr>
-							</thead>
-							<tbody>
-								<c:if test="${empty products }">
-									<tr>
-										<td colspan="5" class="text-center">검색된 결과가 없습니다.</td>
-									</tr>
-								</c:if>
-								<c:forEach var="product" items="${products }">
-									<tr>
-										<td><input type="checkbox" /></td>
-										<td>${product.id }</td>
-										<td><c:out value="${product.name }"></c:out></td>
-										<td>${product.company.name }</td>
-										<td>
-												${product.smallCategory.name }</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="btn-recom">
-					<a class="btn btn-default btn-sm" id="btn-down"> 추천 ▼ </a>
-					<a class="btn btn-default btn-sm" id="btn-up"> 취소 ▲ </a>
-				</div>
-				<div class="prolist">
-					<label class="list-title">추천상품</label>
-					<div class="selecttable">
-						<table class="table table-condensed table-hover text-center" id="prolist-table-02">
-							<thead>
+							</c:if>
+							<c:forEach var="slider" items="${sliders }">
 								<tr>
-									<th><input type="checkbox" id="allcheck-02" /></th>
-									<th>상품번호</th>
-									<th>상품제목</th>
-									<th>판매자</th>
-									<th>카테고리</th>
+									<td>${slider.id }</td>
+									<td><a href="recomdetail.do?id=${slider.id }"><c:out value="${slider.type }"></c:out> </a></td>
+									<td><fmt:formatDate value="${slider.startDate }" pattern="yyyy-MM-dd"/></td>
+									<td><fmt:formatDate value="${slider.endDate }" pattern="yyyy-MM-dd"/></td>
 								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-					<div class="text-right">
-						<button id="btn-sumbit-02" type="submit" class="btn btn-info btn-sm">저장</button>
-					</div>
+							</c:forEach>
+							
+							<!-- 
+							<tr>
+								<td>001</td>
+								<td><a href="">[나이키]신상 에어맥스 97 슈즈 15종 득템찬스!</a></td>
+								<td>쓱가</td>
+								<td>2017-05-12</td>
+								<td>하의</td>
+							</tr>
+							 -->
+							
+						</tbody>
+					</table>
+				</div>
+				<div class="text-center">
+					<ul class="pagination">
+						<li><a href="#">&lt;</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#">&gt;</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>

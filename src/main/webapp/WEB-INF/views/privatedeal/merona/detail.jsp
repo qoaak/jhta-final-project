@@ -4,8 +4,7 @@
 <link rel="stylesheet" href="/resources/css/mdetail.css">
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/inc/header.jsp" %>
-	
+	<%@ include file="/WEB-INF/views/inc/header.jsp" %>	
 	 <div class="container-fluid">               
      	<div class="container">
         <%@ include file="/WEB-INF/views/inc/detailcategory.jsp" %> 
@@ -57,9 +56,9 @@
        			${merona.contents }
        		</div>
        		<div class="btnlist">
-       			<c:if test="${(LOGIN_INFO.LOGIN_USER.id ne merona.customer.id) and merona.status.id ne 'DC'}">
+       			<c:if test="${(LOGIN_INFO.LOGIN_USER.id ne merona.customer.id) and merona.status.id ne 'DC'}">       				
       				<div class="text-center">
-       					<a href="" class="btn btn-info">1:1 채팅</a>
+       					<button class="btn btn-info disabled" id="btn-req-${merona.customer.nickname }">1:1 채팅</button>
        					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">안전거래</button>	          			 		
        				</div>
         		</c:if>
@@ -77,30 +76,39 @@
        		</div>		
 
           	<div class="row comments well" id="comment-list">
-          		<span>댓글 </span><em>0</em>
+          		<span>댓글 </span><em>${commentCount }</em>
           		<div class="commentlist">
           			<c:forEach var="comment" items="${comments }">          			
           				<c:choose>
-          					<c:when test="${comment.id eq comment.repliedId.id }">
+          					<c:when test="${(comment.id eq comment.repliedId.id) and (comment.deleted eq 'N')}">
 			          			<div>
 				          			<strong><c:out value="${comment.customer.nickname }" /></strong><small> <fmt:formatDate value="${comment.createdate }" pattern="yyyy-MM-dd HH:mm"/></small>
 				          			<button class="btn btn-info btn-xs" id="reply-${comment.id }">답글</button>
-				          			<div class="pull-right">
-				          				<button class="btn btn-default btn-xs">수정</button> <button class="btn btn-danger btn-xs" id="btn-del-comment-${comment.id }">삭제</button>
-				          			</div>          					
+				          			<c:if test="${(not empty LOGIN_INFO) and (LOGIN_INFO.LOGIN_USER.id eq comment.customer.id) }">
+					          			<div class="pull-right">
+					          				<button class="btn btn-default btn-xs" id='btn-modify-comment-${comment.id }'>수정</button> <button class="btn btn-danger btn-xs" id="btn-del-comment-${comment.id }">삭제</button>
+					          			</div>
+					          		</c:if>				          			          					
 			       					<p><c:out value="${comment.comment }" /></p>
 			       				</div>
           					</c:when>
-          					<c:otherwise>
+          					<c:when test="${(comment.id eq comment.repliedId.id) and (comment.deleted eq 'Y') and (comment.groupIdCount gt 1)}">
+          						<div>
+	          						<p>삭제된 댓글입니다.</p>          						
+          						</div>
+          					</c:when>
+          					<c:when test="${(comment.id ne comment.repliedId.id) and (comment.deleted eq 'N')}">
           						<div>
 				          			<strong>└ <c:out value="${comment.customer.nickname }" /></strong><small> <fmt:formatDate value="${comment.createdate }" pattern="yyyy-MM-dd HH:mm"/></small>
 				          			<button class="btn btn-info btn-xs" id="reply-${comment.id }">답글</button>
-				          			<div class="pull-right">
-				          				<button class="btn btn-default btn-xs">수정</button> <button class="btn btn-danger btn-xs" id="btn-del-comment-${comment.id }">삭제</button>
-				          			</div>          					
+				          			<c:if test="${(not empty LOGIN_INFO) and (LOGIN_INFO.LOGIN_USER.id eq comment.customer.id) }">
+				          				<div class="pull-right">
+				          					<button class="btn btn-default btn-xs" id='btn-modify-comment-${comment.id }'>수정</button> <button class="btn btn-danger btn-xs" id="btn-del-reply-${comment.id }">삭제</button>
+				          				</div>
+				          			</c:if>          					
 			       					<p><span><c:out value="${comment.repliedId.customer.nickname }" /> </span><c:out value="${comment.comment }" /></p>
 			       				</div>
-          					</c:otherwise>
+          					</c:when>
           				</c:choose>	       					       		
        				</c:forEach>          			       				        				
      			</div>  
@@ -125,18 +133,19 @@
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
 	          <h4 class="modal-title">신청내용</h4>
 	        </div>
-	        <form action="" method="post">
+	        <form action="/addRequest.do" method="post" id="request-form">
+	        	<input type="hidden" name="boardNo" value="${merona.id }" />
 		        <div class="modal-body">
 		        	<div class="form-group">
-		        		<textarea name="" rows="10" class="form-control"></textarea>
+		        		<textarea name="contents" rows="20" class="form-control" id="request-contents"></textarea>		        		
 		        	</div>		         	
 		         	<div class="form-group">
 		         		<label for="">희망가격</label>
-		         		<input type="number" name="" > 원
+		         		<input type="number" name="desiredPrice" > 원
 		         	</div>		         	
 		        </div>
 		        <div class="modal-footer">
-		        	<button type="submit" class="btn btn-success">신청</button>
+		        	<button type="submit" class="btn btn-success" id="request">신청</button>
 		         	<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 		        </div>
 	        </form>
@@ -144,7 +153,7 @@
 	      
 	    </div>
 	</div>
-	</div>
+
 	<%@ include file="/WEB-INF/views/inc/footer.jsp" %>
 </body>
 <script type="text/javascript">
@@ -179,21 +188,37 @@
 				success:function(result) {
 					var html = "";
 					$.each(result, function(index, comment) {
-						if (comment.id == comment.repliedId.id) {
+						if (comment.id == comment.repliedId.id && comment.deleted == 'N') {
 							html += "<div> <strong>"+comment.customer.nickname+"</strong> <small>"+comment.createdate+" </small>";
-							html += " <button class='btn btn-info btn-xs' id='reply-"+result.comment.id +"'>답글</button>";
-							html += "<div class='pull-right'>";
-							html += "<button class='btn btn-default btn-xs'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-comment-"+comment.id+"'>삭제</button> </div>";
+							html += " <button class='btn btn-info btn-xs' id='reply-"+comment.id +"'>답글</button>";							
+							if (comment.modified) {
+								html += "<div class='pull-right'>";
+								html += "<button class='btn btn-default btn-xs' id='btn-modify-comment-"+comment.id+"'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-comment-"+comment.id+"'>삭제</button> </div>";
+							}
 							html += "<p>"+comment.comment+"</p> </div>"
-						} else {
+						} else if (comment.id == comment.repliedId.id && comment.deleted == 'Y' && comment.groupIdCount > 1) {
+							html += "<div> <p>삭제된 댓글입니다.</p> </div>"
+						} else if (comment.id != comment.repliedId.id && comment.deleted == 'N') {
 							html += "<div> <strong>└ "+comment.customer.nickname+"</strong> <small>"+comment.createdate+" </small>";
-							html += " <button class='btn btn-info btn-xs' id='reply-"+result.comment.id +"''>답글</button>";
-							html += "<div class='pull-right'>";
-							html += "<button class='btn btn-default btn-xs'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-comment-"+comment.id+"'>삭제</button> </div>";
+							html += " <button class='btn btn-info btn-xs' id='reply-"+comment.id +"''>답글</button>";
+							if(comment.modified) {							
+								html += "<div class='pull-right'>";
+								html += "<button class='btn btn-default btn-xs' id='btn-modify-comment-"+comment.id+"'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-reply-"+comment.id+"'>삭제</button> </div>";
+							}
 							html += "<p><span>"+comment.repliedId.customer.nickname+" </span>"+comment.comment+"</p> </div>"
 						}						
-					});
+					});					
 					$(".commentlist").html(html);
+					
+					$.ajax({
+						type:"GET",
+						url:"/getCommentCount.do",
+						data:{boardNo:'${merona.id}'},
+						dataType:"json",
+						success:function(result) {
+							$("em").text(result);							
+						}
+					})
 				}
 			})
 		}
@@ -211,14 +236,24 @@
     					var html = "<div>";
     					html += "<strong>"+result.comment.customer.nickname+"</strong>";
     					html += " <small>"+result.comment.createdate+"</small>";
-    					html += " <button class='btn btn-info btn-xs' id='reply-"+result.comment.id +"'>답글</button>";
+    					html += " <button class='btn btn-info btn-xs' id='reply-"+result.comment.id +"'>답글</button>";    					
     					html += "<div class='pull-right'>";
-    					html += "<button class='btn btn-default btn-xs'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-comment-"+result.comment.id+"'>삭제</button> </div>";
+    					html += "<button class='btn btn-default btn-xs' id='btn-modify-comment-"+result.comment.id+"'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-comment-"+result.comment.id+"'>삭제</button> </div>";    					
     					html += "<p>"+result.comment.comment+"</p> </div>";    					
     					
     					$(".commentlist").append(html);
     					
-    					$("textarea").val("");				
+    					$("textarea").val("");
+    					
+    					$.ajax({
+    						type:"GET",
+    						url:"/getCommentCount.do",
+    						data:{boardNo:'${merona.id}'},
+    						dataType:"json",
+    						success:function(result) {
+    							$("em").text(result);							
+    						}
+    					})
     			
     				} else {
     					alert("로그인이 필요한 서비스입니다.");
@@ -272,19 +307,146 @@
     	})
     	
     	$(".commentlist").on('click', 'button[id^=btn-del-comment]', function() {
+    		
+    		var result = confirm("댓글을 삭제하시겠습니까?");
+			if (result) {
+	    		var button = this;
+	    		var cNo = $(button).attr("id").replace("btn-del-comment-", "");
+	    		
+	    		$.ajax({
+	    			type:"GET",
+	    			url:"/delComment.do",
+	    			data:{commentNo:cNo},
+	    			dataType:"json",
+	    			success:function(comment) {
+	    				$(button).closest('div').parent().remove();
+	    				
+	    				reloading();
+	    			}
+	    		})				
+			} else {
+				return false;
+			}
+			
+    	})
+    	
+    	$(".commentlist").on('click', 'button[id^=btn-del-reply]', function() {
+    		
+    		var result = confirm("답글을 삭제하시겠습니까?");
+			if (result) {
+	    		var button = this;
+	    		var cNo = $(button).attr("id").replace("btn-del-reply-", "");
+	    		
+	    		$.ajax({
+	    			type:"GET",
+	    			url:"/delReply.do",
+	    			data:{commentNo:cNo},
+	    			dataType:"json",
+	    			success:function(comment) {
+	    				$(button).closest('div').parent().remove();
+	    				
+	    				reloading();
+	    			}
+	    		})
+			} else {
+				return false;
+			}
+    		
+    	})
+    	
+    	$(".commentlist").on('click', 'button[id^=btn-modify-comment]', function() {			
+    		
+    		$("button[id^=btn-modify-cancel]").trigger("click");    		
+    		
     		var button = this;
-    		var cNo = $(button).attr("id").replace("btn-del-comment-", "");
+    		var cNo = $(button).attr("id").replace("btn-modify-comment-", "");
     		
     		$.ajax({
     			type:"GET",
-    			url:"/delComment.do",
+    			url:"/getComment.do",
     			data:{commentNo:cNo},
     			dataType:"json",
     			success:function(comment) {
-    				
+		    		var html = "";
+					html += "<div class='comment'>";
+		    		html += "<strong>"+comment.customer.nickname+"</strong>";
+					html += " <small>"+comment.createdate+"</small>";
+					html += " <button class='btn btn-default btn-xs' id='btn-modify-cancel-"+comment.id+"'>수정취소</button>";
+					html += "<form class='form-inline'> <div class='form-group'>";
+					html += "<textarea class='form-control'>"+comment.comment+"</textarea>";
+					html += " <button class='btn btn-info btn-lg' id='btn-modify-complete-"+comment.id+"'>수정</button> </div> </form> </div>";
+					
+		    		$(button).closest('div').parent().html(html);
+    			}
+    		})    		
+    		
+    	});
+		
+		$(".commentlist").on('click', 'button[id^=btn-modify-complete]', function(event) {
+			event.preventDefault();
+			
+			var button = this;
+			var cNo = $(button).attr("id").replace("btn-modify-complete-", "");
+			
+			
+			
+			$.ajax({
+				type:"POST",
+				url:"/modifyComment.do",
+				data:{comment:$(this).parent().find("textarea").val(), id:cNo},
+				dataType:"json",
+				success:function(comment) {
+					reloading();
+				}
+			})
+		})
+		
+		$(".commentlist").on('click', 'button[id^=btn-modify-cancel]', function(event) {
+			
+			var button = this;    		
+			var cNo = $(button).attr("id").replace("btn-modify-cancel-", "");
+			
+    		$.ajax({
+    			type:"GET",
+    			url:"/getComment.do",
+    			data:{commentNo:cNo},
+    			dataType:"json",
+    			success:function(comment) {
+		    		var html = "";
+		    		if (comment.id == comment.repliedId.id && comment.deleted == 'N') {
+						html += "<div> <strong>"+comment.customer.nickname+"</strong> <small>"+comment.createdate+" </small>";
+						html += " <button class='btn btn-info btn-xs' id='reply-"+comment.id +"'>답글</button>";				
+						html += "<div class='pull-right'>";
+						html += "<button class='btn btn-default btn-xs' id='btn-modify-comment-"+comment.id+"'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-comment-"+comment.id+"'>삭제</button> </div>";
+						html += "<p>"+comment.comment+"</p> </div>"
+			
+					} else if (comment.id != comment.repliedId.id && comment.deleted == 'N') {
+						html += "<div> <strong>└ "+comment.customer.nickname+"</strong> <small>"+comment.createdate+" </small>";
+						html += " <button class='btn btn-info btn-xs' id='reply-"+comment.id +"''>답글</button>";										
+						html += "<div class='pull-right'>";
+						html += "<button class='btn btn-default btn-xs' id='btn-modify-comment-"+comment.id+"'>수정</button> <button class='btn btn-danger btn-xs' id='btn-del-reply-"+comment.id+"'>삭제</button> </div>";					
+						html += "<p><span>"+comment.repliedId.customer.nickname+" </span>"+comment.comment+"</p> </div>"
+					}
+					
+		    		$(button).closest('div').html(html);
     			}
     		})
-    	})
+			
+		});
+		
+		$("#request").click(function(event) {
+			event.preventDefault();
+			
+			if ($("#request-contents").val() == "") {
+				
+				alert("신청내용을 입력해주세요!");
+				
+				return false;
+			} else {
+				$("#request-form").submit();
+			}
+		
+		})		
     	
 	})
 </script>

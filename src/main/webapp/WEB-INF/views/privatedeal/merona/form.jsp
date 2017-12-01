@@ -24,7 +24,36 @@
 	        }
 	    });
 	    //전송버튼
-	    $("#insertBoard").click(function(){
+	    $("#insertBoard").click(function(event){	   
+        	event.preventDefault();
+        	 
+        	var bigcategory = $("select[name=bigcategory]").val();
+        	var middlecategory = $("select[name=middlecategory]").val();
+        	var smallcategory = $("select[name=smallcategory]").val();
+        	 
+            if ("" == bigcategory) {
+            	alert("대분류를 선택해주세요!");
+            	return false;
+            } 
+            if ("" == middlecategory) {
+            	alert("중분류를 선택해주세요!");
+           		return false;
+            }
+            if ("" == smallcategory) {
+            	alert("소분류를 선택해주세요!");
+            	return false;
+            }
+            
+            var title = $(".titlei").val();
+            var titleT = $.trim(title);
+            
+            if ("" == titleT) {
+            	alert("제목을 입력하세요!");
+            	return false;
+            }
+            
+            $(".titlei").val(titleT);
+	             
 	        //id가 smarteditor인 textarea에 에디터에서 대입
 	        obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
 	        //폼 submit
@@ -44,7 +73,7 @@
                             <tr>
                                 <th>구분</th>
                                 <td>
-                                    <select name="division" id="">
+                                    <select name="division">
                                         <option value="S">판매</option>
                                         <option value="B">구매</option>
                                     </select>
@@ -82,10 +111,9 @@
                     <textarea name="contents" id="editor" style="width: 100%; height: 400px;"></textarea>             
                           
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-info" id="insertBoard">등록</button>
+                        <button class="btn btn-success" id="insertBoard">등록</button>
                         <a href="/merona/index.do" class="btn btn-default">취소</a>
                     </div>
-
                 </form>
             </div>      
         </div>
@@ -110,14 +138,14 @@
             	  //console.log(midCategories);
             	  
                   var html = "";
-                  html += "<option>====중분류====</option>"
+                  html += "<option value=''>====중분류====</option>"
                   $.each(midCategories, function(index, midCategory) {
                 	  
                      html += "<option value="+midCategory.id+">"+midCategory.name+"</option>";
                   });
                   
                   $("select[name=middlecategory]").html(html);
-                  $("select[name=smallcategory]").html("<option>====소분류====</option>");
+                  $("select[name=smallcategory]").html("<option value=''>====소분류====</option>");
                }
             });
          });
@@ -135,7 +163,7 @@
                   //console.log(smallCategories);
                   
                   var html = "";
-                  html += "<option>====소분류====</option>"                  
+                  html += "<option value=''>====소분류====</option>"                  
                   $.each(smallCategories, function(index, smallCategory) {
                 	  
                      html += "<option value="+smallCategory.id+">"+smallCategory.name+"</option>";
@@ -144,7 +172,7 @@
                   $("select[name=smallcategory]").html(html);
                }
             });
-         });
+         });        
         
     })
 </script>

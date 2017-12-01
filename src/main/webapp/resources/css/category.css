@@ -5,6 +5,7 @@ a {
     .rating {
         color: dodgerblue;
     }
+    #product-body{margin-top:55px;}
     #product-body .thumbnail img {
         margin-bottom: 20px;
     }
@@ -58,8 +59,7 @@ a {
     .flow {
         top:0;
         position: fixed;
-    }
-    
+    }   
 
     
 

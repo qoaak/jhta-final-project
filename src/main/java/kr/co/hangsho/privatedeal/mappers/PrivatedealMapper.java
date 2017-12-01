@@ -29,4 +29,10 @@ public interface PrivatedealMapper {
 	List<Comment> getCommentsByBoardNo(int no);
 	Customer getRepliedNickName(Comment comment);
 	int getRepliedRootId(Comment comment);
+	void deleteComment(int cno);
+	void deleteReply(int cno);
+	Comment getComment(int cno);
+	void modifyComment(Comment comment);
+	int getCommentCountByBoardNo(int boardNo);
+	
 }

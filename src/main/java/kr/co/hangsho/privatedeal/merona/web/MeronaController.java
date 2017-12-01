@@ -36,6 +36,7 @@ public class MeronaController {
 	@RequestMapping("/index.do")
 	public String home(Criteria criteria, Model model) {
 		
+		criteria.setType("M");
 		int totalRows = privatedealService.getTotalRows(criteria);
 		criteria.setTotalRows(totalRows);
 		
@@ -48,7 +49,7 @@ public class MeronaController {
 			model.addAttribute("smallCategories", smallCategoryService.getSmaCategoryByMidNo(criteria.getMc()));			
 		}
 		
-		model.addAttribute("navi", criteria);
+		model.addAttribute("pagination", criteria);
 		model.addAttribute("meronalist", meronaList);
 		
 		return "/privatedeal/merona/index";
@@ -60,7 +61,7 @@ public class MeronaController {
 		privatedealService.clickedPlus(no);
 		
 		List<Comment> comments = privatedealService.getCommentsByBoardNo(no);
-		System.out.println(comments);
+		int commentCount = privatedealService.getCommentCountByBoardNo(no);
 		
 		Privatedeal merona = privatedealService.getMeronaByNo(no);
 		
@@ -71,6 +72,7 @@ public class MeronaController {
 		model.addAttribute("middleCategories", middleCategories);
 		model.addAttribute("smallCategories", smallCategories);
 		model.addAttribute("comments", comments);
+		model.addAttribute("commentCount", commentCount);
 		
 		return "/privatedeal/merona/detail";
 	}
@@ -105,6 +107,14 @@ public class MeronaController {
 		privatedealService.deleteBoardByBoardNo(no);
 		
 		return "redirect:/merona/index.do";
+	}
+	
+	@RequestMapping("/deleteU.do")
+	public String deleteU(int no) {
+		
+		privatedealService.deleteBoardByBoardNo(no);
+		
+		return "redirect:/used/index.do";
 	}	
 	
 }

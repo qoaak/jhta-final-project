@@ -1,5 +1,6 @@
 package kr.co.hangsho.item.web;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,6 +28,9 @@ import kr.co.hangsho.item.vo.Item;
 import kr.co.hangsho.item.web.form.ItemForm;
 import kr.co.hangsho.products.service.ProductService;
 import kr.co.hangsho.products.vo.Product;
+import kr.co.hangsho.stock.mappers.StockMapper;
+import kr.co.hangsho.stock.service.StockService;
+import kr.co.hangsho.stock.vo.Stock;
 import kr.co.hangsho.web.criteria.Criteria;
 
 @Controller
@@ -50,6 +54,9 @@ public class ItemController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private StockService stockService;
 	
 	@RequestMapping("/form.do")
 	public String form() {
@@ -80,12 +87,10 @@ public class ItemController {
 		
 		itemService.addNewItem(item);
 		
-		return "redirect:../product/list.do";
+		return "redirect:../item/list.do";
 	}
 	@RequestMapping("/list.do")
 	public String list() {
-		
-		
 		return "/item/list";
 	}
 	
@@ -93,9 +98,10 @@ public class ItemController {
 	public String detail(int itemId, Model model) {
 		
 		Item item = itemService.getItemByItemId(itemId);
-
+		
 		int imageId = item.getImage().getId();
 		Image image = imageService.getImageByNo(imageId);
+		
 		item.setImage(image);
 		
 		int productId = item.getProduct().getId();
@@ -104,12 +110,13 @@ public class ItemController {
 		int smallCategoryId = product.getSmallCategory().getId();
 		SmallCategory smallCategory = categoryService.getCategory(smallCategoryId);
 		product.setSmallCategory(smallCategory);
-		
 		item.setProduct(product);
 		
+		List<Stock> stocks = stockService.getStocksByItemId(itemId);
+		
+		model.addAttribute("stocks", stocks);
 		model.addAttribute("item", item);
-		//System.out.println(item);
-			
+		
 		return "/item/detail";
 	}
 	
@@ -117,7 +124,7 @@ public class ItemController {
 	public String modify(int itemId, Model model) {
 		
 		Item item = itemService.getItemByItemId(itemId);
-
+		
 		int imageId = item.getImage().getId();
 		Image image = imageService.getImageByNo(imageId);
 		item.setImage(image);
@@ -132,8 +139,40 @@ public class ItemController {
 		item.setProduct(product);
 		
 		model.addAttribute("item", item);
-		System.out.println(item);
 		
 		return "/item/modify";
 	}
+	@RequestMapping("/modify.do")
+	public String modifyItem(ItemForm itemForm, int itemId) throws IOException {
+		
+		Item item = new Item();
+		BeanUtils.copyProperties(itemForm, item);
+		Product product = new Product();
+		product.setId(itemForm.getProduct());
+		item.setProduct(product);
+		item.setId(itemId);
+
+		if (!itemForm.getImagefile().isEmpty()) {
+			
+			MultipartFile imageFile = itemForm.getImagefile();
+			String filename = imageFile.getOriginalFilename();
+			
+			String imagePath = imagePathMap.get(String.valueOf(itemForm.getSmallCategory())) + filename;
+			String savePath = uploadDrectoryPrefix +  imagePath;
+			
+			int imageId = itemService.getItemByItemId(item.getId()).getImage().getId();
+			
+			Image image = new Image();
+			image.setId(imageId);
+			image.setPath(imagePath);
+			
+			FileCopyUtils.copy(imageFile.getBytes(), new FileOutputStream(savePath));
+			imageService.updateImage(image);
+		}
+		itemService.updateItem(item);
+		
+		return "redirect:/item/list.do";
+	}
+	
+	
 }

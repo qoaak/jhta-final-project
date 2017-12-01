@@ -1,26 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/abcompany/header.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>아이템 등록 페이지</title>
+<title>아이템 수정 페이지</title>
 </head>
 <body>
+<c:set var="menu" value="item" />
 <%@ include file="/WEB-INF/views/abcompany/navi.jsp" %>
     <div id="body-container" class="container-fluid">     
         <div id="body-container-body">
 			<div class="container">
 				
-				<h1>아이템 등록 페이지</h1>
+				<h1>아이템 수정 페이지</h1>
 				<hr />
 				
 				<div class="alert alert-danger" id="error-message-box">
 					<strong>Error!</strong> <span id="error-message"></span>
 				</div>
 				
-				<form method="post" action="add.do" enctype="multipart/form-data" id="item-register-form">
+				<form method="post" action="modify.do?itemId=${item.id }" enctype="multipart/form-data" id="item-register-form">
 					<table class="table table-hover table-bordered">
 			            <colgroup>
 			                <col width="20%">
@@ -69,7 +70,7 @@
 		                        <td>
 		                            <div class="form-group">
 		                                <select class="form-control" name="product" id="product-name">
-		                                	<option>등록된 상품명</option>
+		                                	<option value="${item.product.id }">${item.product.name }</option>
 		                                </select>
 		                            </div>
 		                        </td>
@@ -107,16 +108,22 @@
 		                        </td>
 		                    </tr>
 		                    <tr>
-								<th>상품 상세 이미지</th>
-		                        <td>
-		                            <input type="file" class="form-control" name="imagefile" id="imegeFile-input" value="${item.image.path }"/>
-		                        </td>
-		                    </tr>
+			                    <th>현재 등록된 이미지</th>
+			                    <td>
+			                    	<img alt="메인이미지" src="${item.image.path }" style="max-width:320px; max-height: 330px; ">
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th>새 이미지 등록</th>
+			                    <td>
+			                        <input type="file" class="form-control" name="imagefile" />
+			                    </td>
+			                </tr>
 		                </tbody>
 		       		</table>
 			        <div class="text-right">
-			            <button type="submit" class="btn btn-success">상품 수정</button>
-			            <a href="/product/list.do" class="btn btn-primary">목록</a>
+			            <button type="submit" class="btn btn-success">수정</button>
+			            <a href="/item/list.do" class="btn btn-primary">목록</a>
 			        </div>
 		        </form>
 			</div>

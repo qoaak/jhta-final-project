@@ -33,3 +33,5 @@
 .main_product ul li p{font-size: 15px; font-weight: bold; color:#333;margin-bottom: 20px;}
 .main_product ul li p span{font-weight: normal; font-size: 12px;display: block;text-align: right;color: #999999;}
 .main_product ul li p span strong{color: #058AFF;}
+
+li>figure>a>img {width: 322px; height: 330px;}

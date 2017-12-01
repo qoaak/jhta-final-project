@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>상품 등록 페이지</title>
+<title>상품 수정 페이지</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -12,13 +12,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<c:set var="menu" value="product" />
 <%@ include file="/WEB-INF/views/abcompany/navi.jsp" %>
     <div id="body-container" class="container-fluid">     
         <div id="body-container-body">
         
 			<div class="container">
 			
-				<h1>상품 등록 페이지</h1>
+				<h1>상품 수정 페이지</h1>
 				<hr />
 				
 				<div class="alert alert-danger" id="error-message-box">
@@ -26,7 +27,7 @@
 				</div>
 			    
 			    <!-- 상품 등록폼 -->
-			    <form method="post" action="add.do" enctype="multipart/form-data" id="product-register-form">
+			    <form method="post" action="modify.do?productId=${product.id}" enctype="multipart/form-data" id="product-register-form">
 				    <table class="table table-hover table-bordered">
 				        <colgroup>
 				            <col width="20%">
@@ -99,15 +100,21 @@
 			                    </td>
 			                </tr>
 			                <tr>
-			                    <th>메인 이미지</th>
+			                    <th>현재 등록된 이미지</th>
 			                    <td>
-			                        <input type="file" class="form-control" name="imagefile" value="${product.image.path }"/>
+			                    	<img alt="메인이미지" src="${product.image.path }" style="max-width:320px; max-height: 330px; ">
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <th>새 이미지 등록</th>
+			                    <td>
+			                        <input type="file" class="form-control" name="imagefile" />
 			                    </td>
 			                </tr>
 			            </tbody>
 				    </table>
 				    <div class="text-right">
-			        	<button type="submit" class="btn btn-success" id="register-btn">등록</button>
+			        	<button type="submit" class="btn btn-success" id="register-btn">수정</button>
 			        <a href="list.do" class="btn btn-primary">상품 목록</a>
 			    	</div>
 			    </form>
@@ -120,7 +127,7 @@
     	
     	$("#error-message-box").hide();
     	
-    	var productRegex = /^[가-힣a-zA-Z\s]{2,}$/;
+    	var productRegex = /^[가-힣0-9a-zA-Z\s]{2,}$/;
     	
     	$("#product-register-form").submit(function() {
     		if (!productRegex.test($("#product-name-input").val())) {
@@ -176,7 +183,7 @@
     			data:{bigCateNum:bigCateNum},
     			dataType:"json",
     			success:function(midCategories) {
-    				// console.log(middleCategories);
+
     				var html = "";
     				html += "<option>중분류</option>"
     				$.each(midCategories, function(index, midCategory) {
@@ -197,7 +204,7 @@
     			data:{midCateNum: midCateNum},
     			dataType:"json",
     			success:function(smaCategories) {
-    				//console.log(smaCategories);
+
     				var html = "";
     				html += "<option>소분류</option>"
     				$.each(smaCategories, function(index, smaCategory) {

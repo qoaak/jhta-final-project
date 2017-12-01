@@ -5,6 +5,7 @@ public class CriteriaForChart {
 	
 	private int itemId;
 	private String selectDate;
+	private int companyId;
 	
 	public int getItemId() {
 		return itemId;
@@ -19,10 +20,17 @@ public class CriteriaForChart {
 	public void setSelectDate(String selectDate) {
 		this.selectDate = selectDate;
 	}
+	public int getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
 	@Override
 	public String toString() {
-		return "CriteriaForChart [itemId=" + itemId + ", selectDate=" + selectDate + "]";
+		return "CriteriaForChart [itemId=" + itemId + ", selectDate=" + selectDate + ", companyId=" + companyId + "]";
 	}
+
 	
 	
 }

@@ -9,5 +9,5 @@ import kr.co.hangsho.orders.vo.OrderDetail;
 public interface OrderDetailService {
 	List<OrderDetail> getOrderDetailsByCustomer(Map map); 
 	List<OrderDetail> getOrderDetailsByOrderId(int orderId);
-	void addOrderDetail();
+	void addOrderDetail(OrderDetail orderDetail);
 }

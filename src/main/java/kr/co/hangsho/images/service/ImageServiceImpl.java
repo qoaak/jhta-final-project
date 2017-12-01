@@ -28,6 +28,11 @@ public class ImageServiceImpl implements ImageService {
 		
 		return imageMapper.getImageByNo(imageNo);
 	}
+
+	@Override
+	public void updateImage(Image image) {
+		imageMapper.updateImage(image);
+	}
 	
 
 }

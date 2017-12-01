@@ -17,13 +17,9 @@
 			<div class="col-sm-offset-1 col-sm-10">
 				<h3>기업고객</h3>
 				<hr />
-				<div class="searchform text-right">
+				<div class="searchform">
 					<form class="form-inline">
-						<div class="form-group">
-							<input type="date" class="form-control input-sm" name="begindate" />
-							<span>~</span> <input type="date" class="form-control input-sm"
-								name="enddate" />
-						</div>
+
 						<div class="form-group">
 							<select class="form-control input-sm">
 								<option>전체</option>
@@ -40,40 +36,32 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th><input type="checkbox" /></th>
 								<th>회원번호</th>
 								<th>이름</th>
-								<th>가입날짜</th>
-								<th>상태</th>
+								<th>회사번호</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><input type="checkbox" /></td>
-								<td><a href="">012345</a></td>
-								<td>김나은</td>
-								<td>2017-05-12</td>
-								<td><label class="btn btn-xs btn-default">가입</label></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" /></td>
-								<td><a href="">012345</a></td>
-								<td>김나은</td>
-								<td>2017-05-12</td>
-								<td><label class="btn btn-xs btn-warning">정지</label></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" /></td>
-								<td><a href="">012345</a></td>
-								<td>김나은</td>
-								<td>2017-05-12</td>
-								<td><label class="btn btn-xs btn-danger">탈퇴</label></td>
-							</tr>
+							<c:forEach var="company" items="${companies }" begin="0" end="14">
+								<tr>
+									<td>${company.id }</td>
+									<td><a href="comdetail.do?com=${company.id }"><c:out value="${company.name }"></c:out></a></td>
+									<td>${company.ceonumber }</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
-				<div class="pagination">
-				페이지네이션
+				<div class="text-center">
+					<ul class="pagination">
+						<li><a href="#">&lt;</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#">&gt;</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>

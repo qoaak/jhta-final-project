@@ -10,16 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.hangsho.customers.mappers.CustomerMapper;
+import kr.co.hangsho.customers.services.CustomerService;
 import kr.co.hangsho.customers.vo.Customer;
-import kr.co.hangsho.customers.vo.PwdCheckResult;
+import kr.co.hangsho.products.service.ProductAnsService;
+import kr.co.hangsho.products.vo.ProductAns;
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerAjaxController {
 
 	@Autowired
-	CustomerMapper customerMapper;
+	CustomerService customerService;
+	@Autowired
+	ProductAnsService ansService;
 	
 	@RequestMapping("/pwdcheck.do")
 	public @ResponseBody String pwdCheck(String pwd, HttpSession session) {
@@ -38,7 +41,7 @@ public class CustomerAjaxController {
 	@RequestMapping("/nicknamecheck.do")
 	public @ResponseBody String nicknameCheck(String nickname) {
 		String result = "usable";
-		for(Customer c : customerMapper.getCustomers()) {
+		for(Customer c : customerService.getAllCustomers()) {
 			if(nickname.equals(c.getNickname())) {
 				result = "exist";
 				break;
@@ -46,4 +49,12 @@ public class CustomerAjaxController {
 		}
 		return result;
 	}
+	
+	@RequestMapping("/getAnswer.do")
+	public @ResponseBody ProductAns getProductAnswer(int proqueId) {
+		ProductAns ans = ansService.getProductAnsByProQueId(proqueId);
+		System.out.println(ans);
+		return ansService.getProductAnsByProQueId(proqueId);
+	}
+	
 }

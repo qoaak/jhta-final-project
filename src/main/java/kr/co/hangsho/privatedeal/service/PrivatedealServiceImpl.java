@@ -134,6 +134,40 @@ public class PrivatedealServiceImpl implements PrivatedealService {
 		privatedealMapper.addComment(comment);
 		
 		return comment;
-	}	
+	}
+
+	@Override
+	public Comment deleteCommentByCno(int cno) {
+		Comment comment = privatedealMapper.getComment(cno);
+		privatedealMapper.deleteComment(cno);
+		
+		return comment; 
+	}
+
+	@Override
+	public Comment deleteReplyByCno(int cno) {
+		Comment comment = privatedealMapper.getComment(cno);
+		privatedealMapper.deleteReply(cno);
+		
+		return comment;
+	}
+
+	@Override
+	public Comment getCommentByCno(int cno) {		
+		return privatedealMapper.getComment(cno);
+	}
+
+	@Override
+	public Comment modifyComment(Comment comment) {
+		
+		privatedealMapper.modifyComment(comment);
+		
+		return privatedealMapper.getComment(comment.getId());
+	}
+
+	@Override
+	public int getCommentCountByBoardNo(int boardNo) {		
+		return privatedealMapper.getCommentCountByBoardNo(boardNo);
+	}
 	
 }

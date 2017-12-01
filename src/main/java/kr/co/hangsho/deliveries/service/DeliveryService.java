@@ -10,4 +10,5 @@ public interface DeliveryService {
 	List<Delivery> getDeliveryListByCustomerId(int customerId);
 	void addDelivery(Delivery delivery);
 	Delivery getDeliveryByDeliveryId(int deliveryId);
+	void updateDelivery(Delivery delivery);
 }

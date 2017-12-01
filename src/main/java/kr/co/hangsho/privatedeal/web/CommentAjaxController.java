@@ -42,14 +42,14 @@ public class CommentAjaxController {
 			map.put("cause", "login");
 		} else {		
 			Customer customer = new Customer();
-			if("CUSTOMER".equals(loginInfo.get("USER_TYPE"))) {
+			if ("CUSTOMER".equals(loginInfo.get("USER_TYPE"))) {
 				customer = (Customer) loginInfo.get("LOGIN_USER");
 			}
 			comment.setCustomer(customer);		
 			comment = privatedealService.addNewComment(comment);
 			map.put("success", true);
-			map.put("comment", comment);		
-		}
+			map.put("comment", comment);			
+		}		
 		
 		return map;
 	}
@@ -91,8 +91,57 @@ public class CommentAjaxController {
 	
 	@RequestMapping("/getCommentlist.do")
 	@ResponseBody
-	public List<Comment> getComments(int boardNo) {
+	public List<Comment> getComments(int boardNo, HttpSession httpSession) {
 		
-		return privatedealService.getCommentsByBoardNo(boardNo);
+		List<Comment> comments = privatedealService.getCommentsByBoardNo(boardNo);
+		
+		Map<String, Object> loginInfo = (Map) httpSession.getAttribute("LOGIN_INFO");		
+		
+		Customer customer = new Customer();
+		if (loginInfo != null) {
+			if ("CUSTOMER".equals(loginInfo.get("USER_TYPE"))) {
+				customer = (Customer) loginInfo.get("LOGIN_USER");
+			}
+		}
+		
+		for (Comment comment : comments) {
+			if (comment.getCustomer().getId() == customer.getId()) {
+				comment.setModified(true);				
+			}
+		}
+		
+		return comments;
+	}
+	
+	@RequestMapping("/delReply.do")
+	@ResponseBody
+	public Comment deleteReply(int commentNo) {
+		Comment comment = privatedealService.deleteReplyByCno(commentNo);				
+		return comment;
+	}
+	
+	@RequestMapping("/delComment.do")
+	@ResponseBody
+	public Comment deleteComment(int commentNo) {
+		Comment comment = privatedealService.deleteCommentByCno(commentNo);
+		return comment;
+	}
+	
+	@RequestMapping("/getComment.do")
+	@ResponseBody
+	public Comment getComment(int commentNo) {
+		return privatedealService.getCommentByCno(commentNo);
+	}
+	
+	@RequestMapping("/modifyComment.do")
+	@ResponseBody
+	public Comment modifyComment(Comment comment) {	
+		return privatedealService.modifyComment(comment);
+	}
+	
+	@RequestMapping("/getCommentCount.do")
+	@ResponseBody
+	public int getCommentCount(int boardNo) {		
+		return privatedealService.getCommentCountByBoardNo(boardNo);
 	}
 }

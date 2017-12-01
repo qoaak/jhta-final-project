@@ -14,4 +14,5 @@ public interface DeliveryMapper {
 	int getSeq();
 	void addDelivery(Delivery delivery);
 	Delivery getDeliveryByDeliveryId(int deliveryId);
+	void updateDelivery(Delivery delivery);
 }

@@ -12,18 +12,13 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
-	.mainthumbnail img {width: 280px;}
-	.pro th {padding-top: 12px !important;}
-	.pro td {padding-top: 12px !important;}
-	.etc {padding-top: 12px !important;}
-	.mainimage {height: 300px !important; padding: 0px !important;}
-	#subimage img {width: 770px;}
-	#subimage div {text-align: center;}
-	.remot {width: 50px; height: 150px; #ccc; top: 350px; left: 50%; margin-left: 600px; position: fixed;}
-	#table-area th {background-color: #e6f7ff;}
-	#table-area {overflow-y: scroll !important; height: 150px;}
+	.mainthumbnail img { width: 280px; }
+	#stock-area { overflow-y: scroll; height: 230px;}
+	#stock-area th { background: #e6f7ff; }
+	#button-area, #detail-area, #stock-area { margin-bottom: 30px; }
 </style>
 <body>
+<c:set var="menu" value="item" />
 <%@ include file="/WEB-INF/views/abcompany/navi.jsp" %>
     <div id="body-container" class="container-fluid">     
         <div id="body-container-body">
@@ -32,19 +27,13 @@
 				 	
 				 	<h1>${item.options }</h1>
 				 
-				 	<div class="row text-right">
+				 	<div class="row text-right" id="button-area">
                     	<a href="modifyForm.do?itemId=${item.id }" class="btn btn-info btn-sm">수정</a>
                     	<a href="list.do" class="btn btn-primary btn-sm">목록</a>
                     </div>
 				 
-				 	<!-- 스크롤 -->
-                    <div class="remot">
-                        <a id="btn-top" class="btn btn-default btn-xm">▲</a>
-                        <a id="btn-bottom" class="btn btn-default btn-xm">▼</a>
-                    </div>
-                    
                     <!-- 상품 상세 내용 -->
-					<div class="row">
+					<div class="row" id="detail-area">
 					    <table class="table">
 					        <colgroup>
 					            <col width="310px">
@@ -52,11 +41,11 @@
 					        </colgroup>
 							<tbody>
 							    <tr>
-							        <td class="mainthumbnail" rowspan="7"><img src=""></td>
+							        <td class="mainthumbnail" rowspan="7"><img src="${item.image.path }"></td>
 							        <th class="etc">상품번호</th>
 							        <td class="etc">${item.id }</td>
 							        <th>등록날짜</th>
-							        <td colspan="3">${item.createdate } </td>
+							        <td colspan="3"><fmt:formatDate value="${item.createdate }"/></td>
 							    </tr>
 							    <tr class="pro">
 							        <th>입고량</th>
@@ -68,16 +57,42 @@
 							    </tr>
 							    <tr class="pro">
 							        <th>원가</th>
-							        <td>${item.saledQuantity }원</td>
+							        <td>${item.originalPrice }원</td>
 							    </tr>
 							    <tr class="pro">
-							        <th>원가</th>
+							        <th>판매가</th>
 							        <td>${item.salePrice }원</td>
 							    </tr>
 							    <tr><td colspan="7"></td></tr>
 							</tbody>
 					    </table>
 					</div>
+					<hr />
+					
+					<h3> 재고 변화 현황</h3>
+					<!-- 재고 영역 -->
+					<div class="row" id="stock-area">
+	                    <table class="table table-hover">
+	                    	<thead>
+	                    		<tr>
+	                    			<th>번호</th>
+	                    			<th>수량</th>
+	                    			<th>사유</th>
+	                    			<th>등록일</th>
+	                    		</tr>
+	                    	</thead>
+	                    	<tbody>
+		                    	<c:forEach var="stock" items="${stocks }" varStatus="status">
+		                    		<tr>
+		                    			<td>${status.count }</td>
+		                    			<td>${stock.quantity }</td>
+		                    			<td>${stock.reasons }</td>
+		                    			<td><fmt:formatDate value="${stock.historyDate }"/></td>
+		                    		</tr>
+		                    	</c:forEach>
+	                    	</tbody>
+	                    </table>
+                    </div>
                     
                 </div>
             </div>

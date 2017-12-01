@@ -3,36 +3,14 @@
  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="kr.co.hangsho.privatedeal.mappers.PrivatedealMapper">
-
+<mapper namespace="kr.co.hangsho.privatedeal.mappers.PrivatedealMapper">	
+	
 	<insert id="addPrivatedeal" parameterType="Privatedeal">
 		insert into privatedeal_board
 		(board_id, board_title, board_desired_price, board_contents, board_type, board_division, board_writer, small_category_id)
 		values
 		(pd_board_seq.nextval, #{title}, #{desiredprice,jdbcType=NUMERIC}, #{contents,jdbcType=CLOB}, #{type.id}, #{division.id}, #{customer.id}, #{smallcategory.id})
 	</insert>
-	
-	<!-- <select id="getMeronaList" resultType="Privatedeal">
-		select
-			A.board_id				as id,
-			A.board_title			as title,
-			A.board_desired_price	as desiredprice,
-			A.board_contents		as editor,
-			A.board_createdate		as createdate,
-			A.board_status			as "status.id",
-			B1.code_name			as "status.name",
-			A.board_clicked			as clicked,
-			A.board_division		as "division.id",
-			B2.code_name			as "division.name",
-			C.customer_username		as "customer.username",
-			C.customer_nickname		as "customer.nickname"
-		from
-			privatedeal_board A, codes B1, codes B2, customers C
-		where
-			A.board_status = B1.code_id
-		and A.board_division = B2.code_id		
-		and A.board_writer = C.customer_id		 		
-	</select> -->
 	
 	<select id="getTotalRows" parameterType="Criteria" resultType="int">
 		select
@@ -45,6 +23,7 @@
 		and P.small_category_id = S.small_category_id
 		and S.middle_category_id = M.middle_category_id
 		and M.big_category_id = B.big_category_id
+		and P.board_type = #{type}
 		<if test="bc != null">
 			and B.big_category_id = #{bc}
 		</if>
@@ -70,20 +49,21 @@
 				</when>
 			</choose>
 		</if>
-	</select>	
+	</select>
 	
 	<select id="getPrivateDeals" parameterType="Criteria" resultType="Privatedeal">
 		select
-			board_id				as id,
-			board_title				as title,
-			board_desired_price		as desiredprice,
-			board_createdate		as createdate,
-			board_status			as "status.id",
-			status_name				as "status.name",
-			board_clicked			as clicked,
-			board_division			as "division.id",
-			division_name			as "division.name",
-			customer_nickname		as "customer.nickname"			
+			P.board_id					as id,
+			P.board_title				as title,
+			P.board_desired_price		as desiredprice,
+			P.board_createdate			as createdate,
+			P.board_status				as "status.id",
+			P.status_name				as "status.name",
+			P.board_clicked				as clicked,
+			P.board_division			as "division.id",
+			P.division_name				as "division.name",
+			P.customer_nickname			as "customer.nickname",
+			C.cnt						as commentCnt		
 		from (		
 			select
 				row_number() over (order by board_id desc) rn,
@@ -107,6 +87,7 @@
 			and S.middle_category_id = M.middle_category_id
 			and M.big_category_id = B.big_category_id
 			and P.board_deleted = 'N'
+			and P.board_type = #{type}
 			<if test="bc != null">
 				and B.big_category_id = #{bc}
 			</if>
@@ -132,9 +113,13 @@
 					</when>
 				</choose>
 			</if>
-		)
-		where rn >= #{beginIndex} and rn &lt;= #{endIndex}
-	</select>
+		) P, (select count(*) cnt, P.board_id from privatedeal_board P, privatedeal_comments C where P.board_id = C.board_id and C.comment_deleted = 'N' group by P.board_id) C		
+		where
+			rn >= #{beginIndex} and rn &lt;= #{endIndex}
+		and P.board_id = C.board_id(+)		
+		order by
+			P.board_id desc
+	</select>	
 	
 	<select id="getBoardByNo" parameterType="int" resultType="Privatedeal">
 		select
@@ -242,15 +227,16 @@
 			P.comment_createdate	as createdate,
 			P.comment_contents		as "comment",
 			P.replied_id			as "repliedId.id",
-			C2.customer_nickname	as "repliedId.customer.nickname"			
+			C2.customer_nickname	as "repliedId.customer.nickname",
+			P.comment_deleted		as deleted,
+			(select count(*) from privatedeal_comments where group_id = P.group_id) as groupIdCount			
 		from
 			privatedeal_comments P, customers C, privatedeal_comments R, customers C2
 		where
-			P.board_id = #{value}
-		and P.comment_deleted = 'N'
+			P.board_id = #{value}		
 		and P.comment_writer = C.customer_id
 		and P.replied_id = R.comment_id
-		and R.comment_writer = C2.customer_id
+		and R.comment_writer = C2.customer_id		
 		order by
 			P.group_id asc, P.comment_id asc
 	</select>
@@ -272,6 +258,62 @@
 		where
 			P.comment_writer = C.customer_id
 		and P.comment_id = #{id}
+	</select>
+	
+	<delete id="deleteComment" parameterType="int">
+		update
+			privatedeal_comments
+		set
+			comment_deleted = 'Y'			
+		where
+			comment_id = #{value}
+	</delete>
+	<delete id="deleteReply" parameterType="int">
+		update
+			privatedeal_comments
+		set
+			comment_deleted = 'Y',
+			group_id = null
+		where
+			comment_id = #{value}
+	</delete>
+	
+	<select id="getComment" parameterType="int" resultType="Comment">
+		select
+			P.comment_id				as id,
+			P.comment_createdate		as createdate,
+			C.customer_nickname			as "customer.nickname",
+			P.comment_contents			as "comment",
+			P.replied_id				as "repliedId.id",
+			P.comment_deleted			as "deleted",
+			C2.customer_nickname		as "repliedId.customer.nickname"			
+		from
+			privatedeal_comments P, customers C, privatedeal_comments R, customers C2
+		where
+			P.comment_writer = C.customer_id
+		and P.replied_id = R.comment_id
+		and R.comment_writer = C2.customer_id
+		and	P.comment_id = #{value}
+	</select>
+	
+	<update id="modifyComment" parameterType="Comment">
+		update
+			privatedeal_comments
+		set
+			comment_contents = #{comment},
+			comment_createdate = sysdate
+		where
+			comment_id = #{id}
+	</update>
+	
+	<select id="getCommentCountByBoardNo" parameterType="int" resultType="int">
+		select
+			count(*)
+		from
+			privatedeal_comments
+		where 
+			board_id = #{value}
+		and comment_deleted = 'N'		
 	</select>
 	
 </mapper>

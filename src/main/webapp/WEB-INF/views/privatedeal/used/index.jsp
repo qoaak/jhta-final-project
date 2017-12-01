@@ -2,36 +2,44 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/inc/top.jsp" %>
 <link rel="stylesheet" href="/resources/css/used.css">
+<script type="text/javascript">
+	$(function() {
+			
+		var $bclistA = $("#bclist li a");
+		var bc = "";
+		$bclistA.each(function(index, element) {
+			if ('${param.bc}' ==  $(element).attr('href').replace("index.do?bc=", "")) {
+				bc = $(element).text();
+			}
+		})
+		$("#chooseBC").text(bc);
+		
+		var $mclistA = $("#mclist li a");
+		var mc = "";
+		$mclistA.each(function(index, element) {
+			if ('${param.mc}' ==  $(element).attr('href').replace("index.do?bc=${param.bc}&mc=", "")) {
+				mc = $(element).text();
+			}
+		});
+		$("#chooseMC").text(mc);
+		
+		var $sclistA = $("#sclist li a");
+		var sc = "";
+		$sclistA.each(function(index, element) {
+			if ('${param.sc}' ==  $(element).attr('href').replace("index.do?bc=${param.bc}&mc=${param.mc}&sc=", "")) {
+				sc = $(element).text();
+			}
+		});
+		$("#chooseSC").text(sc);		
+		
+	});
+</script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 	<div class="container-fluid">
         <div class="container">
-            <div class="row category_wrap">
-                <ul class="categorylist">
-                    <li><a href="#">홈</a><span>＞</span></li>
-                    <li><a href="">패션</a><div class="triangle_down"></div><span>＞</span>
-                        <ul>
-                            <li><a href="">패션</a></li>
-                            <li><a href="">가구</a></li>
-                            <li><a href="">펫샵·도서</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">여성의류</a><div class="triangle_down"></div><span>＞</span>
-                        <ul>
-                            <li><a href="">여성의류</a></li>
-                            <li><a href="">남성의류</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">니트·가디건</a><div class="triangle_down"></div>
-                        <ul>
-                            <li><a href="">니트·가디건</a></li>
-                            <li><a href="">티셔츠</a></li>
-                            <li><a href="">스커트</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+        	<%@ include file="/WEB-INF/views/inc/categoryUsed.jsp" %> 
             <div class="text-center">
                 <h2>안전 중고나라</h2>
             </div>
@@ -39,10 +47,26 @@
             <div class="row">
                 <div>
                     <ul class="categoryd">
-                        <li><a href="">전체</a></li>
-                        <li><a href="">패션</a></li>
-                        <li><a href="">가구</a></li>
-                        <li><a href="">펫샵·도서</a></li>                       
+                        <c:choose>
+                    		<c:when test="${empty middleCategories }">
+                    			<li><a href="index.do">전체</a></li>
+	                    		<li><a href="index.do?bc=100">식품</a></li>
+	                    		<li><a href="index.do?bc=200">패션</a></li>
+	                    		<li><a href="index.do?bc=300">가전</a></li>
+                    		</c:when>                    		
+                    		<c:when test="${not empty middleCategories and empty smallCategories }">
+                    				<li><a href="index.do?bc=${param.bc }">전체</a>
+                    			<c:forEach var="middleCategory" items="${middleCategories }">
+			                        <li><a href="index.do?bc=${param.bc }&mc=${middleCategory.id}">${middleCategory.name }</a></li>
+		                    	</c:forEach>
+                    		</c:when>
+                    		<c:when test="${not empty smallCategories }">
+                    				<li><a href="index.do?bc=${param.bc }&mc=${param.mc}">전체</a>
+                    			<c:forEach var="smallCategory" items="${smallCategories }">
+			                        <li><a href="index.do?bc=${param.bc }&mc=${param.mc}&sc=${smallCategory.id}">${smallCategory.name }</a></li>
+		                    	</c:forEach>
+                    		</c:when>
+                    	</c:choose>                       
                     </ul>
                 </div>                          
             </div>
@@ -52,25 +76,27 @@
             <div class="container">
                 <div class="row">                             
                     <div class="col-sm-8">                        
-                        <form action="home.do" class="form-inline" id="search-form">
+                        <form action="index.do" class="form-inline" id="search-form">
                             <input type="hidden" name="pageNo" value="${param.pageNo }">
-                            <input type="hidden" name="rows" value="${param.rows }">
+                            <input type="hidden" name="bc" value="${param.bc }">
+                            <input type="hidden" name="mc" value="${param.mc }">
+                            <input type="hidden" name="sc" value="${param.sc }">
                             <div class="form-group">
-                                <select class="form-control" id="rows-box">
-                                    <option value="sale"> 전체 보기</option>
-                                    <option value="sale"> 판매목록만 보기</option>
-                                    <option value="buy"> 구매목록만 보기</option>                               
+                                <select class="form-control" id="division" name="division">
+                                    <option value=""> 전체 보기</option>
+                                    <option value="S" ${param.division eq 'S' ? 'selected' : ''}> 판매목록만 보기</option>
+                                    <option value="B" ${param.division eq 'B' ? 'selected' : ''}> 구매목록만 보기</option>                               
                                 </select>
                                 <label class="sr-only">검색조건</label>
                                 <select class="form-control" name="opt">
-                                    <option value="title"> 제목</option>
-                                    <option value="writer"> 아이디</option>
-                                    <option value="contents"> 내용</option>                                    
+                                    <option value="title" ${param.opt eq 'title' ? 'selected' : '' }> 제목</option>
+                                    <option value="writer" ${param.opt eq 'writer' ? 'selected' : '' }> 닉네임</option>
+                                    <option value="contents" ${param.opt eq 'contents' ? 'selected' : '' }> 내용</option>                                    
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only">키워드</label>
-                                <input type="text" class="form-control" name="keyword" value="" />
+                                <input type="text" class="form-control" name="keyword" value="${param.keyword }" />
                             </div>
                             <button type="submit" class="btn btn-info" id="btn-search">조회</button>
                         </form>
@@ -93,66 +119,79 @@
                         <tr>
                             <th>번호</th>
                             <th>제목</th>
-                            <th>가격</th>
+                            <th>희망가격</th>
                             <th>상태</th>
-                            <th>아이디</th>
+                            <th>닉네임</th>
                             <th>등록일</th>
                             <th>조회수</th>                           
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="detail.do"><strong class="text-danger">[판매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-warning">거래중</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href=""><strong class="text-primary">[구매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-danger">거래완료</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href=""><strong class="text-primary">[구매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-info">일부 거래중</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href=""><strong class="text-danger">[판매] </strong>QM3 RE I 15/05식 I 40,000km I 인천 I 무사고 I 1490만원</a></td>
-                            <td>17,900</td>
-                            <td class="text-success">거래가능</td>
-                            <td>lgfsdl301</td>
-                            <td>2017-08-31</td>
-                            <td>10</td>
-                        </tr>  
+                    	<c:if test="${empty usedlist }">
+                    		<tr>
+                    			<td colspan="7" class="text-center">검색된 결과가 없습니다.</td>
+                    		</tr>
+                    	</c:if>
+                    	<c:forEach var="used" items="${usedlist}">
+                    		<tr>
+	                            <td>${used.id }</td>
+	                            <td><a href="detail.do?no=${used.id }"><strong class="${used.division.id eq 'S' ? 'text-danger' : 'text-primary' }">[${used.division.name }]</strong> <c:out value="${used.title}" /> </a> <span class="text-warning">${used.commentCnt ne 0 ? [used.commentCnt] : '' }</span></td>
+	                            <td>
+	                            	<c:choose>
+	                            		<c:when test="${not empty used.desiredprice}">
+			                            	<fmt:formatNumber value="${used.desiredprice }" pattern="#,###" />원	                            		
+	                            		</c:when>
+	                            		<c:otherwise>
+	                            			없음
+	                            		</c:otherwise>
+	                            	</c:choose>
+	                            </td>
+	                            <c:choose>
+	                            	<c:when test="${used.status.id eq 'DP'}">
+	                            		<td class="text-success">${used.status.name }</td>
+	                            	</c:when>
+	                            	<c:when test="${used.status.id eq 'DPI'}">
+	                            		<td class="text-primary">${used.status.name }</td>
+	                            	</c:when>
+	                            	<c:when test="${used.status.id eq 'DI'}">
+	                            		<td class="text-warning">${used.status.name }</td>
+	                            	</c:when>
+	                            	<c:when test="${used.status.id eq 'DC'}">
+	                            		<td class="text-danger">${used.status.name }</td>
+	                            	</c:when>
+	                            </c:choose>	                            
+	                            <td><c:out value="${used.customer.nickname }" /></td>
+	                            <td><fmt:formatDate value="${used.createdate }" pattern="yyyy-MM-dd"/></td>
+	                            <td>${used.clicked }</td>
+	                        </tr>
+                    	</c:forEach> 
                     </tbody>
                 </table>                              
-                <div class="text-center">
-                    <ul class="pagination">                            
-                        <li><a href="${navi.pageNo - 1 }">&lt;</a></li>       
-                        <li class=""><a href="${num }">1</a></li>
-                        <li class=""><a href="${num }">2</a></li>
-                        <li class=""><a href="${num }">3</a></li>
-                        <li class=""><a href="${num }">4</a></li>
-                        <li class=""><a href="${num }">5</a></li>
-                        <li><a href="${navi.pageNo + 1 }">&gt;</a></li>  
-                    </ul>
-                </div>
+				<%@ include file="/WEB-INF/views/inc/paginations.jsp" %>               
             </div>        
         </div>
     </div>
 	<%@ include file="/WEB-INF/views/inc/footer.jsp" %>
 </body>
+<script type="text/javascript">
+	$(function() {
+		$('.pagination a').click(function(event) {
+			event.preventDefault();
+			$(':input[name=pageNo]').val($(this).attr('href'));
+			$("#search-form").submit();
+		});
+		
+		$("#btn-search").click(function() {
+			$(':input[name=pageNo]').val(1);
+		});	
+		
+		$('#division').change(function() {
+			$(':input[name=bc]').val('${param.bc}');
+			$(':input[name=mc]').val('${param.mc}');
+			$(':input[name=sc]').val('${param.sc}');
+			$(':input[name=pageNo]').val(1);
+			$('#search-form').submit();
+		});
+	});
+</script>
 </html>

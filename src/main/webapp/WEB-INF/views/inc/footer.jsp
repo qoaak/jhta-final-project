@@ -12,7 +12,7 @@
 		</ul>			
 	</div>
 	<div>
-		<p><img src="/resources/images/common/f_logo.png" alt="행쇼"></p>
+		<p><img src="/resources/images/common/f_logo.png" alt="행쇼" width="100px"></p>
 		<div>
 			<p>사업자등록번호 : 211-88-41856  통신판매업신고 : 제 2017-서울종로-02403호</p>
 			<address>서울특별시 종로구 율곡로10길 105 디아망4층 (주) 행쇼</address>

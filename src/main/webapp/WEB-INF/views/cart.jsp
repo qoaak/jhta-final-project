@@ -2,18 +2,66 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/inc/top.jsp" %>
 <link rel="stylesheet" href="/resources/css/cart.css">	
+<style>
+	
+	.minus-btn {
+		width:18px;
+	}
+	.plus-btn {
+		width:18px;
+	}
+</style>
+<script type="text/javascript">
+	$(function() {
+		var totalPrice = 0;
+		$("span.saleprice").each(function() {
+			totalPrice += parseInt($(this).text());
+			
+		});
+		
+		var payPrice = 0;
+		$("strong.priceall").each(function() {
+			payPrice += parseInt($(this).text());
+		});
+		$("#payall").text(payPrice);
+		
+		var deliveryPrice = 0;
+		$(".deliverys").each(function() {
+			deliveryPrice += parseInt($(this).text());
+		});
+		$("#deliveryall").text(deliveryPrice);
+		
+		$("#payprice").text(payPrice + deliveryPrice);
+		
+		$("#btn-delete").click(function() {
+			$(".products").each(function () {
+				$(this).parents(".deleteList").remove();
+			});
+			deliveryPrice = 0;
+			$(".deliverys").each(function() {
+				deliveryPrice += parseInt($(this).text());
+			}); 
+			payPrice = 0;
+			$("strong.priceall").each(function() {
+				payPrice += parseInt($(this).text());
+			});
+			$("#payall").text(payPrice);
+			$("#item-qty").text($("#item-tbody tr.deleteList").length);
+			$("#payprice").text(payPrice + deliveryPrice);
+		});
+		
+	
+		$("#item-qty").text($("#item-tbody tr.deleteList").length);
+	});
+	
+</script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/inc/header.jsp" %>
 <div class="container">
     <div class="header">
-        <h2><strong>카트<p>&#40;0&#41;</p></strong></h2>
+        <h2><strong>카트<p>&#40; <span id="item-qty"></span> &#41;</p></strong></h2>
 
-        <div class="text-right">
-            <span>01 카트 ></span>
-            <span>02 주문/결제 ></span>
-            <span>03 결제완료</span>
-        </div>
     </div>
    <table class="table table-hover">
        <colgroup>
@@ -30,148 +78,124 @@
                <th><span><small>배송비</small></span></th>
             </tr>
         </thead>
-        <tbody>
-            <ul>
+        <tbody id="item-tbody">
+            <ul class="deleteList">
                 <li>
-                    <tr>
+                <form action="/order/orderPage.do" method="post">
+                	<input type="hidden" name="productId">
+                </form>
+                <c:forEach items="${products }" var="product">
+                <tr class="deleteList">
                         <td>
                             <div class="form-group">
-                                <input type="checkbox" class="form-control" />
+                                <input type="checkbox" class="products" checked />
                             </div>
                         </td>
                         <td>
                             <div class="col-sm-2">
-                                <img src="" alt="사진" />
+                                <img src="${product.image.path }" alt="사진" />
                             </div>
                             <div class="col-offset-sm-1 col-sm-10">
                                 <div class="row" id="product-title">
-                                    <p><small><strong><a href="">[월동준비]펄룸겨울차렵침구</a></strong></small></p>
+                                    <h4><strong><a href="">${product.name }</a></strong></h4>
+                                    <input type="hidden" name="productId" value="${product.id }">
                                 </div>
-                                
                                 <ul>
-                                    <li>
-                                        <div class="row" id="product-detail">
-                                            <div class="col-sm-6">
-                                               <span><small>01. 지투 라운드 숏 블랙 | 블랙 | L(100) - XL(105)</small></span>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="btn-group">
-                                                    <button class="button"><span><small>-</small></span></button>
-                                                    <input type="text" id="amount-input" />
-                                                    <button class="button"><span><small>+</small></span></button>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="text-right">
-                                                    <span>18,900원</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row" id="product-detail">
-                                            <div class="col-sm-6">
-                                               <span><small>02. 지투 라운드 숏 블랙 | 블랙 | L(100) - XL(105)</small></span>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="btn-group">
-                                                    <button class="button"><span><small>-</small></span></button>
-                                                    <input type="text" id="amount-input" />
-                                                    <button class="button"><span><small>+</small></span></button>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="text-right">
-                                                    <span>18,900원</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+                                	<c:set var="price" value="0"/>
+	                                <c:forEach var="cartDetail" items="${cartDetails}" varStatus="status">
+	                                <c:if test="${product.id == cartDetail.item.product.id && cartDetail.productQuantity > 0}">
+	                                    <li>
+	                                        <div class="row">
+	                                            <div class="col-sm-6">
+	                                               <span>${cartDetail.item.options }</span>
+	                                               <input type="hidden" name="itemId" value="${cartDetail.item.id }">
+	                                            </div>
+	                                            <div class="col-sm-3">
+	                                                <div class="btn-group">
+	                                                    <input type="button" value="-" class="minus-btn">
+	                                                    <input type="text" name="proqty" id="amount-input" value="${cartDetail.productQuantity}"/>
+	                                                    <input type="button" value="+" class="plus-btn">
+	                                                </div>
+	                                            </div>
+	                                            <div class="col-sm-3">
+	                                                <div class="text-right">
+	                                                    <span class="saleprice">${cartDetail.item.salePrice }</span><span>원</span>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                    </li>
+	                                                    <c:set var="price" value="${price + cartDetail.productQuantity * cartDetail.item.salePrice }"/>
+	                                </c:if>
+	                                </c:forEach>
+	                                
                                 </ul>
-                                <hr />
-                                <div class="row text-right">
-                                <a href="" class="btn btn-sm btn-default"><span><small>옵션변경/추가</small></span></a>
-                                </div>
                             </div>
                         </td>
                         <td>
                             <div id="product-price">
-                                <strong>18,900원</strong>
+                                <strong class="priceall">${price }</strong><strong>원</strong>
                             </div>
                         </td>
-                        <td><span><small><a href="" class="btn btn-sm btn-default" id="delivery-btn">무료배송</a></small></span></td>
+                        <td><div id="product-price">
+                                <strong class="deliverys">${product.deliveryFee }</strong><strong>원</strong>
+                            </div></td>
                     </tr>
-                </li>
+                </c:forEach>
                 
-                <li>
-                    <tr>
+         <%--            <tr class="deleteList">
                         <td>
                             <div class="form-group">
-                                <input type="checkbox" class="form-control" />
+                                <input type="checkbox" class="products" checked />
                             </div>
                         </td>
                         <td>
                             <div class="col-sm-2">
-                                <img src="" alt="사진" />
+                                <img src="${image.path }" alt="사진" />
                             </div>
                             <div class="col-offset-sm-1 col-sm-10">
                                 <div class="row" id="product-title">
-                                    <p><small><strong><a href="">[월동준비]펄룸겨울차렵침구</a></strong></small></p>
+                                    <h4><strong><a href="">${product.name }</a></strong></h4>
+                                    <input type="hidden" name="productId" value="${product.id }">
                                 </div>
-                                
                                 <ul>
-                                    <li>
-                                        <div class="row" id="product-detail">
-                                            <div class="col-sm-6">
-                                               <span><small>01. 지투 라운드 숏 블랙 | 블랙 | L(100) - XL(105)</small></span>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="btn-group">
-                                                    <button class="button"><span><small>-</small></span></button>
-                                                    <input type="text" id="amount-input" />
-                                                    <button class="button"><span><small>+</small></span></button>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="text-right">
-                                                    <span>18,900원</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row" id="product-detail">
-                                            <div class="col-sm-6">
-                                               <span><small>02. 지투 라운드 숏 블랙 | 블랙 | L(100) - XL(105)</small></span>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="btn-group">
-                                                    <button class="button"><span><small>-</small></span></button>
-                                                    <input type="text" id="amount-input" />
-                                                    <button class="button"><span><small>+</small></span></button>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="text-right">
-                                                    <span>18,900원</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+                                
+	                                <c:forEach var="items" items="${itemDetail }" varStatus="status">
+	                                <c:if test="${quantity[status.index] != 0}">
+	                                    <li>
+	                                        <div class="row">
+	                                            <div class="col-sm-6">
+	                                               <span>${items.options }</span>
+	                                               <input type="hidden" name="itemId" value="${items.id }">
+	                                            </div>
+	                                            <div class="col-sm-3">
+	                                                <div class="btn-group">
+	                                                    <input type="button" value="-" class="minus-btn">
+	                                                    <input type="text" name="proqty" id="amount-input" value="${quantity[status.index]}"/>
+	                                                    <input type="button" value="+" class="plus-btn">
+	                                                </div>
+	                                            </div>
+	                                            <div class="col-sm-3">
+	                                                <div class="text-right">
+	                                                    <span class="saleprice">${items.salePrice }</span><span>원</span>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                    </li>
+	                                </c:if>
+	                                </c:forEach>
+	                                
                                 </ul>
-                                <hr />
-                                <div class="row text-right">
-                                <a href="" class="btn btn-sm btn-default"><span><small>옵션변경/추가</small></span></a>
-                                </div>
                             </div>
                         </td>
                         <td>
                             <div id="product-price">
-                                <strong>18,900원</strong>
+                                <strong class="priceall"></strong><strong>원</strong>
                             </div>
                         </td>
-                        <td><span><small><a href="" class="btn btn-sm btn-default" id="delivery-btn">무료배송</a></small></span></td>
-                    </tr>
+                        <td><div id="product-price">
+                                <strong class="deliverys">${product.deliveryFee }</strong><strong>원</strong>
+                            </div></td>
+                    </tr> --%>
                 </li>
             </ul>
 
@@ -179,9 +203,8 @@
     </table>
     <div class="row">
         <div id="bottom-button-group" class="col-sm-3">
-            <input type="checkbox"/>
-            <a href="#" class="btn btn-sm btn-default">찜한 상품에 저장</a>
-            <a href="#" class="btn btn-sm btn-default">삭제</a>
+
+            <a href="deleteCart.do" class="btn btn-sm btn-default" id="btn-delete">삭제</a>
         </div>
         <div class="col-sm-offset-3 col-sm-6">
             <span><small>카트에 담긴 상품은 최대 30일까지 보관되며 종료되거나 매진될 경우 자동으로 삭제됩니다.</small></span>
@@ -203,15 +226,11 @@
                 <td>
                     <div class="row">
                         <div class="col-sm-6"><h5><strong>총상품금액</strong></h5></div>
-                        <div class="col-sm-6 text-right"><h5><strong>원</strong></h5></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6"><h5><strong>즉시할인쿠폰</strong></h5></div>
-                        <div class="col-sm-6 text-right"><h5><strong>-원</strong></h5></div>
+                        <div class="col-sm-6 text-right"><h5><strong id="payall"></strong><strong>원</strong></h5></div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6"><h5><strong>배송비</strong></h5></div>
-                        <div class="col-sm-6 text-right"><h5><strong>원</strong></h5></div>
+                        <div class="col-sm-6 text-right"><h5><strong id="deliveryall"></strong><strong>원</strong></h5></div>
                     </div>
                </td>
             </tr>
@@ -223,15 +242,15 @@
                 </td>
                <td class="text-right">
                    <div>
-                       <h3><strong>29,900원</strong></h3>
+                       <h3><strong id="payprice"></strong><strong>원</strong></h3>
                    </div>
                </td>
            </tr>
        </tbody>
     </table>
     <div class="row" id="btn-area">
-        <a href="#" class="btn btn-default" id="keep-shoppig-btn"><p>쇼핑 계속하기</p></a>
-        <a href="#" class="btn btn-default" id="purchasing"><p>구매하기</p></a>
+        <a href="/index.do" class="btn btn-default" id="keep-shoppig-btn"><p>쇼핑 계속하기</p></a>
+        <a href="/order/orderPage.do" class="btn btn-default" id="purchasing"><p>구매하기</p></a>
     </div>
 </div>
 <%@ include file="/WEB-INF/views/inc/footer.jsp" %>

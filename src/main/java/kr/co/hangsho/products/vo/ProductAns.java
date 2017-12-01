@@ -1,5 +1,6 @@
 package kr.co.hangsho.products.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import kr.co.hangsho.company.vo.Company;
@@ -41,6 +42,15 @@ public class ProductAns {
 	}
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+	
+	public String getStrCreateDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if (createDate != null) {
+			return sdf.format(createDate);
+		} else {
+			return "";
+		}
 	}
 	@Override
 	public String toString() {

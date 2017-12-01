@@ -8,6 +8,7 @@
 <title>아이템 등록 페이지</title>
 </head>
 <body>
+<c:set var="menu" value="item" />
 <%@ include file="/WEB-INF/views/abcompany/navi.jsp" %>
     <div id="body-container" class="container-fluid">     
         <div id="body-container-body">
@@ -112,7 +113,7 @@ $(function () {
 	
 	$("#error-message-box").hide();
 	
-	var optionRegex = /^[가-힣a-zA-Z\s]{2,}$/;
+	var optionRegex = /^[가-힣a-zA-Z0-9\s]{2,}$/;
 	
 	$("#item-register-form").submit(function() {
 
@@ -143,7 +144,7 @@ $(function () {
  		} 
 		
 		if(!optionRegex.test($("input[name=options]").val())) {
-    			$("#error-message").text("한글, 영문 2글자 이상 입력해 주세요.");
+    			$("#error-message").text("한글, 영문, 숫자 2글자 이상 입력해 주세요.");
     			$("#error-message-box").show();
     			return false;
     	}

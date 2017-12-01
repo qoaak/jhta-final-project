@@ -13,5 +13,5 @@ public interface OrderDetailMapper {
 
 	List<OrderDetail> getOrderDetailsByCustomer(Map map);
 	List<OrderDetail> getOrderDetailsByOrderId(int orderId);
-	void addOrderDetail();
+	void addOrderDetail(OrderDetail orderDetail);
 }

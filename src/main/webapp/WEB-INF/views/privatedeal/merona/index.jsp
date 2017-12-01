@@ -138,7 +138,7 @@
                     	<c:forEach var="merona" items="${meronalist}">
                     		<tr>
 	                            <td>${merona.id }</td>
-	                            <td><a href="detail.do?no=${merona.id }"><strong class="${merona.division.id eq 'S' ? 'text-danger' : 'text-primary' }">[${merona.division.name }]</strong> <c:out value="${merona.title}" /></a></td>
+	                            <td><a href="detail.do?no=${merona.id }"><strong class="${merona.division.id eq 'S' ? 'text-danger' : 'text-primary' }">[${merona.division.name }]</strong> <c:out value="${merona.title}" /> </a> <span class="text-warning">${merona.commentCnt ne 0 ? [merona.commentCnt] : '' }</span></td>
 	                            <td>
 	                            	<c:choose>
 	                            		<c:when test="${not empty merona.desiredprice}">
@@ -170,31 +170,7 @@
                     	</c:forEach> 
                     </tbody>
                 </table>			
-                <div class="text-center">
-                    <ul class="pagination">
-                       <c:if test="${navi.totalRows gt 0 }"> 					
-							<c:choose>
-								<c:when test="${navi.pageNo gt 1 }">
-									<li><a href="${navi.pageNo - 1 }">&lt;</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="disabled"><span>&lt;</span></li>
-								</c:otherwise>
-							</c:choose>
-							<c:forEach var="num" begin="${navi.beginPage }" end="${navi.endPage }">
-								<li class="${navi.pageNo eq num ? 'active' : '' }"><a href="${num }">${num }</a></li>
-							</c:forEach>
-							<c:choose>
-								<c:when test="${navi.pageNo lt navi.totalPages }">
-									<li><a href="${navi.pageNo + 1 }">&gt;</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="disabled"><span>&gt;</span></li>
-								</c:otherwise>
-							</c:choose>					
-						</c:if>
-                    </ul>
-                </div>
+                <%@ include file="/WEB-INF/views/inc/paginations.jsp" %>
             </div>        
         </div>
     </div>

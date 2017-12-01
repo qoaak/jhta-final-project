@@ -6,7 +6,7 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias type="kr.co.hangsho.customers.vo.Customer"/>
+		<typeAlias alias="Customer" type="kr.co.hangsho.customers.vo.Customer"/>
 		<typeAlias alias="Product" type="kr.co.hangsho.products.vo.Product"/>
 		<typeAlias alias="Delivery" type="kr.co.hangsho.deliveries.vo.Delivery"/>
 		<typeAlias alias="Order" type="kr.co.hangsho.orders.vo.Order"/>
@@ -18,14 +18,24 @@
 		<typeAlias alias="ProductQue" type="kr.co.hangsho.products.vo.ProductQue"/>	
 		<typeAlias alias="Criteria" type="kr.co.hangsho.web.criteria.Criteria"/>
 		<typeAlias alias="OrderDetail" type="kr.co.hangsho.orders.vo.OrderDetail"/>
-		<typeAlias type="kr.co.hangsho.products.vo.ProductDetail"/>
+		<typeAlias alias="ProductDetail" type="kr.co.hangsho.products.vo.ProductDetail"/>
 		<typeAlias alias="Privatedeal" type="kr.co.hangsho.privatedeal.vo.Privatedeal"/>
 		<typeAlias alias="Image" type="kr.co.hangsho.images.vo.Image"/>
 		<typeAlias alias="ProfitChart" type="kr.co.hangsho.charts.vo.ProfitChart"/>
 		<typeAlias alias="CriteriaForChart" type="kr.co.hangsho.web.criteria.CriteriaForChart"/>
 		<typeAlias alias="Review" type="kr.co.hangsho.review.vo.Review"/>
 		<typeAlias alias="Comment" type="kr.co.hangsho.privatedeal.vo.Comment"/>
+		<typeAlias alias="Stock" type="kr.co.hangsho.stock.vo.Stock"/>
 		<typeAlias alias="ProductAns" type="kr.co.hangsho.products.vo.ProductAns"/>
+		<typeAlias alias="Slider" type="kr.co.hangsho.sliders.vo.Slider"/>
+		<typeAlias alias="SliderInformation" type="kr.co.hangsho.sliders.vo.SliderInformation"/>
+		<typeAlias alias="Request" type="kr.co.hangsho.privatedeal.vo.Request"/>
+		<typeAlias alias="Analysis" type="kr.co.hangsho.analysis.vo.Analysis"/>
+		<typeAlias alias="Deal" type="kr.co.hangsho.privatedeal.vo.Deal"/>
+		<typeAlias type="kr.co.hangsho.admin.vo.LoginHistory" alias="LoginHistory"/>
+		<typeAlias alias="Qna" type="kr.co.hangsho.qnas.vo.Qna"/>
+		<typeAlias alias="Pagination" type="kr.co.hangsho.privatedeal.vo.Pagination"/>
+		<typeAlias alias="CartDetail" type="kr.co.hangsho.carts.vo.CartDetail"/>
 	</typeAliases>
 
 	<mappers>
@@ -47,6 +57,15 @@
 		<mapper resource="META-INF/mybatis/mappers/chart.xml" />
 		<mapper resource="META-INF/mybatis/mappers/review.xml" />
 		<mapper resource="META-INF/mybatis/mappers/productans.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/code.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/stock.xml" />
+		<mapper resource="META-INF/mybatis/mappers/slider.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/request.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/analysischart.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/dealcustomer.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/admin.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/qna.xml"/>
+		<mapper resource="META-INF/mybatis/mappers/cart.xml"/>
 	</mappers>
 
 </configuration>

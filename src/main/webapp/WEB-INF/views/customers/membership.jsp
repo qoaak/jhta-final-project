@@ -12,7 +12,7 @@
 			<h4>등급안내</h4>
 			<hr />
 			<div class="col-sm-3">
-				<img src="../images/grade_new.PNG" width="70%" height="60%">
+				<img src="/resources/images/coupon/${LOGIN_INFO.LOGIN_USER.grade }g.jpg" width="70%" height="60%"/>
 			</div>
 			<div class="col-sm-9" id="grade-descrip">
 				<h4>

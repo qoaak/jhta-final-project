@@ -8,7 +8,7 @@
 		<c:if test="${pagination.totalRows gt 0 }">
 			<c:choose>
 				<c:when test="${pagination.pageNo gt 1 }">
-					<li><a href="${pagination.pageNo gt - 1 }">&lt;</a></li>
+					<li><a href="${pagination.pageNo - 1 }">&lt;</a></li>
 				</c:when>
 				<c:otherwise>
 					<li class="disabled"><span>&lt;</span></li>

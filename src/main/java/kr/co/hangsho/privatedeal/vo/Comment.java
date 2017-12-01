@@ -17,6 +17,8 @@ public class Comment {
 	private Comment repliedId;
 	private Comment groupId;
 	private String deleted;
+	private boolean isModified;
+	private int groupIdCount;
 	
 	public int getId() {
 		return id;
@@ -65,6 +67,18 @@ public class Comment {
 	}
 	public void setGroupId(Comment groupId) {
 		this.groupId = groupId;
+	}	
+	public boolean isModified() {
+		return isModified;
+	}
+	public void setModified(boolean isModified) {
+		this.isModified = isModified;
+	}	
+	public int getGroupIdCount() {
+		return groupIdCount;
+	}
+	public void setGroupIdCount(int groupIdCount) {
+		this.groupIdCount = groupIdCount;
 	}
 	
 	@Override

@@ -7,4 +7,6 @@ public interface ImageService {
 	void addNewImage(Image image);
 	int getSeqence();
 	Image getImageByNo(int imageNo);
+	void updateImage(Image image);
+	
 }

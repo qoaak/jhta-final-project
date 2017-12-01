@@ -61,7 +61,8 @@
 		customer_detailaddress detailaddress,
 		customer_postalcode postalcode,
 		customer_nickname nickname,
-		customer_grade grade
+		customer_grade grade,
+		customer_point point
 		from
 		customers
 		where customer_id = #{value}
@@ -79,4 +80,13 @@
 		customer_postalcode = #{postalcode}
 		where customer_id = #{id}
 	</update>
+	
+	<update id="pointUpdate" parameterType="int">
+		update customers
+		set customer_point = customer_point - #{point}
+		where customer_id = #{id}
+	</update>
+	
+	
+	
 </mapper>

@@ -72,24 +72,18 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public Product deleteProductByProductId(int productId) {
-		System.out.println("productId is :" + productId);
 		
 		List<Item> items = itemMapper.getItemsByProductId(productId);
-		System.out.println("items is " + items);
 		
 		for (Item item : items) {
 
 			int itemId = item.getId();
-			System.out.println("itemId is " + itemId);
 			itemMapper.deleteItemById(itemId);
 			int itemImageId = item.getImage().getId();
-			System.out.println("itemImageId is " + itemImageId);
 			imageMapper.deleteImageById(itemImageId);
-			
 		}
 		
 		Product product = productMapper.getProductById(productId);
-		System.out.println("productId is finally :" + productId);
 		int productImageId = product.getImage().getId();
 		imageMapper.deleteImageById(productImageId);
 		
@@ -107,11 +101,41 @@ public class ProductServiceImpl implements ProductService{
 			product.setShow("N");
 		}
 		productMapper.modifyProduct(product);
+		System.out.println("product is " + product);
 	}
 
 	@Override
 	public Product getProductByProductId(int id) {
 		return productMapper.getProductById(id);
+	}
+
+	@Override
+	public void updateProduct(Product product) {
+		
+		if (product.getImage() != null) {
+			int imageId = product.getImage().getId();
+			Image image = imageMapper.getImageByNo(imageId);
+			product.setImage(image);
+		}
+		productMapper.updateProduct(product);
+	}
+	
+	@Override
+	public List<Product> getProductsForIndex(int companyId) {
+		return productMapper.getProductsForIndex(companyId);
+	}
+
+	
+	@Override
+	public List<Product> getProductBySmallCategoryNo(int no) {
+
+		return productMapper.getProductBySmallCategoryNo(no);
+	}
+
+
+	@Override
+	public List<Product> productSearch(String keyword) {
+		return productMapper.productSearch(keyword);
 	}
 
 }

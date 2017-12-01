@@ -8,8 +8,23 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="/resources/js/admin/chart.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.19.2/moment.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">  
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 $(function() {
+	$('#year-input').datepicker({
+        minViewMode: 'years',
+        autoclose: true,
+        format: 'yyyy년'
+ 	 });
+	
+	$('#month-input').datepicker({
+		minViewMode: 1,
+        autoclose: true,
+		format: 'yyyy-mm'
+ 	 });
 	
 	// 오늘날짜 뽑기
 	var date = moment().format("YYYY-MM-DD");
@@ -18,13 +33,15 @@ $(function() {
 	// 디폴트 오늘날짜
 	$("#date-input").val(date);
 	$("#month-input").val(month);
+	$("#year-input").val(year+'년');
 	
 	// 디폴트 상품리스트 맨 첫 행 아이템 아이디 뽑기
 	var firsttr = $(".listtable tbody tr:first-child td:nth-child(2) a");
 	var itemid = firsttr.attr("id").replace("itemid-", "");
-
+	
 	getAjaxDaily();
 	getAjaxMonth();
+	getAjaxYear();
 	
 	$("#a-date-left, #a-date-right").click(function() {
 		var name = $(this).attr("id").replace("a-date-", "");
@@ -54,6 +71,20 @@ $(function() {
 		}
 	})
 	
+	$("#a-year-left, #a-year-right").click(function() {
+		var name = $(this).attr("id").replace("a-year-", "");
+		
+		if (name == 'left') {
+			year = moment($("#year-input").val(), 'YYYY').add(-1, 'year').format("YYYY");
+			$("#year-input").val(year+'년');
+			getAjaxYear();
+		} else {
+			year = moment($("#year-input").val(), 'YYYY').add(+1, 'year').format("YYYY");
+			$("#year-input").val(year+'년');
+			getAjaxYear();
+		}
+	})
+	
 	$(document).on("change", "#date-input", function () {
 		date = $(this).val();
 		getAjaxDaily();
@@ -63,18 +94,20 @@ $(function() {
 		month = $(this).val();
 		getAjaxMonth();
 	});
-
+	
+	$(document).on("change", "#year-input", function () {
+		var strYear = $(this).val();
+		year = strYear.substring(0,4);
+		getAjaxYear();
+	});
 
 	$(".listtable tbody tr").click(function() {
 		var tr = $(this);
 		tr.addClass("trbg").siblings().removeClass("trbg");
 		itemid = tr.find("a").attr("id").replace("itemid-", "");
-		console.log(itemid);
-		date = $("#date-input").val();
-		month = $("#month-input").val();
-		
 		getAjaxDaily();
 		getAjaxMonth();
+		getAjaxYear();
 	})
 	
 	// daliyAjax
@@ -102,6 +135,18 @@ $(function() {
 				drawMonthChart(chartData, yyyy, mm);
 			}
 		})	 
+	}
+	
+	function getAjaxYear() {
+		$.ajax({
+			type:"GET",
+			url:"getproyear.do",
+			data:{itemId:itemid, selectDate:year},
+			dataType:"json",
+			success:function(chartData) {
+				drawYearChart(chartData);
+			}
+		});
 	}
 })
 </script>
@@ -144,10 +189,6 @@ function drawDailyChart(srcData) {
 			        },
 			        vAxis: {
 			          title: 'Rating (scale of 1-10000)',
-			        viewWindow: {
-			                  min: [0.0],
-			                  max: [100000]
-			                }	  
 			        },
 			        width:980,
 			        height:500
@@ -183,10 +224,6 @@ var data = new google.visualization.DataTable();
         },
         vAxis: {
                     title: 'profit',
-                    viewWindow: {
-                      min: [0.0],
-                      max: [100000]
-                    },
                 format: 'short'
             },
 	 width:980,
@@ -199,8 +236,55 @@ var data = new google.visualization.DataTable();
 });
 }
 
+function drawYearChart(srcData) {
+	google.charts.load('current', {packages: ['corechart', 'bar']});
+	google.charts.setOnLoadCallback(function() {
+		
+		chartData = [['Year', 'Profit']];
+		for(var i=0; i<srcData.length; i++) {
+			chartData.push([srcData[i].tm+'월', srcData[i].profit])
+		}
+		
+		var data = google.visualization.arrayToDataTable(chartData);
 
+		var options = {
+		    title: '',
+		    hAxis: {
+		        title: 'Year',
+		        minValue: 0,
+		        titleTextStyle: {
+		            color: '#333'
+		        },
+		        gridlines: {
+		            color: '#f3f3f3',
+		            count: 5
+		        },
+		         format: 'MMM'
+		    },
+		    vAxis: {
+		        minValue: 0,
+		        gridlines: {
+		            color: '#f3f3f3',
+		            count: 5
+		        }
+		    },
+		    width:980,
+			height:500
+		};
+
+		      
+		      var chart = new google.visualization.ColumnChart(
+		        document.getElementById('chart_year_div'));
+
+		      chart.draw(data, options);
+	});
+};
 </script>
+<style>
+					.form-con-01 {padding-left: 96px !important; width: 245px !important;}
+					.form-con-02 {padding-left: 90px !important; width: 245px !important;}
+					#chart_year_div {width: 980px; height: 500px;}
+</style>
 </head>
 <body>
 	<c:set var="menu" value="earning"></c:set>
@@ -237,7 +321,7 @@ var data = new google.visualization.DataTable();
 					<div class="col-sm-offset-1 col-sm-10">
 						<div class="col-sm-6 col-sm-offset-4 inputdate form-inline">
 							<a href="#" id="a-month-left" class="form-group">◀</a> 
-							<input class="form-group form-control form-con" id="month-input" type="month" /> 
+							<input class="form-group form-control form-con-02" id="month-input" type="text" /> 
 							<a href="#" id="a-month-right" class="form-group">▶</a>
 						</div>
 
@@ -249,9 +333,24 @@ var data = new google.visualization.DataTable();
 				</div>
 				<div id="menu3" class="tab-pane fade">
 					<div class="col-sm-offset-1 col-sm-10">
+					
+						<div class="col-sm-6 col-sm-offset-4 inputdate form-inline">
+							
+							<a href="#" id="a-year-left" class="form-group">◀</a> 
+							<input class="form-control from-group form-con-01" type="text" id="year-input">
+							<a href="#" id="a-year-right" class="form-group">▶</a>
+							</div>
+						
+						<div class="chartdiv row">
+							<div id="chart_year_div"></div>
+						</div>
+						
+						</div>
+					
 					</div>
 				</div>
 			</div>
+			<div class="container">
 			<div class="searchform">
 							<form class="form-inline">
 								<div class="form-group">
@@ -295,9 +394,10 @@ var data = new google.visualization.DataTable();
 								<thead>
 									<tr>
 										<th>상품번호</th>
-										<th>상품옵션</th>
 										<th>상품명</th>
+										<th>상품옵션</th>
 										<th>판매자</th>
+										<th>등록날짜</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -309,12 +409,12 @@ var data = new google.visualization.DataTable();
 									<c:forEach var="item" items="${items }">
 										<tr>
 											<td>${item.id }</td>
-											<td><a class="itemid" id="itemid-${item.id }"><c:out value="${item.options }"></c:out></a></td>
-											<td>${item.product.name }</td>
+											<td><a class="itemid" id="itemid-${item.id }">${item.product.name }</a></td>
+											<td><c:out value="${item.options }"></c:out></td>
 											<td>${item.product.company.name }</td>
+											<td><fmt:formatDate value="${item.createdate }" pattern="yyyy-MM-dd" /></td>
 										</tr>
 									</c:forEach>
-
 								</tbody>
 							</table>
 						</div>

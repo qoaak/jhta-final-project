@@ -1,5 +1,6 @@
 package kr.co.hangsho.review.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import kr.co.hangsho.customers.vo.Customer;
 import kr.co.hangsho.products.vo.Product;
@@ -56,6 +57,16 @@ public class Review {
 	public void setDeleted(char deleted) {
 		this.deleted = deleted;
 	}
+	
+	public String getStrCreateDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if (createDate != null) {
+			return sdf.format(createDate);
+		} else {
+			return "";
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Review [id=" + id + ", comment=" + comment + ", createDate=" + createDate + ", rates=" + rates

@@ -13,7 +13,7 @@
 		insert into orders
 		(order_id, order_condition, order_message, delivery_id, customer_id, order_receiver, order_date, order_price)
 		values
-		(#{id}, #{condition}, #{message}, #{delivery.id}, #{customer.id}, #{receiver}, sysdate, #{price})
+		(#{id}, #{condition}, #{message}, #{delivery.id, jdbcType=VARCHAR}, #{customer.id}, #{receiver}, sysdate, #{price})
 	</insert>
 	
 	<select id="getOrders" resultType="Order">
@@ -54,14 +54,15 @@
 		O.delivery_id "delivery.id",
 		order_date orderDate,
 		order_price price,
-		delivery_mainaddress "delivery.mainAddress",
-		delivery_title "delivery.title",
-		delivery_postalcode "delivery.postalCode",
-		delivery_detailaddress "delivery.detailAddress"
+		
+		nvl (delivery_mainaddress , (select customer_mainaddress "delivery.mainAddress" from customers where customer_id = #{customer.id})) "delivery.mainAddress",
+		nvl (delivery_title , '기본 배송지') "delivery.title",
+		nvl (delivery_postalcode , (select customer_postalcode from customers where customer_id = #{customer.id})) "delivery.postalCode",
+		nvl (delivery_detailaddress , (select customer_detailaddress from customers where customer_id = #{customer.id} )) "delivery.detailAddress"
 		from orders O, deliveries D
 	where 
 		O.customer_id = #{customer.id}
-		and O.delivery_id = D.delivery_id
+		and O.delivery_id = D.delivery_id(+)
 <if test="criteria.beginday != null">
 	and O.ORDER_DATE>= #{criteria.beginday}
 </if>

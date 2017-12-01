@@ -1,6 +1,7 @@
 $(function() {
 	var main = $('.main_visual_li').bxSlider({    
 	    maxSlides: 4,
+	    minSlides: 4,
 	    slideWidth: 322,		   
 	    pager: false,
 	    moveSlides: 2,
